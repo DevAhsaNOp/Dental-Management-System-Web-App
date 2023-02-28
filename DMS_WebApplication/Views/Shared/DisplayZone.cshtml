@@ -1,0 +1,9 @@
+﻿@model DMS_BOL.tblZone
+<option value="0" selected="selected" disabled="disabled" >--- Select Zone ---</option>
+@if (ViewBag.Zone != null)
+{
+    foreach (var item in ViewBag.Zone)
+    {
+        <option value="@item.Value">@item.Text</option>
+    }
+}

@@ -1,0 +1,2164 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="dentalDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="tblAddress">
+          <Key>
+            <PropertyRef Name="AddressID" />
+          </Key>
+          <Property Name="AddressID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AddressCountry" Type="int" />
+          <Property Name="AddressState" Type="int" />
+          <Property Name="AddressCity" Type="int" />
+          <Property Name="AddressZone" Type="int" />
+          <Property Name="AddressComplete" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="tblAdmin">
+          <Key>
+            <PropertyRef Name="A_ID" />
+          </Key>
+          <Property Name="A_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="A_FirstName" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="A_LastName" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="A_PhoneNumber" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="A_AddressID" Type="int" />
+          <Property Name="A_RoleID" Type="int" />
+          <Property Name="A_ProfileImage" Type="varchar(max)" Nullable="false" />
+          <Property Name="A_Email" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="A_Password" Type="varchar(max)" Nullable="false" />
+          <Property Name="A_CreatedBy" Type="int" />
+          <Property Name="A_CreatedOn" Type="datetime" />
+          <Property Name="A_UpdatedBy" Type="int" />
+          <Property Name="A_UpdatedOn" Type="datetime" />
+          <Property Name="A_IsActive" Type="bit" />
+          <Property Name="A_IsArchive" Type="bit" />
+          <Property Name="A_OTP" Type="varchar" MaxLength="50" />
+          <Property Name="A_Verified" Type="bit" />
+        </EntityType>
+        <EntityType Name="tblAppointment">
+          <Key>
+            <PropertyRef Name="AP_ID" />
+          </Key>
+          <Property Name="AP_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AP_PatientID" Type="int" />
+          <Property Name="AP_DoctorID" Type="int" />
+          <Property Name="AP_Subject" Type="varchar(max)" />
+          <Property Name="AP_Description" Type="varchar(max)" />
+          <Property Name="AP_Datetime" Type="datetime" />
+          <Property Name="AP_IsApproved" Type="bit" />
+          <Property Name="AP_IsUserRead" Type="bit" />
+          <Property Name="AP_IsDoctorRead" Type="bit" />
+          <Property Name="AP_IsActive" Type="bit" />
+          <Property Name="AP_IsArchive" Type="bit" />
+        </EntityType>
+        <EntityType Name="tblCity">
+          <Key>
+            <PropertyRef Name="CityID" />
+          </Key>
+          <Property Name="CityID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CityName" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="StateID" Type="int" />
+        </EntityType>
+        <EntityType Name="tblCountry">
+          <Key>
+            <PropertyRef Name="CountryID" />
+          </Key>
+          <Property Name="CountryID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CountryName" Type="nvarchar" MaxLength="250" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblDiagnostics">
+          <Key>
+            <PropertyRef Name="DG_ID" />
+          </Key>
+          <Property Name="DG_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DG_Name" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="DG_Datetime" Type="datetime" />
+          <Property Name="DG_PatientID" Type="int" />
+          <Property Name="DG_DoctorID" Type="int" />
+          <Property Name="DG_DiseaseName" Type="varchar" MaxLength="250" />
+          <Property Name="DG_Remarks" Type="varchar(max)" />
+          <Property Name="DG_IsActive" Type="bit" />
+          <Property Name="DG_IsArchive" Type="bit" />
+        </EntityType>
+        <EntityType Name="tblDoctor">
+          <Key>
+            <PropertyRef Name="D_ID" />
+          </Key>
+          <Property Name="D_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="D_FirstName" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="D_LastName" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="D_PhoneNumber" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="D_AddressID" Type="int" />
+          <Property Name="D_RoleID" Type="int" />
+          <Property Name="D_ProfileImage" Type="varchar(max)" Nullable="false" />
+          <Property Name="D_Email" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="D_Password" Type="varchar(max)" Nullable="false" />
+          <Property Name="D_YearsOfExperience" Type="varchar(max)" Nullable="false" />
+          <Property Name="D_Specialization" Type="varchar(max)" Nullable="false" />
+          <Property Name="D_WorkPhoneNumber" Type="varchar" MaxLength="20" />
+          <Property Name="D_AwardsAndAchievements" Type="varchar(max)" />
+          <Property Name="D_AboutMe" Type="varchar(max)" />
+          <Property Name="D_CreatedBy" Type="int" />
+          <Property Name="D_CreatedOn" Type="datetime" />
+          <Property Name="D_UpdatedBy" Type="int" />
+          <Property Name="D_UpdatedOn" Type="datetime" />
+          <Property Name="D_IsActive" Type="bit" />
+          <Property Name="D_IsArchive" Type="bit" />
+          <Property Name="D_OTP" Type="varchar" MaxLength="50" />
+          <Property Name="D_Verified" Type="bit" />
+          <Property Name="D_SatisfactionRate" Type="int" />
+          <Property Name="D_ResponseTime" Type="int" />
+        </EntityType>
+        <EntityType Name="tblDoctorReviews">
+          <Key>
+            <PropertyRef Name="DR_ID" />
+          </Key>
+          <Property Name="DR_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DR_DoctorID" Type="int" />
+          <Property Name="DR_PatientID" Type="int" />
+          <Property Name="DR_AppointmentID" Type="int" />
+          <Property Name="DR_DiagnosticsID" Type="int" />
+          <Property Name="DR_StarRatingDiagnostics" Type="int" Nullable="false" />
+          <Property Name="DR_Message" Type="varchar(max)" />
+          <Property Name="DR_RateDoctorService" Type="int" />
+          <Property Name="DR_IsAllowAnonymous" Type="bit" />
+          <Property Name="DR_IsActive" Type="bit" />
+          <Property Name="DR_IsArchive" Type="bit" />
+          <Property Name="DR_CreatedBy" Type="int" />
+          <Property Name="DR_CreatedOn" Type="datetime" />
+          <Property Name="DR_UpdatedBy" Type="int" />
+          <Property Name="DR_UpdatedOn" Type="datetime" />
+        </EntityType>
+        <EntityType Name="tblDoctorServices">
+          <Key>
+            <PropertyRef Name="DS_ID" />
+          </Key>
+          <Property Name="DS_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DS_DoctorID" Type="int" />
+          <Property Name="DS_ServicesID" Type="int" />
+          <Property Name="DS_CreatedOn" Type="datetime" />
+          <Property Name="DS_CreatedBy" Type="int" />
+        </EntityType>
+        <EntityType Name="tblDoctorWorkExperience">
+          <Key>
+            <PropertyRef Name="WEX_ID" />
+          </Key>
+          <Property Name="WEX_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="WEX_DoctorID" Type="int" />
+          <Property Name="WEX_HospitalName" Type="varchar" MaxLength="500" />
+          <Property Name="WEX_Designation" Type="varchar" MaxLength="250" />
+          <Property Name="WEX_IsWorking" Type="bit" />
+          <Property Name="WEX_IsActive" Type="bit" />
+          <Property Name="WEX_IsArchive" Type="bit" />
+          <Property Name="WEX_CreatedBy" Type="int" />
+          <Property Name="WEX_CreatedOn" Type="datetime" />
+          <Property Name="WEX_UpdatedBy" Type="int" />
+          <Property Name="WEX_UpdatedOn" Type="datetime" />
+        </EntityType>
+        <EntityType Name="tblMessage">
+          <Key>
+            <PropertyRef Name="M_ID" />
+          </Key>
+          <Property Name="M_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FromUserID" Type="int" />
+          <Property Name="ToDoctorID" Type="int" />
+          <Property Name="FromDoctorID" Type="int" />
+          <Property Name="ToUserID" Type="int" />
+        </EntityType>
+        <EntityType Name="tblMessageDetails">
+          <Key>
+            <PropertyRef Name="MD_ID" />
+          </Key>
+          <Property Name="MD_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MD_MessageID" Type="int" Nullable="false" />
+          <Property Name="MD_Message" Type="varchar(max)" />
+          <Property Name="MD_Datetime" Type="datetime" />
+          <Property Name="MD_IsRead" Type="bit" />
+          <Property Name="MD_IsDelivered" Type="bit" />
+        </EntityType>
+        <EntityType Name="tblOfflineConsultaionDetails">
+          <Key>
+            <PropertyRef Name="OFCD_ID" />
+          </Key>
+          <Property Name="OFCD_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OFCD_DoctorID" Type="int" Nullable="false" />
+          <Property Name="OFCD_HospitalName" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="OFCD_HospitalPhoneNumber" Type="varchar" MaxLength="20" />
+          <Property Name="OFCD_HospitalAddressID" Type="int" Nullable="false" />
+          <Property Name="OFCD_MondayStartTime" Type="time" Precision="7" />
+          <Property Name="OFCD_MondayEndTime" Type="time" Precision="7" />
+          <Property Name="OFCD_TuesdayStartTime" Type="time" Precision="7" />
+          <Property Name="OFCD_TuesdayEndTime" Type="time" Precision="7" />
+          <Property Name="OFCD_WednesdayStartTime" Type="time" Precision="7" />
+          <Property Name="OFCD_WednesdayEndTime" Type="time" Precision="7" />
+          <Property Name="OFCD_ThursdayStartTime" Type="time" Precision="7" />
+          <Property Name="OFCD_ThursdayEndTime" Type="time" Precision="7" />
+          <Property Name="OFCD_FridayStartTime" Type="time" Precision="7" />
+          <Property Name="OFCD_FridayEndTime" Type="time" Precision="7" />
+          <Property Name="OFCD_SaturdayStartTime" Type="time" Precision="7" />
+          <Property Name="OFCD_SaturdayEndTime" Type="time" Precision="7" />
+          <Property Name="OFCD_SundayStartTime" Type="time" Precision="7" />
+          <Property Name="OFCD_SundayEndTime" Type="time" Precision="7" />
+          <Property Name="OFCD_Charges" Type="decimal" Precision="18" Scale="8" Nullable="false" />
+          <Property Name="OFCD_IsActive" Type="bit" />
+          <Property Name="OFCD_IsArchive" Type="bit" />
+          <Property Name="OFCD_CreatedBy" Type="int" />
+          <Property Name="OFCD_CreatedOn" Type="datetime" />
+          <Property Name="OFCD_UpdatedBy" Type="int" />
+          <Property Name="OFCD_UpdatedOn" Type="datetime" />
+        </EntityType>
+        <EntityType Name="tblOnlineConsultaionDetails">
+          <Key>
+            <PropertyRef Name="OCD_ID" />
+          </Key>
+          <Property Name="OCD_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OCD_DoctorID" Type="int" />
+          <Property Name="OCD_MondayStartTime" Type="time" Precision="7" />
+          <Property Name="OCD_MondayEndTime" Type="time" Precision="7" />
+          <Property Name="OCD_TuesdayStartTime" Type="time" Precision="7" />
+          <Property Name="OCD_TuesdayEndTime" Type="time" Precision="7" />
+          <Property Name="OCD_WednesdayStartTime" Type="time" Precision="7" />
+          <Property Name="OCD_WednesdayEndTime" Type="time" Precision="7" />
+          <Property Name="OCD_ThursdayStartTime" Type="time" Precision="7" />
+          <Property Name="OCD_ThursdayEndTime" Type="time" Precision="7" />
+          <Property Name="OCD_FridayStartTime" Type="time" Precision="7" />
+          <Property Name="OCD_FridayEndTime" Type="time" Precision="7" />
+          <Property Name="OCD_SaturdayStartTime" Type="time" Precision="7" />
+          <Property Name="OCD_SaturdayEndTime" Type="time" Precision="7" />
+          <Property Name="OCD_SundayStartTime" Type="time" Precision="7" />
+          <Property Name="OCD_SundayEndTime" Type="time" Precision="7" />
+          <Property Name="OCD_Charges" Type="decimal" Precision="18" Scale="8" Nullable="false" />
+          <Property Name="OCD_IsActive" Type="bit" />
+          <Property Name="OCD_IsArchive" Type="bit" />
+          <Property Name="OCD_CreatedBy" Type="int" />
+          <Property Name="OCD_CreatedOn" Type="datetime" />
+          <Property Name="OCD_UpdatedBy" Type="int" />
+          <Property Name="OCD_UpdatedOn" Type="datetime" />
+        </EntityType>
+        <EntityType Name="tblOTP">
+          <Key>
+            <PropertyRef Name="OT_ID" />
+          </Key>
+          <Property Name="OT_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OT_OTP" Type="varchar" MaxLength="50" />
+          <Property Name="OT_UsersEmail" Type="varchar" MaxLength="50" />
+          <Property Name="OT_IsActive" Type="bit" />
+          <Property Name="OT_IsArchive" Type="bit" />
+          <Property Name="OT_CreatedOn" Type="datetime" />
+          <Property Name="OT_UpdatedOn" Type="datetime" />
+        </EntityType>
+        <EntityType Name="tblPatient">
+          <Key>
+            <PropertyRef Name="P_ID" />
+          </Key>
+          <Property Name="P_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="P_FirstName" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="P_LastName" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="P_PhoneNumber" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="P_AddressID" Type="int" />
+          <Property Name="P_RoleID" Type="int" />
+          <Property Name="P_ProfileImage" Type="varchar(max)" Nullable="false" />
+          <Property Name="P_Email" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="P_Password" Type="varchar(max)" Nullable="false" />
+          <Property Name="P_CreatedOn" Type="datetime" />
+          <Property Name="P_CreatedBy" Type="int" />
+          <Property Name="P_UpdatedOn" Type="datetime" />
+          <Property Name="P_UpdatedBy" Type="int" />
+          <Property Name="P_IsActive" Type="bit" />
+          <Property Name="P_IsArchive" Type="bit" />
+          <Property Name="P_OTP" Type="varchar" MaxLength="50" />
+          <Property Name="P_Verified" Type="bit" />
+        </EntityType>
+        <EntityType Name="tblRoles">
+          <Key>
+            <PropertyRef Name="RoleID" />
+          </Key>
+          <Property Name="RoleID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RoleName" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="RoleIsArchive" Type="bit" />
+          <Property Name="RoleIsActive" Type="bit" />
+          <Property Name="CreatedOn" Type="datetime" />
+          <Property Name="CreatedBy" Type="int" />
+          <Property Name="UpdatedOn" Type="datetime" />
+          <Property Name="UpdatedBy" Type="int" />
+        </EntityType>
+        <EntityType Name="tblServices">
+          <Key>
+            <PropertyRef Name="S_ID" />
+          </Key>
+          <Property Name="S_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="S_Name" Type="varchar" MaxLength="250" />
+          <Property Name="S_URL" Type="varchar(max)" />
+          <Property Name="S_IsActive" Type="bit" />
+          <Property Name="S_IsArchive" Type="bit" />
+          <Property Name="S_CreatedOn" Type="datetime" />
+          <Property Name="S_UpdatedOn" Type="datetime" />
+          <Property Name="S_CreatedBy" Type="int" />
+          <Property Name="S_UpdatedBy" Type="int" />
+        </EntityType>
+        <EntityType Name="tblState">
+          <Key>
+            <PropertyRef Name="StateID" />
+          </Key>
+          <Property Name="StateID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StateName" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="CountryID" Type="int" />
+        </EntityType>
+        <EntityType Name="tblSuperAdmin">
+          <Key>
+            <PropertyRef Name="SA_ID" />
+          </Key>
+          <Property Name="SA_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SA_FirstName" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="SA_LastName" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="SA_PhoneNumber" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="SA_AddressID" Type="int" />
+          <Property Name="SA_RoleID" Type="int" />
+          <Property Name="SA_ProfileImage" Type="varchar(max)" Nullable="false" />
+          <Property Name="SA_Email" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="SA_Password" Type="varchar(max)" Nullable="false" />
+          <Property Name="SA_CreatedBy" Type="int" />
+          <Property Name="SA_CreatedOn" Type="datetime" />
+          <Property Name="SA_UpdatedBy" Type="int" />
+          <Property Name="SA_UpdatedOn" Type="datetime" />
+          <Property Name="SA_IsActive" Type="bit" />
+          <Property Name="SA_IsArchive" Type="bit" />
+          <Property Name="SA_OTP" Type="varchar" MaxLength="50" />
+          <Property Name="SA_Verified" Type="bit" />
+        </EntityType>
+        <EntityType Name="tblZone">
+          <Key>
+            <PropertyRef Name="ZoneID" />
+          </Key>
+          <Property Name="ZoneID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ZoneName" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="CityID" Type="int" />
+          <Property Name="Latitude" Type="decimal" Precision="18" Scale="8" />
+          <Property Name="Longitude" Type="decimal" Precision="18" Scale="8" />
+        </EntityType>
+        <Association Name="FK_tblAddress_tblCity">
+          <End Role="tblCity" Type="Self.tblCity" Multiplicity="0..1" />
+          <End Role="tblAddress" Type="Self.tblAddress" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblCity">
+              <PropertyRef Name="CityID" />
+            </Principal>
+            <Dependent Role="tblAddress">
+              <PropertyRef Name="AddressCity" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblAddress_tblCountry">
+          <End Role="tblCountry" Type="Self.tblCountry" Multiplicity="0..1" />
+          <End Role="tblAddress" Type="Self.tblAddress" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblCountry">
+              <PropertyRef Name="CountryID" />
+            </Principal>
+            <Dependent Role="tblAddress">
+              <PropertyRef Name="AddressCountry" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblAddress_tblState">
+          <End Role="tblState" Type="Self.tblState" Multiplicity="0..1" />
+          <End Role="tblAddress" Type="Self.tblAddress" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblState">
+              <PropertyRef Name="StateID" />
+            </Principal>
+            <Dependent Role="tblAddress">
+              <PropertyRef Name="AddressState" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblAddress_tblZone">
+          <End Role="tblZone" Type="Self.tblZone" Multiplicity="0..1" />
+          <End Role="tblAddress" Type="Self.tblAddress" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblZone">
+              <PropertyRef Name="ZoneID" />
+            </Principal>
+            <Dependent Role="tblAddress">
+              <PropertyRef Name="AddressZone" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblAdmin_tblAddress">
+          <End Role="tblAddress" Type="Self.tblAddress" Multiplicity="0..1" />
+          <End Role="tblAdmin" Type="Self.tblAdmin" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblAddress">
+              <PropertyRef Name="AddressID" />
+            </Principal>
+            <Dependent Role="tblAdmin">
+              <PropertyRef Name="A_AddressID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblAdmin_tblRoles">
+          <End Role="tblRoles" Type="Self.tblRoles" Multiplicity="0..1" />
+          <End Role="tblAdmin" Type="Self.tblAdmin" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblRoles">
+              <PropertyRef Name="RoleID" />
+            </Principal>
+            <Dependent Role="tblAdmin">
+              <PropertyRef Name="A_RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblAppointment_tblDoctor">
+          <End Role="tblDoctor" Type="Self.tblDoctor" Multiplicity="0..1" />
+          <End Role="tblAppointment" Type="Self.tblAppointment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblDoctor">
+              <PropertyRef Name="D_ID" />
+            </Principal>
+            <Dependent Role="tblAppointment">
+              <PropertyRef Name="AP_DoctorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblAppointment_tblPatient">
+          <End Role="tblPatient" Type="Self.tblPatient" Multiplicity="0..1" />
+          <End Role="tblAppointment" Type="Self.tblAppointment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblPatient">
+              <PropertyRef Name="P_ID" />
+            </Principal>
+            <Dependent Role="tblAppointment">
+              <PropertyRef Name="AP_PatientID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblCity_tblState">
+          <End Role="tblState" Type="Self.tblState" Multiplicity="0..1" />
+          <End Role="tblCity" Type="Self.tblCity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblState">
+              <PropertyRef Name="StateID" />
+            </Principal>
+            <Dependent Role="tblCity">
+              <PropertyRef Name="StateID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblDiagnostics_tblDoctor">
+          <End Role="tblDoctor" Type="Self.tblDoctor" Multiplicity="0..1" />
+          <End Role="tblDiagnostics" Type="Self.tblDiagnostics" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblDoctor">
+              <PropertyRef Name="D_ID" />
+            </Principal>
+            <Dependent Role="tblDiagnostics">
+              <PropertyRef Name="DG_DoctorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblDiagnostics_tblPatient">
+          <End Role="tblPatient" Type="Self.tblPatient" Multiplicity="0..1" />
+          <End Role="tblDiagnostics" Type="Self.tblDiagnostics" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblPatient">
+              <PropertyRef Name="P_ID" />
+            </Principal>
+            <Dependent Role="tblDiagnostics">
+              <PropertyRef Name="DG_PatientID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblDoctor_tblAddress">
+          <End Role="tblAddress" Type="Self.tblAddress" Multiplicity="0..1" />
+          <End Role="tblDoctor" Type="Self.tblDoctor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblAddress">
+              <PropertyRef Name="AddressID" />
+            </Principal>
+            <Dependent Role="tblDoctor">
+              <PropertyRef Name="D_AddressID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblDoctor_tblRoles">
+          <End Role="tblRoles" Type="Self.tblRoles" Multiplicity="0..1" />
+          <End Role="tblDoctor" Type="Self.tblDoctor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblRoles">
+              <PropertyRef Name="RoleID" />
+            </Principal>
+            <Dependent Role="tblDoctor">
+              <PropertyRef Name="D_RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblDoctorReviews_tblAppointment">
+          <End Role="tblAppointment" Type="Self.tblAppointment" Multiplicity="0..1" />
+          <End Role="tblDoctorReviews" Type="Self.tblDoctorReviews" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblAppointment">
+              <PropertyRef Name="AP_ID" />
+            </Principal>
+            <Dependent Role="tblDoctorReviews">
+              <PropertyRef Name="DR_AppointmentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblDoctorReviews_tblDiagnostics">
+          <End Role="tblDiagnostics" Type="Self.tblDiagnostics" Multiplicity="0..1" />
+          <End Role="tblDoctorReviews" Type="Self.tblDoctorReviews" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblDiagnostics">
+              <PropertyRef Name="DG_ID" />
+            </Principal>
+            <Dependent Role="tblDoctorReviews">
+              <PropertyRef Name="DR_DiagnosticsID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblDoctorReviews_tblDoctor">
+          <End Role="tblDoctor" Type="Self.tblDoctor" Multiplicity="0..1" />
+          <End Role="tblDoctorReviews" Type="Self.tblDoctorReviews" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblDoctor">
+              <PropertyRef Name="D_ID" />
+            </Principal>
+            <Dependent Role="tblDoctorReviews">
+              <PropertyRef Name="DR_DoctorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblDoctorReviews_tblPatient">
+          <End Role="tblPatient" Type="Self.tblPatient" Multiplicity="0..1" />
+          <End Role="tblDoctorReviews" Type="Self.tblDoctorReviews" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblPatient">
+              <PropertyRef Name="P_ID" />
+            </Principal>
+            <Dependent Role="tblDoctorReviews">
+              <PropertyRef Name="DR_PatientID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblDoctorServices_tblDoctor">
+          <End Role="tblDoctor" Type="Self.tblDoctor" Multiplicity="0..1" />
+          <End Role="tblDoctorServices" Type="Self.tblDoctorServices" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblDoctor">
+              <PropertyRef Name="D_ID" />
+            </Principal>
+            <Dependent Role="tblDoctorServices">
+              <PropertyRef Name="DS_DoctorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblDoctorServices_tblServices">
+          <End Role="tblServices" Type="Self.tblServices" Multiplicity="0..1" />
+          <End Role="tblDoctorServices" Type="Self.tblDoctorServices" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblServices">
+              <PropertyRef Name="S_ID" />
+            </Principal>
+            <Dependent Role="tblDoctorServices">
+              <PropertyRef Name="DS_ServicesID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblDoctorWorkExperience_tblDoctor">
+          <End Role="tblDoctor" Type="Self.tblDoctor" Multiplicity="0..1" />
+          <End Role="tblDoctorWorkExperience" Type="Self.tblDoctorWorkExperience" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblDoctor">
+              <PropertyRef Name="D_ID" />
+            </Principal>
+            <Dependent Role="tblDoctorWorkExperience">
+              <PropertyRef Name="WEX_DoctorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblMessageDetails_tblMessage">
+          <End Role="tblMessage" Type="Self.tblMessage" Multiplicity="1" />
+          <End Role="tblMessageDetails" Type="Self.tblMessageDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblMessage">
+              <PropertyRef Name="M_ID" />
+            </Principal>
+            <Dependent Role="tblMessageDetails">
+              <PropertyRef Name="MD_MessageID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblOfflineConsultaionDetails_tblAddress">
+          <End Role="tblAddress" Type="Self.tblAddress" Multiplicity="1" />
+          <End Role="tblOfflineConsultaionDetails" Type="Self.tblOfflineConsultaionDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblAddress">
+              <PropertyRef Name="AddressID" />
+            </Principal>
+            <Dependent Role="tblOfflineConsultaionDetails">
+              <PropertyRef Name="OFCD_HospitalAddressID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblOfflineConsultaionDetails_tblDoctor">
+          <End Role="tblDoctor" Type="Self.tblDoctor" Multiplicity="1" />
+          <End Role="tblOfflineConsultaionDetails" Type="Self.tblOfflineConsultaionDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblDoctor">
+              <PropertyRef Name="D_ID" />
+            </Principal>
+            <Dependent Role="tblOfflineConsultaionDetails">
+              <PropertyRef Name="OFCD_DoctorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblOnlineConsultaionDetails_tblDoctor">
+          <End Role="tblDoctor" Type="Self.tblDoctor" Multiplicity="0..1" />
+          <End Role="tblOnlineConsultaionDetails" Type="Self.tblOnlineConsultaionDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblDoctor">
+              <PropertyRef Name="D_ID" />
+            </Principal>
+            <Dependent Role="tblOnlineConsultaionDetails">
+              <PropertyRef Name="OCD_DoctorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblPatient_tblAddress">
+          <End Role="tblAddress" Type="Self.tblAddress" Multiplicity="0..1" />
+          <End Role="tblPatient" Type="Self.tblPatient" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblAddress">
+              <PropertyRef Name="AddressID" />
+            </Principal>
+            <Dependent Role="tblPatient">
+              <PropertyRef Name="P_AddressID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblPatient_tblRoles">
+          <End Role="tblRoles" Type="Self.tblRoles" Multiplicity="0..1" />
+          <End Role="tblPatient" Type="Self.tblPatient" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblRoles">
+              <PropertyRef Name="RoleID" />
+            </Principal>
+            <Dependent Role="tblPatient">
+              <PropertyRef Name="P_RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblState_tblCountry">
+          <End Role="tblCountry" Type="Self.tblCountry" Multiplicity="0..1" />
+          <End Role="tblState" Type="Self.tblState" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblCountry">
+              <PropertyRef Name="CountryID" />
+            </Principal>
+            <Dependent Role="tblState">
+              <PropertyRef Name="CountryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblSuperAdmin_tblAddress">
+          <End Role="tblAddress" Type="Self.tblAddress" Multiplicity="0..1" />
+          <End Role="tblSuperAdmin" Type="Self.tblSuperAdmin" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblAddress">
+              <PropertyRef Name="AddressID" />
+            </Principal>
+            <Dependent Role="tblSuperAdmin">
+              <PropertyRef Name="SA_AddressID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblSuperAdmin_tblRoles">
+          <End Role="tblRoles" Type="Self.tblRoles" Multiplicity="0..1" />
+          <End Role="tblSuperAdmin" Type="Self.tblSuperAdmin" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblRoles">
+              <PropertyRef Name="RoleID" />
+            </Principal>
+            <Dependent Role="tblSuperAdmin">
+              <PropertyRef Name="SA_RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblZone_tblCity">
+          <End Role="tblCity" Type="Self.tblCity" Multiplicity="0..1" />
+          <End Role="tblZone" Type="Self.tblZone" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblCity">
+              <PropertyRef Name="CityID" />
+            </Principal>
+            <Dependent Role="tblZone">
+              <PropertyRef Name="CityID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="dentalDBModelStoreContainer">
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblAddress" EntityType="Self.tblAddress" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblAdmin" EntityType="Self.tblAdmin" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblAppointment" EntityType="Self.tblAppointment" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblCity" EntityType="Self.tblCity" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblCountry" EntityType="Self.tblCountry" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblDiagnostics" EntityType="Self.tblDiagnostics" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblDoctor" EntityType="Self.tblDoctor" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblDoctorReviews" EntityType="Self.tblDoctorReviews" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblDoctorServices" EntityType="Self.tblDoctorServices" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblDoctorWorkExperience" EntityType="Self.tblDoctorWorkExperience" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblMessage" EntityType="Self.tblMessage" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblMessageDetails" EntityType="Self.tblMessageDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblOfflineConsultaionDetails" EntityType="Self.tblOfflineConsultaionDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblOnlineConsultaionDetails" EntityType="Self.tblOnlineConsultaionDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblOTP" EntityType="Self.tblOTP" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblPatient" EntityType="Self.tblPatient" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblRoles" EntityType="Self.tblRoles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblServices" EntityType="Self.tblServices" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblState" EntityType="Self.tblState" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblSuperAdmin" EntityType="Self.tblSuperAdmin" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblZone" EntityType="Self.tblZone" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_tblAddress_tblCity" Association="Self.FK_tblAddress_tblCity">
+            <End Role="tblCity" EntitySet="tblCity" />
+            <End Role="tblAddress" EntitySet="tblAddress" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblAddress_tblCountry" Association="Self.FK_tblAddress_tblCountry">
+            <End Role="tblCountry" EntitySet="tblCountry" />
+            <End Role="tblAddress" EntitySet="tblAddress" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblAddress_tblState" Association="Self.FK_tblAddress_tblState">
+            <End Role="tblState" EntitySet="tblState" />
+            <End Role="tblAddress" EntitySet="tblAddress" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblAddress_tblZone" Association="Self.FK_tblAddress_tblZone">
+            <End Role="tblZone" EntitySet="tblZone" />
+            <End Role="tblAddress" EntitySet="tblAddress" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblAdmin_tblAddress" Association="Self.FK_tblAdmin_tblAddress">
+            <End Role="tblAddress" EntitySet="tblAddress" />
+            <End Role="tblAdmin" EntitySet="tblAdmin" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblAdmin_tblRoles" Association="Self.FK_tblAdmin_tblRoles">
+            <End Role="tblRoles" EntitySet="tblRoles" />
+            <End Role="tblAdmin" EntitySet="tblAdmin" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblAppointment_tblDoctor" Association="Self.FK_tblAppointment_tblDoctor">
+            <End Role="tblDoctor" EntitySet="tblDoctor" />
+            <End Role="tblAppointment" EntitySet="tblAppointment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblAppointment_tblPatient" Association="Self.FK_tblAppointment_tblPatient">
+            <End Role="tblPatient" EntitySet="tblPatient" />
+            <End Role="tblAppointment" EntitySet="tblAppointment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblCity_tblState" Association="Self.FK_tblCity_tblState">
+            <End Role="tblState" EntitySet="tblState" />
+            <End Role="tblCity" EntitySet="tblCity" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblDiagnostics_tblDoctor" Association="Self.FK_tblDiagnostics_tblDoctor">
+            <End Role="tblDoctor" EntitySet="tblDoctor" />
+            <End Role="tblDiagnostics" EntitySet="tblDiagnostics" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblDiagnostics_tblPatient" Association="Self.FK_tblDiagnostics_tblPatient">
+            <End Role="tblPatient" EntitySet="tblPatient" />
+            <End Role="tblDiagnostics" EntitySet="tblDiagnostics" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblDoctor_tblAddress" Association="Self.FK_tblDoctor_tblAddress">
+            <End Role="tblAddress" EntitySet="tblAddress" />
+            <End Role="tblDoctor" EntitySet="tblDoctor" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblDoctor_tblRoles" Association="Self.FK_tblDoctor_tblRoles">
+            <End Role="tblRoles" EntitySet="tblRoles" />
+            <End Role="tblDoctor" EntitySet="tblDoctor" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblDoctorReviews_tblAppointment" Association="Self.FK_tblDoctorReviews_tblAppointment">
+            <End Role="tblAppointment" EntitySet="tblAppointment" />
+            <End Role="tblDoctorReviews" EntitySet="tblDoctorReviews" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblDoctorReviews_tblDiagnostics" Association="Self.FK_tblDoctorReviews_tblDiagnostics">
+            <End Role="tblDiagnostics" EntitySet="tblDiagnostics" />
+            <End Role="tblDoctorReviews" EntitySet="tblDoctorReviews" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblDoctorReviews_tblDoctor" Association="Self.FK_tblDoctorReviews_tblDoctor">
+            <End Role="tblDoctor" EntitySet="tblDoctor" />
+            <End Role="tblDoctorReviews" EntitySet="tblDoctorReviews" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblDoctorReviews_tblPatient" Association="Self.FK_tblDoctorReviews_tblPatient">
+            <End Role="tblPatient" EntitySet="tblPatient" />
+            <End Role="tblDoctorReviews" EntitySet="tblDoctorReviews" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblDoctorServices_tblDoctor" Association="Self.FK_tblDoctorServices_tblDoctor">
+            <End Role="tblDoctor" EntitySet="tblDoctor" />
+            <End Role="tblDoctorServices" EntitySet="tblDoctorServices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblDoctorServices_tblServices" Association="Self.FK_tblDoctorServices_tblServices">
+            <End Role="tblServices" EntitySet="tblServices" />
+            <End Role="tblDoctorServices" EntitySet="tblDoctorServices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblDoctorWorkExperience_tblDoctor" Association="Self.FK_tblDoctorWorkExperience_tblDoctor">
+            <End Role="tblDoctor" EntitySet="tblDoctor" />
+            <End Role="tblDoctorWorkExperience" EntitySet="tblDoctorWorkExperience" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblMessageDetails_tblMessage" Association="Self.FK_tblMessageDetails_tblMessage">
+            <End Role="tblMessage" EntitySet="tblMessage" />
+            <End Role="tblMessageDetails" EntitySet="tblMessageDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblOfflineConsultaionDetails_tblAddress" Association="Self.FK_tblOfflineConsultaionDetails_tblAddress">
+            <End Role="tblAddress" EntitySet="tblAddress" />
+            <End Role="tblOfflineConsultaionDetails" EntitySet="tblOfflineConsultaionDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblOfflineConsultaionDetails_tblDoctor" Association="Self.FK_tblOfflineConsultaionDetails_tblDoctor">
+            <End Role="tblDoctor" EntitySet="tblDoctor" />
+            <End Role="tblOfflineConsultaionDetails" EntitySet="tblOfflineConsultaionDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblOnlineConsultaionDetails_tblDoctor" Association="Self.FK_tblOnlineConsultaionDetails_tblDoctor">
+            <End Role="tblDoctor" EntitySet="tblDoctor" />
+            <End Role="tblOnlineConsultaionDetails" EntitySet="tblOnlineConsultaionDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblPatient_tblAddress" Association="Self.FK_tblPatient_tblAddress">
+            <End Role="tblAddress" EntitySet="tblAddress" />
+            <End Role="tblPatient" EntitySet="tblPatient" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblPatient_tblRoles" Association="Self.FK_tblPatient_tblRoles">
+            <End Role="tblRoles" EntitySet="tblRoles" />
+            <End Role="tblPatient" EntitySet="tblPatient" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblState_tblCountry" Association="Self.FK_tblState_tblCountry">
+            <End Role="tblCountry" EntitySet="tblCountry" />
+            <End Role="tblState" EntitySet="tblState" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblSuperAdmin_tblAddress" Association="Self.FK_tblSuperAdmin_tblAddress">
+            <End Role="tblAddress" EntitySet="tblAddress" />
+            <End Role="tblSuperAdmin" EntitySet="tblSuperAdmin" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblSuperAdmin_tblRoles" Association="Self.FK_tblSuperAdmin_tblRoles">
+            <End Role="tblRoles" EntitySet="tblRoles" />
+            <End Role="tblSuperAdmin" EntitySet="tblSuperAdmin" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblZone_tblCity" Association="Self.FK_tblZone_tblCity">
+            <End Role="tblCity" EntitySet="tblCity" />
+            <End Role="tblZone" EntitySet="tblZone" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="dentalDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="tblAddress">
+          <Key>
+            <PropertyRef Name="AddressID" />
+          </Key>
+          <Property Name="AddressID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AddressCountry" Type="Int32" />
+          <Property Name="AddressState" Type="Int32" />
+          <Property Name="AddressCity" Type="Int32" />
+          <Property Name="AddressZone" Type="Int32" />
+          <Property Name="AddressComplete" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="tblCity" Relationship="Self.FK_tblAddress_tblCity" FromRole="tblAddress" ToRole="tblCity" />
+          <NavigationProperty Name="tblCountry" Relationship="Self.FK_tblAddress_tblCountry" FromRole="tblAddress" ToRole="tblCountry" />
+          <NavigationProperty Name="tblState" Relationship="Self.FK_tblAddress_tblState" FromRole="tblAddress" ToRole="tblState" />
+          <NavigationProperty Name="tblZone" Relationship="Self.FK_tblAddress_tblZone" FromRole="tblAddress" ToRole="tblZone" />
+          <NavigationProperty Name="tblAdmins" Relationship="Self.FK_tblAdmin_tblAddress" FromRole="tblAddress" ToRole="tblAdmin" />
+          <NavigationProperty Name="tblDoctors" Relationship="Self.FK_tblDoctor_tblAddress" FromRole="tblAddress" ToRole="tblDoctor" />
+          <NavigationProperty Name="tblOfflineConsultaionDetails" Relationship="Self.FK_tblOfflineConsultaionDetails_tblAddress" FromRole="tblAddress" ToRole="tblOfflineConsultaionDetails" />
+          <NavigationProperty Name="tblPatients" Relationship="Self.FK_tblPatient_tblAddress" FromRole="tblAddress" ToRole="tblPatient" />
+          <NavigationProperty Name="tblSuperAdmins" Relationship="Self.FK_tblSuperAdmin_tblAddress" FromRole="tblAddress" ToRole="tblSuperAdmin" />
+        </EntityType>
+        <EntityType Name="tblAdmin">
+          <Key>
+            <PropertyRef Name="A_ID" />
+          </Key>
+          <Property Name="A_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="A_FirstName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="A_LastName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="A_PhoneNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="A_AddressID" Type="Int32" />
+          <Property Name="A_RoleID" Type="Int32" />
+          <Property Name="A_ProfileImage" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="A_Email" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="A_Password" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="A_CreatedBy" Type="Int32" />
+          <Property Name="A_CreatedOn" Type="DateTime" Precision="3" />
+          <Property Name="A_UpdatedBy" Type="Int32" />
+          <Property Name="A_UpdatedOn" Type="DateTime" Precision="3" />
+          <Property Name="A_IsActive" Type="Boolean" />
+          <Property Name="A_IsArchive" Type="Boolean" />
+          <Property Name="A_OTP" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="A_Verified" Type="Boolean" />
+          <NavigationProperty Name="tblAddress" Relationship="Self.FK_tblAdmin_tblAddress" FromRole="tblAdmin" ToRole="tblAddress" />
+          <NavigationProperty Name="tblRole" Relationship="Self.FK_tblAdmin_tblRoles" FromRole="tblAdmin" ToRole="tblRoles" />
+        </EntityType>
+        <EntityType Name="tblAppointment">
+          <Key>
+            <PropertyRef Name="AP_ID" />
+          </Key>
+          <Property Name="AP_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AP_PatientID" Type="Int32" />
+          <Property Name="AP_DoctorID" Type="Int32" />
+          <Property Name="AP_Subject" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="AP_Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="AP_Datetime" Type="DateTime" Precision="3" />
+          <Property Name="AP_IsApproved" Type="Boolean" />
+          <Property Name="AP_IsUserRead" Type="Boolean" />
+          <Property Name="AP_IsDoctorRead" Type="Boolean" />
+          <Property Name="AP_IsActive" Type="Boolean" />
+          <Property Name="AP_IsArchive" Type="Boolean" />
+          <NavigationProperty Name="tblDoctor" Relationship="Self.FK_tblAppointment_tblDoctor" FromRole="tblAppointment" ToRole="tblDoctor" />
+          <NavigationProperty Name="tblPatient" Relationship="Self.FK_tblAppointment_tblPatient" FromRole="tblAppointment" ToRole="tblPatient" />
+          <NavigationProperty Name="tblDoctorReviews" Relationship="Self.FK_tblDoctorReviews_tblAppointment" FromRole="tblAppointment" ToRole="tblDoctorReviews" />
+        </EntityType>
+        <EntityType Name="tblCity">
+          <Key>
+            <PropertyRef Name="CityID" />
+          </Key>
+          <Property Name="CityID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CityName" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="StateID" Type="Int32" />
+          <NavigationProperty Name="tblAddresses" Relationship="Self.FK_tblAddress_tblCity" FromRole="tblCity" ToRole="tblAddress" />
+          <NavigationProperty Name="tblState" Relationship="Self.FK_tblCity_tblState" FromRole="tblCity" ToRole="tblState" />
+          <NavigationProperty Name="tblZones" Relationship="Self.FK_tblZone_tblCity" FromRole="tblCity" ToRole="tblZone" />
+        </EntityType>
+        <EntityType Name="tblCountry">
+          <Key>
+            <PropertyRef Name="CountryID" />
+          </Key>
+          <Property Name="CountryID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CountryName" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="tblAddresses" Relationship="Self.FK_tblAddress_tblCountry" FromRole="tblCountry" ToRole="tblAddress" />
+          <NavigationProperty Name="tblStates" Relationship="Self.FK_tblState_tblCountry" FromRole="tblCountry" ToRole="tblState" />
+        </EntityType>
+        <EntityType Name="tblDiagnostic">
+          <Key>
+            <PropertyRef Name="DG_ID" />
+          </Key>
+          <Property Name="DG_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DG_Name" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DG_Datetime" Type="DateTime" Precision="3" />
+          <Property Name="DG_PatientID" Type="Int32" />
+          <Property Name="DG_DoctorID" Type="Int32" />
+          <Property Name="DG_DiseaseName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="DG_Remarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="DG_IsActive" Type="Boolean" />
+          <Property Name="DG_IsArchive" Type="Boolean" />
+          <NavigationProperty Name="tblDoctor" Relationship="Self.FK_tblDiagnostics_tblDoctor" FromRole="tblDiagnostics" ToRole="tblDoctor" />
+          <NavigationProperty Name="tblPatient" Relationship="Self.FK_tblDiagnostics_tblPatient" FromRole="tblDiagnostics" ToRole="tblPatient" />
+          <NavigationProperty Name="tblDoctorReviews" Relationship="Self.FK_tblDoctorReviews_tblDiagnostics" FromRole="tblDiagnostics" ToRole="tblDoctorReviews" />
+        </EntityType>
+        <EntityType Name="tblDoctor">
+          <Key>
+            <PropertyRef Name="D_ID" />
+          </Key>
+          <Property Name="D_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="D_FirstName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="D_LastName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="D_PhoneNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="D_AddressID" Type="Int32" />
+          <Property Name="D_RoleID" Type="Int32" />
+          <Property Name="D_ProfileImage" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="D_Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="D_Password" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="D_YearsOfExperience" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="D_Specialization" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="D_WorkPhoneNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="D_AwardsAndAchievements" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="D_AboutMe" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="D_CreatedBy" Type="Int32" />
+          <Property Name="D_CreatedOn" Type="DateTime" Precision="3" />
+          <Property Name="D_UpdatedBy" Type="Int32" />
+          <Property Name="D_UpdatedOn" Type="DateTime" Precision="3" />
+          <Property Name="D_IsActive" Type="Boolean" />
+          <Property Name="D_IsArchive" Type="Boolean" />
+          <Property Name="D_OTP" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="D_Verified" Type="Boolean" />
+          <Property Name="D_SatisfactionRate" Type="Int32" />
+          <Property Name="D_ResponseTime" Type="Int32" />
+          <NavigationProperty Name="tblAddress" Relationship="Self.FK_tblDoctor_tblAddress" FromRole="tblDoctor" ToRole="tblAddress" />
+          <NavigationProperty Name="tblAppointments" Relationship="Self.FK_tblAppointment_tblDoctor" FromRole="tblDoctor" ToRole="tblAppointment" />
+          <NavigationProperty Name="tblDiagnostics" Relationship="Self.FK_tblDiagnostics_tblDoctor" FromRole="tblDoctor" ToRole="tblDiagnostics" />
+          <NavigationProperty Name="tblRole" Relationship="Self.FK_tblDoctor_tblRoles" FromRole="tblDoctor" ToRole="tblRoles" />
+          <NavigationProperty Name="tblDoctorReviews" Relationship="Self.FK_tblDoctorReviews_tblDoctor" FromRole="tblDoctor" ToRole="tblDoctorReviews" />
+          <NavigationProperty Name="tblDoctorServices" Relationship="Self.FK_tblDoctorServices_tblDoctor" FromRole="tblDoctor" ToRole="tblDoctorServices" />
+          <NavigationProperty Name="tblDoctorWorkExperiences" Relationship="Self.FK_tblDoctorWorkExperience_tblDoctor" FromRole="tblDoctor" ToRole="tblDoctorWorkExperience" />
+          <NavigationProperty Name="tblOfflineConsultaionDetails" Relationship="Self.FK_tblOfflineConsultaionDetails_tblDoctor" FromRole="tblDoctor" ToRole="tblOfflineConsultaionDetails" />
+          <NavigationProperty Name="tblOnlineConsultaionDetails" Relationship="Self.FK_tblOnlineConsultaionDetails_tblDoctor" FromRole="tblDoctor" ToRole="tblOnlineConsultaionDetails" />
+        </EntityType>
+        <EntityType Name="tblDoctorReview">
+          <Key>
+            <PropertyRef Name="DR_ID" />
+          </Key>
+          <Property Name="DR_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DR_DoctorID" Type="Int32" />
+          <Property Name="DR_PatientID" Type="Int32" />
+          <Property Name="DR_AppointmentID" Type="Int32" />
+          <Property Name="DR_DiagnosticsID" Type="Int32" />
+          <Property Name="DR_StarRatingDiagnostics" Type="Int32" Nullable="false" />
+          <Property Name="DR_Message" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="DR_RateDoctorService" Type="Int32" />
+          <Property Name="DR_IsAllowAnonymous" Type="Boolean" />
+          <Property Name="DR_IsActive" Type="Boolean" />
+          <Property Name="DR_IsArchive" Type="Boolean" />
+          <Property Name="DR_CreatedBy" Type="Int32" />
+          <Property Name="DR_CreatedOn" Type="DateTime" Precision="3" />
+          <Property Name="DR_UpdatedBy" Type="Int32" />
+          <Property Name="DR_UpdatedOn" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="tblAppointment" Relationship="Self.FK_tblDoctorReviews_tblAppointment" FromRole="tblDoctorReviews" ToRole="tblAppointment" />
+          <NavigationProperty Name="tblDiagnostic" Relationship="Self.FK_tblDoctorReviews_tblDiagnostics" FromRole="tblDoctorReviews" ToRole="tblDiagnostics" />
+          <NavigationProperty Name="tblDoctor" Relationship="Self.FK_tblDoctorReviews_tblDoctor" FromRole="tblDoctorReviews" ToRole="tblDoctor" />
+          <NavigationProperty Name="tblPatient" Relationship="Self.FK_tblDoctorReviews_tblPatient" FromRole="tblDoctorReviews" ToRole="tblPatient" />
+        </EntityType>
+        <EntityType Name="tblDoctorService">
+          <Key>
+            <PropertyRef Name="DS_ID" />
+          </Key>
+          <Property Name="DS_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DS_DoctorID" Type="Int32" />
+          <Property Name="DS_ServicesID" Type="Int32" />
+          <Property Name="DS_CreatedOn" Type="DateTime" Precision="3" />
+          <Property Name="DS_CreatedBy" Type="Int32" />
+          <NavigationProperty Name="tblDoctor" Relationship="Self.FK_tblDoctorServices_tblDoctor" FromRole="tblDoctorServices" ToRole="tblDoctor" />
+          <NavigationProperty Name="tblService" Relationship="Self.FK_tblDoctorServices_tblServices" FromRole="tblDoctorServices" ToRole="tblServices" />
+        </EntityType>
+        <EntityType Name="tblDoctorWorkExperience">
+          <Key>
+            <PropertyRef Name="WEX_ID" />
+          </Key>
+          <Property Name="WEX_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="WEX_DoctorID" Type="Int32" />
+          <Property Name="WEX_HospitalName" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="WEX_Designation" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="WEX_IsWorking" Type="Boolean" />
+          <Property Name="WEX_IsActive" Type="Boolean" />
+          <Property Name="WEX_IsArchive" Type="Boolean" />
+          <Property Name="WEX_CreatedBy" Type="Int32" />
+          <Property Name="WEX_CreatedOn" Type="DateTime" Precision="3" />
+          <Property Name="WEX_UpdatedBy" Type="Int32" />
+          <Property Name="WEX_UpdatedOn" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="tblDoctor" Relationship="Self.FK_tblDoctorWorkExperience_tblDoctor" FromRole="tblDoctorWorkExperience" ToRole="tblDoctor" />
+        </EntityType>
+        <EntityType Name="tblMessage">
+          <Key>
+            <PropertyRef Name="M_ID" />
+          </Key>
+          <Property Name="M_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FromUserID" Type="Int32" />
+          <Property Name="ToDoctorID" Type="Int32" />
+          <Property Name="FromDoctorID" Type="Int32" />
+          <Property Name="ToUserID" Type="Int32" />
+          <NavigationProperty Name="tblMessageDetails" Relationship="Self.FK_tblMessageDetails_tblMessage" FromRole="tblMessage" ToRole="tblMessageDetails" />
+        </EntityType>
+        <EntityType Name="tblMessageDetail">
+          <Key>
+            <PropertyRef Name="MD_ID" />
+          </Key>
+          <Property Name="MD_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MD_MessageID" Type="Int32" Nullable="false" />
+          <Property Name="MD_Message" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="MD_Datetime" Type="DateTime" Precision="3" />
+          <Property Name="MD_IsRead" Type="Boolean" />
+          <Property Name="MD_IsDelivered" Type="Boolean" />
+          <NavigationProperty Name="tblMessage" Relationship="Self.FK_tblMessageDetails_tblMessage" FromRole="tblMessageDetails" ToRole="tblMessage" />
+        </EntityType>
+        <EntityType Name="tblOfflineConsultaionDetail">
+          <Key>
+            <PropertyRef Name="OFCD_ID" />
+          </Key>
+          <Property Name="OFCD_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OFCD_DoctorID" Type="Int32" Nullable="false" />
+          <Property Name="OFCD_HospitalName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="OFCD_HospitalPhoneNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="OFCD_HospitalAddressID" Type="Int32" Nullable="false" />
+          <Property Name="OFCD_MondayStartTime" Type="Time" Precision="7" />
+          <Property Name="OFCD_MondayEndTime" Type="Time" Precision="7" />
+          <Property Name="OFCD_TuesdayStartTime" Type="Time" Precision="7" />
+          <Property Name="OFCD_TuesdayEndTime" Type="Time" Precision="7" />
+          <Property Name="OFCD_WednesdayStartTime" Type="Time" Precision="7" />
+          <Property Name="OFCD_WednesdayEndTime" Type="Time" Precision="7" />
+          <Property Name="OFCD_ThursdayStartTime" Type="Time" Precision="7" />
+          <Property Name="OFCD_ThursdayEndTime" Type="Time" Precision="7" />
+          <Property Name="OFCD_FridayStartTime" Type="Time" Precision="7" />
+          <Property Name="OFCD_FridayEndTime" Type="Time" Precision="7" />
+          <Property Name="OFCD_SaturdayStartTime" Type="Time" Precision="7" />
+          <Property Name="OFCD_SaturdayEndTime" Type="Time" Precision="7" />
+          <Property Name="OFCD_SundayStartTime" Type="Time" Precision="7" />
+          <Property Name="OFCD_SundayEndTime" Type="Time" Precision="7" />
+          <Property Name="OFCD_Charges" Type="Decimal" Precision="18" Scale="8" Nullable="false" />
+          <Property Name="OFCD_IsActive" Type="Boolean" />
+          <Property Name="OFCD_IsArchive" Type="Boolean" />
+          <Property Name="OFCD_CreatedBy" Type="Int32" />
+          <Property Name="OFCD_CreatedOn" Type="DateTime" Precision="3" />
+          <Property Name="OFCD_UpdatedBy" Type="Int32" />
+          <Property Name="OFCD_UpdatedOn" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="tblAddress" Relationship="Self.FK_tblOfflineConsultaionDetails_tblAddress" FromRole="tblOfflineConsultaionDetails" ToRole="tblAddress" />
+          <NavigationProperty Name="tblDoctor" Relationship="Self.FK_tblOfflineConsultaionDetails_tblDoctor" FromRole="tblOfflineConsultaionDetails" ToRole="tblDoctor" />
+        </EntityType>
+        <EntityType Name="tblOnlineConsultaionDetail">
+          <Key>
+            <PropertyRef Name="OCD_ID" />
+          </Key>
+          <Property Name="OCD_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OCD_DoctorID" Type="Int32" />
+          <Property Name="OCD_MondayStartTime" Type="Time" Precision="7" />
+          <Property Name="OCD_MondayEndTime" Type="Time" Precision="7" />
+          <Property Name="OCD_TuesdayStartTime" Type="Time" Precision="7" />
+          <Property Name="OCD_TuesdayEndTime" Type="Time" Precision="7" />
+          <Property Name="OCD_WednesdayStartTime" Type="Time" Precision="7" />
+          <Property Name="OCD_WednesdayEndTime" Type="Time" Precision="7" />
+          <Property Name="OCD_ThursdayStartTime" Type="Time" Precision="7" />
+          <Property Name="OCD_ThursdayEndTime" Type="Time" Precision="7" />
+          <Property Name="OCD_FridayStartTime" Type="Time" Precision="7" />
+          <Property Name="OCD_FridayEndTime" Type="Time" Precision="7" />
+          <Property Name="OCD_SaturdayStartTime" Type="Time" Precision="7" />
+          <Property Name="OCD_SaturdayEndTime" Type="Time" Precision="7" />
+          <Property Name="OCD_SundayStartTime" Type="Time" Precision="7" />
+          <Property Name="OCD_SundayEndTime" Type="Time" Precision="7" />
+          <Property Name="OCD_Charges" Type="Decimal" Precision="18" Scale="8" Nullable="false" />
+          <Property Name="OCD_IsActive" Type="Boolean" />
+          <Property Name="OCD_IsArchive" Type="Boolean" />
+          <Property Name="OCD_CreatedBy" Type="Int32" />
+          <Property Name="OCD_CreatedOn" Type="DateTime" Precision="3" />
+          <Property Name="OCD_UpdatedBy" Type="Int32" />
+          <Property Name="OCD_UpdatedOn" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="tblDoctor" Relationship="Self.FK_tblOnlineConsultaionDetails_tblDoctor" FromRole="tblOnlineConsultaionDetails" ToRole="tblDoctor" />
+        </EntityType>
+        <EntityType Name="tblOTP">
+          <Key>
+            <PropertyRef Name="OT_ID" />
+          </Key>
+          <Property Name="OT_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OT_OTP" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="OT_UsersEmail" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="OT_IsActive" Type="Boolean" />
+          <Property Name="OT_IsArchive" Type="Boolean" />
+          <Property Name="OT_CreatedOn" Type="DateTime" Precision="3" />
+          <Property Name="OT_UpdatedOn" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="tblPatient">
+          <Key>
+            <PropertyRef Name="P_ID" />
+          </Key>
+          <Property Name="P_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="P_FirstName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="P_LastName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="P_PhoneNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="P_AddressID" Type="Int32" />
+          <Property Name="P_RoleID" Type="Int32" />
+          <Property Name="P_ProfileImage" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="P_Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="P_Password" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="P_CreatedOn" Type="DateTime" Precision="3" />
+          <Property Name="P_CreatedBy" Type="Int32" />
+          <Property Name="P_UpdatedOn" Type="DateTime" Precision="3" />
+          <Property Name="P_UpdatedBy" Type="Int32" />
+          <Property Name="P_IsActive" Type="Boolean" />
+          <Property Name="P_IsArchive" Type="Boolean" />
+          <Property Name="P_OTP" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="P_Verified" Type="Boolean" />
+          <NavigationProperty Name="tblAddress" Relationship="Self.FK_tblPatient_tblAddress" FromRole="tblPatient" ToRole="tblAddress" />
+          <NavigationProperty Name="tblAppointments" Relationship="Self.FK_tblAppointment_tblPatient" FromRole="tblPatient" ToRole="tblAppointment" />
+          <NavigationProperty Name="tblDiagnostics" Relationship="Self.FK_tblDiagnostics_tblPatient" FromRole="tblPatient" ToRole="tblDiagnostics" />
+          <NavigationProperty Name="tblDoctorReviews" Relationship="Self.FK_tblDoctorReviews_tblPatient" FromRole="tblPatient" ToRole="tblDoctorReviews" />
+          <NavigationProperty Name="tblRole" Relationship="Self.FK_tblPatient_tblRoles" FromRole="tblPatient" ToRole="tblRoles" />
+        </EntityType>
+        <EntityType Name="tblRole">
+          <Key>
+            <PropertyRef Name="RoleID" />
+          </Key>
+          <Property Name="RoleID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RoleName" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="RoleIsArchive" Type="Boolean" />
+          <Property Name="RoleIsActive" Type="Boolean" />
+          <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+          <Property Name="CreatedBy" Type="Int32" />
+          <Property Name="UpdatedOn" Type="DateTime" Precision="3" />
+          <Property Name="UpdatedBy" Type="Int32" />
+          <NavigationProperty Name="tblAdmins" Relationship="Self.FK_tblAdmin_tblRoles" FromRole="tblRoles" ToRole="tblAdmin" />
+          <NavigationProperty Name="tblDoctors" Relationship="Self.FK_tblDoctor_tblRoles" FromRole="tblRoles" ToRole="tblDoctor" />
+          <NavigationProperty Name="tblPatients" Relationship="Self.FK_tblPatient_tblRoles" FromRole="tblRoles" ToRole="tblPatient" />
+          <NavigationProperty Name="tblSuperAdmins" Relationship="Self.FK_tblSuperAdmin_tblRoles" FromRole="tblRoles" ToRole="tblSuperAdmin" />
+        </EntityType>
+        <EntityType Name="tblService">
+          <Key>
+            <PropertyRef Name="S_ID" />
+          </Key>
+          <Property Name="S_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="S_Name" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="S_URL" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="S_IsActive" Type="Boolean" />
+          <Property Name="S_IsArchive" Type="Boolean" />
+          <Property Name="S_CreatedOn" Type="DateTime" Precision="3" />
+          <Property Name="S_UpdatedOn" Type="DateTime" Precision="3" />
+          <Property Name="S_CreatedBy" Type="Int32" />
+          <Property Name="S_UpdatedBy" Type="Int32" />
+          <NavigationProperty Name="tblDoctorServices" Relationship="Self.FK_tblDoctorServices_tblServices" FromRole="tblServices" ToRole="tblDoctorServices" />
+        </EntityType>
+        <EntityType Name="tblState">
+          <Key>
+            <PropertyRef Name="StateID" />
+          </Key>
+          <Property Name="StateID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StateName" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CountryID" Type="Int32" />
+          <NavigationProperty Name="tblAddresses" Relationship="Self.FK_tblAddress_tblState" FromRole="tblState" ToRole="tblAddress" />
+          <NavigationProperty Name="tblCities" Relationship="Self.FK_tblCity_tblState" FromRole="tblState" ToRole="tblCity" />
+          <NavigationProperty Name="tblCountry" Relationship="Self.FK_tblState_tblCountry" FromRole="tblState" ToRole="tblCountry" />
+        </EntityType>
+        <EntityType Name="tblSuperAdmin">
+          <Key>
+            <PropertyRef Name="SA_ID" />
+          </Key>
+          <Property Name="SA_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SA_FirstName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="SA_LastName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="SA_PhoneNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="SA_AddressID" Type="Int32" />
+          <Property Name="SA_RoleID" Type="Int32" />
+          <Property Name="SA_ProfileImage" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="SA_Email" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="SA_Password" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="SA_CreatedBy" Type="Int32" />
+          <Property Name="SA_CreatedOn" Type="DateTime" Precision="3" />
+          <Property Name="SA_UpdatedBy" Type="Int32" />
+          <Property Name="SA_UpdatedOn" Type="DateTime" Precision="3" />
+          <Property Name="SA_IsActive" Type="Boolean" />
+          <Property Name="SA_IsArchive" Type="Boolean" />
+          <Property Name="SA_OTP" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="SA_Verified" Type="Boolean" />
+          <NavigationProperty Name="tblAddress" Relationship="Self.FK_tblSuperAdmin_tblAddress" FromRole="tblSuperAdmin" ToRole="tblAddress" />
+          <NavigationProperty Name="tblRole" Relationship="Self.FK_tblSuperAdmin_tblRoles" FromRole="tblSuperAdmin" ToRole="tblRoles" />
+        </EntityType>
+        <EntityType Name="tblZone">
+          <Key>
+            <PropertyRef Name="ZoneID" />
+          </Key>
+          <Property Name="ZoneID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ZoneName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CityID" Type="Int32" />
+          <Property Name="Latitude" Type="Decimal" Precision="18" Scale="8" />
+          <Property Name="Longitude" Type="Decimal" Precision="18" Scale="8" />
+          <NavigationProperty Name="tblAddresses" Relationship="Self.FK_tblAddress_tblZone" FromRole="tblZone" ToRole="tblAddress" />
+          <NavigationProperty Name="tblCity" Relationship="Self.FK_tblZone_tblCity" FromRole="tblZone" ToRole="tblCity" />
+        </EntityType>
+        <Association Name="FK_tblAddress_tblCity">
+          <End Role="tblCity" Type="Self.tblCity" Multiplicity="0..1" />
+          <End Role="tblAddress" Type="Self.tblAddress" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblCity">
+              <PropertyRef Name="CityID" />
+            </Principal>
+            <Dependent Role="tblAddress">
+              <PropertyRef Name="AddressCity" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblAddress_tblCountry">
+          <End Role="tblCountry" Type="Self.tblCountry" Multiplicity="0..1" />
+          <End Role="tblAddress" Type="Self.tblAddress" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblCountry">
+              <PropertyRef Name="CountryID" />
+            </Principal>
+            <Dependent Role="tblAddress">
+              <PropertyRef Name="AddressCountry" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblAddress_tblState">
+          <End Role="tblState" Type="Self.tblState" Multiplicity="0..1" />
+          <End Role="tblAddress" Type="Self.tblAddress" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblState">
+              <PropertyRef Name="StateID" />
+            </Principal>
+            <Dependent Role="tblAddress">
+              <PropertyRef Name="AddressState" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblAddress_tblZone">
+          <End Role="tblZone" Type="Self.tblZone" Multiplicity="0..1" />
+          <End Role="tblAddress" Type="Self.tblAddress" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblZone">
+              <PropertyRef Name="ZoneID" />
+            </Principal>
+            <Dependent Role="tblAddress">
+              <PropertyRef Name="AddressZone" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblAdmin_tblAddress">
+          <End Role="tblAddress" Type="Self.tblAddress" Multiplicity="0..1" />
+          <End Role="tblAdmin" Type="Self.tblAdmin" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblAddress">
+              <PropertyRef Name="AddressID" />
+            </Principal>
+            <Dependent Role="tblAdmin">
+              <PropertyRef Name="A_AddressID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblDoctor_tblAddress">
+          <End Role="tblAddress" Type="Self.tblAddress" Multiplicity="0..1" />
+          <End Role="tblDoctor" Type="Self.tblDoctor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblAddress">
+              <PropertyRef Name="AddressID" />
+            </Principal>
+            <Dependent Role="tblDoctor">
+              <PropertyRef Name="D_AddressID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblOfflineConsultaionDetails_tblAddress">
+          <End Role="tblAddress" Type="Self.tblAddress" Multiplicity="1" />
+          <End Role="tblOfflineConsultaionDetails" Type="Self.tblOfflineConsultaionDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblAddress">
+              <PropertyRef Name="AddressID" />
+            </Principal>
+            <Dependent Role="tblOfflineConsultaionDetails">
+              <PropertyRef Name="OFCD_HospitalAddressID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblPatient_tblAddress">
+          <End Role="tblAddress" Type="Self.tblAddress" Multiplicity="0..1" />
+          <End Role="tblPatient" Type="Self.tblPatient" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblAddress">
+              <PropertyRef Name="AddressID" />
+            </Principal>
+            <Dependent Role="tblPatient">
+              <PropertyRef Name="P_AddressID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblSuperAdmin_tblAddress">
+          <End Role="tblAddress" Type="Self.tblAddress" Multiplicity="0..1" />
+          <End Role="tblSuperAdmin" Type="Self.tblSuperAdmin" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblAddress">
+              <PropertyRef Name="AddressID" />
+            </Principal>
+            <Dependent Role="tblSuperAdmin">
+              <PropertyRef Name="SA_AddressID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblAdmin_tblRoles">
+          <End Role="tblRoles" Type="Self.tblRole" Multiplicity="0..1" />
+          <End Role="tblAdmin" Type="Self.tblAdmin" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblRoles">
+              <PropertyRef Name="RoleID" />
+            </Principal>
+            <Dependent Role="tblAdmin">
+              <PropertyRef Name="A_RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblAppointment_tblDoctor">
+          <End Role="tblDoctor" Type="Self.tblDoctor" Multiplicity="0..1" />
+          <End Role="tblAppointment" Type="Self.tblAppointment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblDoctor">
+              <PropertyRef Name="D_ID" />
+            </Principal>
+            <Dependent Role="tblAppointment">
+              <PropertyRef Name="AP_DoctorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblAppointment_tblPatient">
+          <End Role="tblPatient" Type="Self.tblPatient" Multiplicity="0..1" />
+          <End Role="tblAppointment" Type="Self.tblAppointment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblPatient">
+              <PropertyRef Name="P_ID" />
+            </Principal>
+            <Dependent Role="tblAppointment">
+              <PropertyRef Name="AP_PatientID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblDoctorReviews_tblAppointment">
+          <End Role="tblAppointment" Type="Self.tblAppointment" Multiplicity="0..1" />
+          <End Role="tblDoctorReviews" Type="Self.tblDoctorReview" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblAppointment">
+              <PropertyRef Name="AP_ID" />
+            </Principal>
+            <Dependent Role="tblDoctorReviews">
+              <PropertyRef Name="DR_AppointmentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblCity_tblState">
+          <End Role="tblState" Type="Self.tblState" Multiplicity="0..1" />
+          <End Role="tblCity" Type="Self.tblCity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblState">
+              <PropertyRef Name="StateID" />
+            </Principal>
+            <Dependent Role="tblCity">
+              <PropertyRef Name="StateID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblZone_tblCity">
+          <End Role="tblCity" Type="Self.tblCity" Multiplicity="0..1" />
+          <End Role="tblZone" Type="Self.tblZone" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblCity">
+              <PropertyRef Name="CityID" />
+            </Principal>
+            <Dependent Role="tblZone">
+              <PropertyRef Name="CityID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblState_tblCountry">
+          <End Role="tblCountry" Type="Self.tblCountry" Multiplicity="0..1" />
+          <End Role="tblState" Type="Self.tblState" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblCountry">
+              <PropertyRef Name="CountryID" />
+            </Principal>
+            <Dependent Role="tblState">
+              <PropertyRef Name="CountryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblDiagnostics_tblDoctor">
+          <End Role="tblDoctor" Type="Self.tblDoctor" Multiplicity="0..1" />
+          <End Role="tblDiagnostics" Type="Self.tblDiagnostic" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblDoctor">
+              <PropertyRef Name="D_ID" />
+            </Principal>
+            <Dependent Role="tblDiagnostics">
+              <PropertyRef Name="DG_DoctorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblDiagnostics_tblPatient">
+          <End Role="tblPatient" Type="Self.tblPatient" Multiplicity="0..1" />
+          <End Role="tblDiagnostics" Type="Self.tblDiagnostic" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblPatient">
+              <PropertyRef Name="P_ID" />
+            </Principal>
+            <Dependent Role="tblDiagnostics">
+              <PropertyRef Name="DG_PatientID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblDoctorReviews_tblDiagnostics">
+          <End Role="tblDiagnostics" Type="Self.tblDiagnostic" Multiplicity="0..1" />
+          <End Role="tblDoctorReviews" Type="Self.tblDoctorReview" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblDiagnostics">
+              <PropertyRef Name="DG_ID" />
+            </Principal>
+            <Dependent Role="tblDoctorReviews">
+              <PropertyRef Name="DR_DiagnosticsID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblDoctor_tblRoles">
+          <End Role="tblRoles" Type="Self.tblRole" Multiplicity="0..1" />
+          <End Role="tblDoctor" Type="Self.tblDoctor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblRoles">
+              <PropertyRef Name="RoleID" />
+            </Principal>
+            <Dependent Role="tblDoctor">
+              <PropertyRef Name="D_RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblDoctorReviews_tblDoctor">
+          <End Role="tblDoctor" Type="Self.tblDoctor" Multiplicity="0..1" />
+          <End Role="tblDoctorReviews" Type="Self.tblDoctorReview" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblDoctor">
+              <PropertyRef Name="D_ID" />
+            </Principal>
+            <Dependent Role="tblDoctorReviews">
+              <PropertyRef Name="DR_DoctorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblDoctorServices_tblDoctor">
+          <End Role="tblDoctor" Type="Self.tblDoctor" Multiplicity="0..1" />
+          <End Role="tblDoctorServices" Type="Self.tblDoctorService" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblDoctor">
+              <PropertyRef Name="D_ID" />
+            </Principal>
+            <Dependent Role="tblDoctorServices">
+              <PropertyRef Name="DS_DoctorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblDoctorWorkExperience_tblDoctor">
+          <End Role="tblDoctor" Type="Self.tblDoctor" Multiplicity="0..1" />
+          <End Role="tblDoctorWorkExperience" Type="Self.tblDoctorWorkExperience" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblDoctor">
+              <PropertyRef Name="D_ID" />
+            </Principal>
+            <Dependent Role="tblDoctorWorkExperience">
+              <PropertyRef Name="WEX_DoctorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblOfflineConsultaionDetails_tblDoctor">
+          <End Role="tblDoctor" Type="Self.tblDoctor" Multiplicity="1" />
+          <End Role="tblOfflineConsultaionDetails" Type="Self.tblOfflineConsultaionDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblDoctor">
+              <PropertyRef Name="D_ID" />
+            </Principal>
+            <Dependent Role="tblOfflineConsultaionDetails">
+              <PropertyRef Name="OFCD_DoctorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblOnlineConsultaionDetails_tblDoctor">
+          <End Role="tblDoctor" Type="Self.tblDoctor" Multiplicity="0..1" />
+          <End Role="tblOnlineConsultaionDetails" Type="Self.tblOnlineConsultaionDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblDoctor">
+              <PropertyRef Name="D_ID" />
+            </Principal>
+            <Dependent Role="tblOnlineConsultaionDetails">
+              <PropertyRef Name="OCD_DoctorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblDoctorReviews_tblPatient">
+          <End Role="tblPatient" Type="Self.tblPatient" Multiplicity="0..1" />
+          <End Role="tblDoctorReviews" Type="Self.tblDoctorReview" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblPatient">
+              <PropertyRef Name="P_ID" />
+            </Principal>
+            <Dependent Role="tblDoctorReviews">
+              <PropertyRef Name="DR_PatientID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblDoctorServices_tblServices">
+          <End Role="tblServices" Type="Self.tblService" Multiplicity="0..1" />
+          <End Role="tblDoctorServices" Type="Self.tblDoctorService" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblServices">
+              <PropertyRef Name="S_ID" />
+            </Principal>
+            <Dependent Role="tblDoctorServices">
+              <PropertyRef Name="DS_ServicesID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblMessageDetails_tblMessage">
+          <End Role="tblMessage" Type="Self.tblMessage" Multiplicity="1" />
+          <End Role="tblMessageDetails" Type="Self.tblMessageDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblMessage">
+              <PropertyRef Name="M_ID" />
+            </Principal>
+            <Dependent Role="tblMessageDetails">
+              <PropertyRef Name="MD_MessageID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblPatient_tblRoles">
+          <End Role="tblRoles" Type="Self.tblRole" Multiplicity="0..1" />
+          <End Role="tblPatient" Type="Self.tblPatient" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblRoles">
+              <PropertyRef Name="RoleID" />
+            </Principal>
+            <Dependent Role="tblPatient">
+              <PropertyRef Name="P_RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblSuperAdmin_tblRoles">
+          <End Role="tblRoles" Type="Self.tblRole" Multiplicity="0..1" />
+          <End Role="tblSuperAdmin" Type="Self.tblSuperAdmin" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblRoles">
+              <PropertyRef Name="RoleID" />
+            </Principal>
+            <Dependent Role="tblSuperAdmin">
+              <PropertyRef Name="SA_RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="dentalDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+          <EntitySet Name="tblAddresses" EntityType="Self.tblAddress" />
+          <EntitySet Name="tblAdmins" EntityType="Self.tblAdmin" />
+          <EntitySet Name="tblAppointments" EntityType="Self.tblAppointment" />
+          <EntitySet Name="tblCities" EntityType="Self.tblCity" />
+          <EntitySet Name="tblCountries" EntityType="Self.tblCountry" />
+          <EntitySet Name="tblDiagnostics" EntityType="Self.tblDiagnostic" />
+          <EntitySet Name="tblDoctors" EntityType="Self.tblDoctor" />
+          <EntitySet Name="tblDoctorReviews" EntityType="Self.tblDoctorReview" />
+          <EntitySet Name="tblDoctorServices" EntityType="Self.tblDoctorService" />
+          <EntitySet Name="tblDoctorWorkExperiences" EntityType="Self.tblDoctorWorkExperience" />
+          <EntitySet Name="tblMessages" EntityType="Self.tblMessage" />
+          <EntitySet Name="tblMessageDetails" EntityType="Self.tblMessageDetail" />
+          <EntitySet Name="tblOfflineConsultaionDetails" EntityType="Self.tblOfflineConsultaionDetail" />
+          <EntitySet Name="tblOnlineConsultaionDetails" EntityType="Self.tblOnlineConsultaionDetail" />
+          <EntitySet Name="tblOTPs" EntityType="Self.tblOTP" />
+          <EntitySet Name="tblPatients" EntityType="Self.tblPatient" />
+          <EntitySet Name="tblRoles" EntityType="Self.tblRole" />
+          <EntitySet Name="tblServices" EntityType="Self.tblService" />
+          <EntitySet Name="tblStates" EntityType="Self.tblState" />
+          <EntitySet Name="tblSuperAdmins" EntityType="Self.tblSuperAdmin" />
+          <EntitySet Name="tblZones" EntityType="Self.tblZone" />
+          <AssociationSet Name="FK_tblAddress_tblCity" Association="Self.FK_tblAddress_tblCity">
+            <End Role="tblCity" EntitySet="tblCities" />
+            <End Role="tblAddress" EntitySet="tblAddresses" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblAddress_tblCountry" Association="Self.FK_tblAddress_tblCountry">
+            <End Role="tblCountry" EntitySet="tblCountries" />
+            <End Role="tblAddress" EntitySet="tblAddresses" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblAddress_tblState" Association="Self.FK_tblAddress_tblState">
+            <End Role="tblState" EntitySet="tblStates" />
+            <End Role="tblAddress" EntitySet="tblAddresses" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblAddress_tblZone" Association="Self.FK_tblAddress_tblZone">
+            <End Role="tblZone" EntitySet="tblZones" />
+            <End Role="tblAddress" EntitySet="tblAddresses" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblAdmin_tblAddress" Association="Self.FK_tblAdmin_tblAddress">
+            <End Role="tblAddress" EntitySet="tblAddresses" />
+            <End Role="tblAdmin" EntitySet="tblAdmins" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblDoctor_tblAddress" Association="Self.FK_tblDoctor_tblAddress">
+            <End Role="tblAddress" EntitySet="tblAddresses" />
+            <End Role="tblDoctor" EntitySet="tblDoctors" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblOfflineConsultaionDetails_tblAddress" Association="Self.FK_tblOfflineConsultaionDetails_tblAddress">
+            <End Role="tblAddress" EntitySet="tblAddresses" />
+            <End Role="tblOfflineConsultaionDetails" EntitySet="tblOfflineConsultaionDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblPatient_tblAddress" Association="Self.FK_tblPatient_tblAddress">
+            <End Role="tblAddress" EntitySet="tblAddresses" />
+            <End Role="tblPatient" EntitySet="tblPatients" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblSuperAdmin_tblAddress" Association="Self.FK_tblSuperAdmin_tblAddress">
+            <End Role="tblAddress" EntitySet="tblAddresses" />
+            <End Role="tblSuperAdmin" EntitySet="tblSuperAdmins" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblAdmin_tblRoles" Association="Self.FK_tblAdmin_tblRoles">
+            <End Role="tblRoles" EntitySet="tblRoles" />
+            <End Role="tblAdmin" EntitySet="tblAdmins" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblAppointment_tblDoctor" Association="Self.FK_tblAppointment_tblDoctor">
+            <End Role="tblDoctor" EntitySet="tblDoctors" />
+            <End Role="tblAppointment" EntitySet="tblAppointments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblAppointment_tblPatient" Association="Self.FK_tblAppointment_tblPatient">
+            <End Role="tblPatient" EntitySet="tblPatients" />
+            <End Role="tblAppointment" EntitySet="tblAppointments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblDoctorReviews_tblAppointment" Association="Self.FK_tblDoctorReviews_tblAppointment">
+            <End Role="tblAppointment" EntitySet="tblAppointments" />
+            <End Role="tblDoctorReviews" EntitySet="tblDoctorReviews" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblCity_tblState" Association="Self.FK_tblCity_tblState">
+            <End Role="tblState" EntitySet="tblStates" />
+            <End Role="tblCity" EntitySet="tblCities" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblZone_tblCity" Association="Self.FK_tblZone_tblCity">
+            <End Role="tblCity" EntitySet="tblCities" />
+            <End Role="tblZone" EntitySet="tblZones" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblState_tblCountry" Association="Self.FK_tblState_tblCountry">
+            <End Role="tblCountry" EntitySet="tblCountries" />
+            <End Role="tblState" EntitySet="tblStates" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblDiagnostics_tblDoctor" Association="Self.FK_tblDiagnostics_tblDoctor">
+            <End Role="tblDoctor" EntitySet="tblDoctors" />
+            <End Role="tblDiagnostics" EntitySet="tblDiagnostics" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblDiagnostics_tblPatient" Association="Self.FK_tblDiagnostics_tblPatient">
+            <End Role="tblPatient" EntitySet="tblPatients" />
+            <End Role="tblDiagnostics" EntitySet="tblDiagnostics" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblDoctorReviews_tblDiagnostics" Association="Self.FK_tblDoctorReviews_tblDiagnostics">
+            <End Role="tblDiagnostics" EntitySet="tblDiagnostics" />
+            <End Role="tblDoctorReviews" EntitySet="tblDoctorReviews" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblDoctor_tblRoles" Association="Self.FK_tblDoctor_tblRoles">
+            <End Role="tblRoles" EntitySet="tblRoles" />
+            <End Role="tblDoctor" EntitySet="tblDoctors" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblDoctorReviews_tblDoctor" Association="Self.FK_tblDoctorReviews_tblDoctor">
+            <End Role="tblDoctor" EntitySet="tblDoctors" />
+            <End Role="tblDoctorReviews" EntitySet="tblDoctorReviews" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblDoctorServices_tblDoctor" Association="Self.FK_tblDoctorServices_tblDoctor">
+            <End Role="tblDoctor" EntitySet="tblDoctors" />
+            <End Role="tblDoctorServices" EntitySet="tblDoctorServices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblDoctorWorkExperience_tblDoctor" Association="Self.FK_tblDoctorWorkExperience_tblDoctor">
+            <End Role="tblDoctor" EntitySet="tblDoctors" />
+            <End Role="tblDoctorWorkExperience" EntitySet="tblDoctorWorkExperiences" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblOfflineConsultaionDetails_tblDoctor" Association="Self.FK_tblOfflineConsultaionDetails_tblDoctor">
+            <End Role="tblDoctor" EntitySet="tblDoctors" />
+            <End Role="tblOfflineConsultaionDetails" EntitySet="tblOfflineConsultaionDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblOnlineConsultaionDetails_tblDoctor" Association="Self.FK_tblOnlineConsultaionDetails_tblDoctor">
+            <End Role="tblDoctor" EntitySet="tblDoctors" />
+            <End Role="tblOnlineConsultaionDetails" EntitySet="tblOnlineConsultaionDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblDoctorReviews_tblPatient" Association="Self.FK_tblDoctorReviews_tblPatient">
+            <End Role="tblPatient" EntitySet="tblPatients" />
+            <End Role="tblDoctorReviews" EntitySet="tblDoctorReviews" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblDoctorServices_tblServices" Association="Self.FK_tblDoctorServices_tblServices">
+            <End Role="tblServices" EntitySet="tblServices" />
+            <End Role="tblDoctorServices" EntitySet="tblDoctorServices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblMessageDetails_tblMessage" Association="Self.FK_tblMessageDetails_tblMessage">
+            <End Role="tblMessage" EntitySet="tblMessages" />
+            <End Role="tblMessageDetails" EntitySet="tblMessageDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblPatient_tblRoles" Association="Self.FK_tblPatient_tblRoles">
+            <End Role="tblRoles" EntitySet="tblRoles" />
+            <End Role="tblPatient" EntitySet="tblPatients" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblSuperAdmin_tblRoles" Association="Self.FK_tblSuperAdmin_tblRoles">
+            <End Role="tblRoles" EntitySet="tblRoles" />
+            <End Role="tblSuperAdmin" EntitySet="tblSuperAdmins" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="dentalDBModelStoreContainer" CdmEntityContainer="dentalDBEntities">
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="dentalDBModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblAddresses">
+            <EntityTypeMapping TypeName="dentalDBModel.tblAddress">
+              <MappingFragment StoreEntitySet="tblAddress">
+                <ScalarProperty Name="AddressID" ColumnName="AddressID" />
+                <ScalarProperty Name="AddressCountry" ColumnName="AddressCountry" />
+                <ScalarProperty Name="AddressState" ColumnName="AddressState" />
+                <ScalarProperty Name="AddressCity" ColumnName="AddressCity" />
+                <ScalarProperty Name="AddressZone" ColumnName="AddressZone" />
+                <ScalarProperty Name="AddressComplete" ColumnName="AddressComplete" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblAdmins">
+            <EntityTypeMapping TypeName="dentalDBModel.tblAdmin">
+              <MappingFragment StoreEntitySet="tblAdmin">
+                <ScalarProperty Name="A_ID" ColumnName="A_ID" />
+                <ScalarProperty Name="A_FirstName" ColumnName="A_FirstName" />
+                <ScalarProperty Name="A_LastName" ColumnName="A_LastName" />
+                <ScalarProperty Name="A_PhoneNumber" ColumnName="A_PhoneNumber" />
+                <ScalarProperty Name="A_AddressID" ColumnName="A_AddressID" />
+                <ScalarProperty Name="A_RoleID" ColumnName="A_RoleID" />
+                <ScalarProperty Name="A_ProfileImage" ColumnName="A_ProfileImage" />
+                <ScalarProperty Name="A_Email" ColumnName="A_Email" />
+                <ScalarProperty Name="A_Password" ColumnName="A_Password" />
+                <ScalarProperty Name="A_CreatedBy" ColumnName="A_CreatedBy" />
+                <ScalarProperty Name="A_CreatedOn" ColumnName="A_CreatedOn" />
+                <ScalarProperty Name="A_UpdatedBy" ColumnName="A_UpdatedBy" />
+                <ScalarProperty Name="A_UpdatedOn" ColumnName="A_UpdatedOn" />
+                <ScalarProperty Name="A_IsActive" ColumnName="A_IsActive" />
+                <ScalarProperty Name="A_IsArchive" ColumnName="A_IsArchive" />
+                <ScalarProperty Name="A_OTP" ColumnName="A_OTP" />
+                <ScalarProperty Name="A_Verified" ColumnName="A_Verified" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblAppointments">
+            <EntityTypeMapping TypeName="dentalDBModel.tblAppointment">
+              <MappingFragment StoreEntitySet="tblAppointment">
+                <ScalarProperty Name="AP_ID" ColumnName="AP_ID" />
+                <ScalarProperty Name="AP_PatientID" ColumnName="AP_PatientID" />
+                <ScalarProperty Name="AP_DoctorID" ColumnName="AP_DoctorID" />
+                <ScalarProperty Name="AP_Subject" ColumnName="AP_Subject" />
+                <ScalarProperty Name="AP_Description" ColumnName="AP_Description" />
+                <ScalarProperty Name="AP_Datetime" ColumnName="AP_Datetime" />
+                <ScalarProperty Name="AP_IsApproved" ColumnName="AP_IsApproved" />
+                <ScalarProperty Name="AP_IsUserRead" ColumnName="AP_IsUserRead" />
+                <ScalarProperty Name="AP_IsDoctorRead" ColumnName="AP_IsDoctorRead" />
+                <ScalarProperty Name="AP_IsActive" ColumnName="AP_IsActive" />
+                <ScalarProperty Name="AP_IsArchive" ColumnName="AP_IsArchive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblCities">
+            <EntityTypeMapping TypeName="dentalDBModel.tblCity">
+              <MappingFragment StoreEntitySet="tblCity">
+                <ScalarProperty Name="CityID" ColumnName="CityID" />
+                <ScalarProperty Name="CityName" ColumnName="CityName" />
+                <ScalarProperty Name="StateID" ColumnName="StateID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblCountries">
+            <EntityTypeMapping TypeName="dentalDBModel.tblCountry">
+              <MappingFragment StoreEntitySet="tblCountry">
+                <ScalarProperty Name="CountryID" ColumnName="CountryID" />
+                <ScalarProperty Name="CountryName" ColumnName="CountryName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblDiagnostics">
+            <EntityTypeMapping TypeName="dentalDBModel.tblDiagnostic">
+              <MappingFragment StoreEntitySet="tblDiagnostics">
+                <ScalarProperty Name="DG_ID" ColumnName="DG_ID" />
+                <ScalarProperty Name="DG_Name" ColumnName="DG_Name" />
+                <ScalarProperty Name="DG_Datetime" ColumnName="DG_Datetime" />
+                <ScalarProperty Name="DG_PatientID" ColumnName="DG_PatientID" />
+                <ScalarProperty Name="DG_DoctorID" ColumnName="DG_DoctorID" />
+                <ScalarProperty Name="DG_DiseaseName" ColumnName="DG_DiseaseName" />
+                <ScalarProperty Name="DG_Remarks" ColumnName="DG_Remarks" />
+                <ScalarProperty Name="DG_IsActive" ColumnName="DG_IsActive" />
+                <ScalarProperty Name="DG_IsArchive" ColumnName="DG_IsArchive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblDoctors">
+            <EntityTypeMapping TypeName="dentalDBModel.tblDoctor">
+              <MappingFragment StoreEntitySet="tblDoctor">
+                <ScalarProperty Name="D_ID" ColumnName="D_ID" />
+                <ScalarProperty Name="D_FirstName" ColumnName="D_FirstName" />
+                <ScalarProperty Name="D_LastName" ColumnName="D_LastName" />
+                <ScalarProperty Name="D_PhoneNumber" ColumnName="D_PhoneNumber" />
+                <ScalarProperty Name="D_AddressID" ColumnName="D_AddressID" />
+                <ScalarProperty Name="D_RoleID" ColumnName="D_RoleID" />
+                <ScalarProperty Name="D_ProfileImage" ColumnName="D_ProfileImage" />
+                <ScalarProperty Name="D_Email" ColumnName="D_Email" />
+                <ScalarProperty Name="D_Password" ColumnName="D_Password" />
+                <ScalarProperty Name="D_YearsOfExperience" ColumnName="D_YearsOfExperience" />
+                <ScalarProperty Name="D_Specialization" ColumnName="D_Specialization" />
+                <ScalarProperty Name="D_WorkPhoneNumber" ColumnName="D_WorkPhoneNumber" />
+                <ScalarProperty Name="D_AwardsAndAchievements" ColumnName="D_AwardsAndAchievements" />
+                <ScalarProperty Name="D_AboutMe" ColumnName="D_AboutMe" />
+                <ScalarProperty Name="D_CreatedBy" ColumnName="D_CreatedBy" />
+                <ScalarProperty Name="D_CreatedOn" ColumnName="D_CreatedOn" />
+                <ScalarProperty Name="D_UpdatedBy" ColumnName="D_UpdatedBy" />
+                <ScalarProperty Name="D_UpdatedOn" ColumnName="D_UpdatedOn" />
+                <ScalarProperty Name="D_IsActive" ColumnName="D_IsActive" />
+                <ScalarProperty Name="D_IsArchive" ColumnName="D_IsArchive" />
+                <ScalarProperty Name="D_OTP" ColumnName="D_OTP" />
+                <ScalarProperty Name="D_Verified" ColumnName="D_Verified" />
+                <ScalarProperty Name="D_SatisfactionRate" ColumnName="D_SatisfactionRate" />
+                <ScalarProperty Name="D_ResponseTime" ColumnName="D_ResponseTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblDoctorReviews">
+            <EntityTypeMapping TypeName="dentalDBModel.tblDoctorReview">
+              <MappingFragment StoreEntitySet="tblDoctorReviews">
+                <ScalarProperty Name="DR_ID" ColumnName="DR_ID" />
+                <ScalarProperty Name="DR_DoctorID" ColumnName="DR_DoctorID" />
+                <ScalarProperty Name="DR_PatientID" ColumnName="DR_PatientID" />
+                <ScalarProperty Name="DR_AppointmentID" ColumnName="DR_AppointmentID" />
+                <ScalarProperty Name="DR_DiagnosticsID" ColumnName="DR_DiagnosticsID" />
+                <ScalarProperty Name="DR_StarRatingDiagnostics" ColumnName="DR_StarRatingDiagnostics" />
+                <ScalarProperty Name="DR_Message" ColumnName="DR_Message" />
+                <ScalarProperty Name="DR_RateDoctorService" ColumnName="DR_RateDoctorService" />
+                <ScalarProperty Name="DR_IsAllowAnonymous" ColumnName="DR_IsAllowAnonymous" />
+                <ScalarProperty Name="DR_IsActive" ColumnName="DR_IsActive" />
+                <ScalarProperty Name="DR_IsArchive" ColumnName="DR_IsArchive" />
+                <ScalarProperty Name="DR_CreatedBy" ColumnName="DR_CreatedBy" />
+                <ScalarProperty Name="DR_CreatedOn" ColumnName="DR_CreatedOn" />
+                <ScalarProperty Name="DR_UpdatedBy" ColumnName="DR_UpdatedBy" />
+                <ScalarProperty Name="DR_UpdatedOn" ColumnName="DR_UpdatedOn" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblDoctorServices">
+            <EntityTypeMapping TypeName="dentalDBModel.tblDoctorService">
+              <MappingFragment StoreEntitySet="tblDoctorServices">
+                <ScalarProperty Name="DS_ID" ColumnName="DS_ID" />
+                <ScalarProperty Name="DS_DoctorID" ColumnName="DS_DoctorID" />
+                <ScalarProperty Name="DS_ServicesID" ColumnName="DS_ServicesID" />
+                <ScalarProperty Name="DS_CreatedOn" ColumnName="DS_CreatedOn" />
+                <ScalarProperty Name="DS_CreatedBy" ColumnName="DS_CreatedBy" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblDoctorWorkExperiences">
+            <EntityTypeMapping TypeName="dentalDBModel.tblDoctorWorkExperience">
+              <MappingFragment StoreEntitySet="tblDoctorWorkExperience">
+                <ScalarProperty Name="WEX_ID" ColumnName="WEX_ID" />
+                <ScalarProperty Name="WEX_DoctorID" ColumnName="WEX_DoctorID" />
+                <ScalarProperty Name="WEX_HospitalName" ColumnName="WEX_HospitalName" />
+                <ScalarProperty Name="WEX_Designation" ColumnName="WEX_Designation" />
+                <ScalarProperty Name="WEX_IsWorking" ColumnName="WEX_IsWorking" />
+                <ScalarProperty Name="WEX_IsActive" ColumnName="WEX_IsActive" />
+                <ScalarProperty Name="WEX_IsArchive" ColumnName="WEX_IsArchive" />
+                <ScalarProperty Name="WEX_CreatedBy" ColumnName="WEX_CreatedBy" />
+                <ScalarProperty Name="WEX_CreatedOn" ColumnName="WEX_CreatedOn" />
+                <ScalarProperty Name="WEX_UpdatedBy" ColumnName="WEX_UpdatedBy" />
+                <ScalarProperty Name="WEX_UpdatedOn" ColumnName="WEX_UpdatedOn" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblMessages">
+            <EntityTypeMapping TypeName="dentalDBModel.tblMessage">
+              <MappingFragment StoreEntitySet="tblMessage">
+                <ScalarProperty Name="M_ID" ColumnName="M_ID" />
+                <ScalarProperty Name="FromUserID" ColumnName="FromUserID" />
+                <ScalarProperty Name="ToDoctorID" ColumnName="ToDoctorID" />
+                <ScalarProperty Name="FromDoctorID" ColumnName="FromDoctorID" />
+                <ScalarProperty Name="ToUserID" ColumnName="ToUserID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblMessageDetails">
+            <EntityTypeMapping TypeName="dentalDBModel.tblMessageDetail">
+              <MappingFragment StoreEntitySet="tblMessageDetails">
+                <ScalarProperty Name="MD_ID" ColumnName="MD_ID" />
+                <ScalarProperty Name="MD_MessageID" ColumnName="MD_MessageID" />
+                <ScalarProperty Name="MD_Message" ColumnName="MD_Message" />
+                <ScalarProperty Name="MD_Datetime" ColumnName="MD_Datetime" />
+                <ScalarProperty Name="MD_IsRead" ColumnName="MD_IsRead" />
+                <ScalarProperty Name="MD_IsDelivered" ColumnName="MD_IsDelivered" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblOfflineConsultaionDetails">
+            <EntityTypeMapping TypeName="dentalDBModel.tblOfflineConsultaionDetail">
+              <MappingFragment StoreEntitySet="tblOfflineConsultaionDetails">
+                <ScalarProperty Name="OFCD_ID" ColumnName="OFCD_ID" />
+                <ScalarProperty Name="OFCD_DoctorID" ColumnName="OFCD_DoctorID" />
+                <ScalarProperty Name="OFCD_HospitalName" ColumnName="OFCD_HospitalName" />
+                <ScalarProperty Name="OFCD_HospitalPhoneNumber" ColumnName="OFCD_HospitalPhoneNumber" />
+                <ScalarProperty Name="OFCD_HospitalAddressID" ColumnName="OFCD_HospitalAddressID" />
+                <ScalarProperty Name="OFCD_MondayStartTime" ColumnName="OFCD_MondayStartTime" />
+                <ScalarProperty Name="OFCD_MondayEndTime" ColumnName="OFCD_MondayEndTime" />
+                <ScalarProperty Name="OFCD_TuesdayStartTime" ColumnName="OFCD_TuesdayStartTime" />
+                <ScalarProperty Name="OFCD_TuesdayEndTime" ColumnName="OFCD_TuesdayEndTime" />
+                <ScalarProperty Name="OFCD_WednesdayStartTime" ColumnName="OFCD_WednesdayStartTime" />
+                <ScalarProperty Name="OFCD_WednesdayEndTime" ColumnName="OFCD_WednesdayEndTime" />
+                <ScalarProperty Name="OFCD_ThursdayStartTime" ColumnName="OFCD_ThursdayStartTime" />
+                <ScalarProperty Name="OFCD_ThursdayEndTime" ColumnName="OFCD_ThursdayEndTime" />
+                <ScalarProperty Name="OFCD_FridayStartTime" ColumnName="OFCD_FridayStartTime" />
+                <ScalarProperty Name="OFCD_FridayEndTime" ColumnName="OFCD_FridayEndTime" />
+                <ScalarProperty Name="OFCD_SaturdayStartTime" ColumnName="OFCD_SaturdayStartTime" />
+                <ScalarProperty Name="OFCD_SaturdayEndTime" ColumnName="OFCD_SaturdayEndTime" />
+                <ScalarProperty Name="OFCD_SundayStartTime" ColumnName="OFCD_SundayStartTime" />
+                <ScalarProperty Name="OFCD_SundayEndTime" ColumnName="OFCD_SundayEndTime" />
+                <ScalarProperty Name="OFCD_Charges" ColumnName="OFCD_Charges" />
+                <ScalarProperty Name="OFCD_IsActive" ColumnName="OFCD_IsActive" />
+                <ScalarProperty Name="OFCD_IsArchive" ColumnName="OFCD_IsArchive" />
+                <ScalarProperty Name="OFCD_CreatedBy" ColumnName="OFCD_CreatedBy" />
+                <ScalarProperty Name="OFCD_CreatedOn" ColumnName="OFCD_CreatedOn" />
+                <ScalarProperty Name="OFCD_UpdatedBy" ColumnName="OFCD_UpdatedBy" />
+                <ScalarProperty Name="OFCD_UpdatedOn" ColumnName="OFCD_UpdatedOn" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblOnlineConsultaionDetails">
+            <EntityTypeMapping TypeName="dentalDBModel.tblOnlineConsultaionDetail">
+              <MappingFragment StoreEntitySet="tblOnlineConsultaionDetails">
+                <ScalarProperty Name="OCD_ID" ColumnName="OCD_ID" />
+                <ScalarProperty Name="OCD_DoctorID" ColumnName="OCD_DoctorID" />
+                <ScalarProperty Name="OCD_MondayStartTime" ColumnName="OCD_MondayStartTime" />
+                <ScalarProperty Name="OCD_MondayEndTime" ColumnName="OCD_MondayEndTime" />
+                <ScalarProperty Name="OCD_TuesdayStartTime" ColumnName="OCD_TuesdayStartTime" />
+                <ScalarProperty Name="OCD_TuesdayEndTime" ColumnName="OCD_TuesdayEndTime" />
+                <ScalarProperty Name="OCD_WednesdayStartTime" ColumnName="OCD_WednesdayStartTime" />
+                <ScalarProperty Name="OCD_WednesdayEndTime" ColumnName="OCD_WednesdayEndTime" />
+                <ScalarProperty Name="OCD_ThursdayStartTime" ColumnName="OCD_ThursdayStartTime" />
+                <ScalarProperty Name="OCD_ThursdayEndTime" ColumnName="OCD_ThursdayEndTime" />
+                <ScalarProperty Name="OCD_FridayStartTime" ColumnName="OCD_FridayStartTime" />
+                <ScalarProperty Name="OCD_FridayEndTime" ColumnName="OCD_FridayEndTime" />
+                <ScalarProperty Name="OCD_SaturdayStartTime" ColumnName="OCD_SaturdayStartTime" />
+                <ScalarProperty Name="OCD_SaturdayEndTime" ColumnName="OCD_SaturdayEndTime" />
+                <ScalarProperty Name="OCD_SundayStartTime" ColumnName="OCD_SundayStartTime" />
+                <ScalarProperty Name="OCD_SundayEndTime" ColumnName="OCD_SundayEndTime" />
+                <ScalarProperty Name="OCD_Charges" ColumnName="OCD_Charges" />
+                <ScalarProperty Name="OCD_IsActive" ColumnName="OCD_IsActive" />
+                <ScalarProperty Name="OCD_IsArchive" ColumnName="OCD_IsArchive" />
+                <ScalarProperty Name="OCD_CreatedBy" ColumnName="OCD_CreatedBy" />
+                <ScalarProperty Name="OCD_CreatedOn" ColumnName="OCD_CreatedOn" />
+                <ScalarProperty Name="OCD_UpdatedBy" ColumnName="OCD_UpdatedBy" />
+                <ScalarProperty Name="OCD_UpdatedOn" ColumnName="OCD_UpdatedOn" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblOTPs">
+            <EntityTypeMapping TypeName="dentalDBModel.tblOTP">
+              <MappingFragment StoreEntitySet="tblOTP">
+                <ScalarProperty Name="OT_ID" ColumnName="OT_ID" />
+                <ScalarProperty Name="OT_OTP" ColumnName="OT_OTP" />
+                <ScalarProperty Name="OT_UsersEmail" ColumnName="OT_UsersEmail" />
+                <ScalarProperty Name="OT_IsActive" ColumnName="OT_IsActive" />
+                <ScalarProperty Name="OT_IsArchive" ColumnName="OT_IsArchive" />
+                <ScalarProperty Name="OT_CreatedOn" ColumnName="OT_CreatedOn" />
+                <ScalarProperty Name="OT_UpdatedOn" ColumnName="OT_UpdatedOn" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblPatients">
+            <EntityTypeMapping TypeName="dentalDBModel.tblPatient">
+              <MappingFragment StoreEntitySet="tblPatient">
+                <ScalarProperty Name="P_ID" ColumnName="P_ID" />
+                <ScalarProperty Name="P_FirstName" ColumnName="P_FirstName" />
+                <ScalarProperty Name="P_LastName" ColumnName="P_LastName" />
+                <ScalarProperty Name="P_PhoneNumber" ColumnName="P_PhoneNumber" />
+                <ScalarProperty Name="P_AddressID" ColumnName="P_AddressID" />
+                <ScalarProperty Name="P_RoleID" ColumnName="P_RoleID" />
+                <ScalarProperty Name="P_ProfileImage" ColumnName="P_ProfileImage" />
+                <ScalarProperty Name="P_Email" ColumnName="P_Email" />
+                <ScalarProperty Name="P_Password" ColumnName="P_Password" />
+                <ScalarProperty Name="P_CreatedOn" ColumnName="P_CreatedOn" />
+                <ScalarProperty Name="P_CreatedBy" ColumnName="P_CreatedBy" />
+                <ScalarProperty Name="P_UpdatedOn" ColumnName="P_UpdatedOn" />
+                <ScalarProperty Name="P_UpdatedBy" ColumnName="P_UpdatedBy" />
+                <ScalarProperty Name="P_IsActive" ColumnName="P_IsActive" />
+                <ScalarProperty Name="P_IsArchive" ColumnName="P_IsArchive" />
+                <ScalarProperty Name="P_OTP" ColumnName="P_OTP" />
+                <ScalarProperty Name="P_Verified" ColumnName="P_Verified" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblRoles">
+            <EntityTypeMapping TypeName="dentalDBModel.tblRole">
+              <MappingFragment StoreEntitySet="tblRoles">
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+                <ScalarProperty Name="RoleIsArchive" ColumnName="RoleIsArchive" />
+                <ScalarProperty Name="RoleIsActive" ColumnName="RoleIsActive" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblServices">
+            <EntityTypeMapping TypeName="dentalDBModel.tblService">
+              <MappingFragment StoreEntitySet="tblServices">
+                <ScalarProperty Name="S_ID" ColumnName="S_ID" />
+                <ScalarProperty Name="S_Name" ColumnName="S_Name" />
+                <ScalarProperty Name="S_URL" ColumnName="S_URL" />
+                <ScalarProperty Name="S_IsActive" ColumnName="S_IsActive" />
+                <ScalarProperty Name="S_IsArchive" ColumnName="S_IsArchive" />
+                <ScalarProperty Name="S_CreatedOn" ColumnName="S_CreatedOn" />
+                <ScalarProperty Name="S_UpdatedOn" ColumnName="S_UpdatedOn" />
+                <ScalarProperty Name="S_CreatedBy" ColumnName="S_CreatedBy" />
+                <ScalarProperty Name="S_UpdatedBy" ColumnName="S_UpdatedBy" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblStates">
+            <EntityTypeMapping TypeName="dentalDBModel.tblState">
+              <MappingFragment StoreEntitySet="tblState">
+                <ScalarProperty Name="StateID" ColumnName="StateID" />
+                <ScalarProperty Name="StateName" ColumnName="StateName" />
+                <ScalarProperty Name="CountryID" ColumnName="CountryID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblSuperAdmins">
+            <EntityTypeMapping TypeName="dentalDBModel.tblSuperAdmin">
+              <MappingFragment StoreEntitySet="tblSuperAdmin">
+                <ScalarProperty Name="SA_ID" ColumnName="SA_ID" />
+                <ScalarProperty Name="SA_FirstName" ColumnName="SA_FirstName" />
+                <ScalarProperty Name="SA_LastName" ColumnName="SA_LastName" />
+                <ScalarProperty Name="SA_PhoneNumber" ColumnName="SA_PhoneNumber" />
+                <ScalarProperty Name="SA_AddressID" ColumnName="SA_AddressID" />
+                <ScalarProperty Name="SA_RoleID" ColumnName="SA_RoleID" />
+                <ScalarProperty Name="SA_ProfileImage" ColumnName="SA_ProfileImage" />
+                <ScalarProperty Name="SA_Email" ColumnName="SA_Email" />
+                <ScalarProperty Name="SA_Password" ColumnName="SA_Password" />
+                <ScalarProperty Name="SA_CreatedBy" ColumnName="SA_CreatedBy" />
+                <ScalarProperty Name="SA_CreatedOn" ColumnName="SA_CreatedOn" />
+                <ScalarProperty Name="SA_UpdatedBy" ColumnName="SA_UpdatedBy" />
+                <ScalarProperty Name="SA_UpdatedOn" ColumnName="SA_UpdatedOn" />
+                <ScalarProperty Name="SA_IsActive" ColumnName="SA_IsActive" />
+                <ScalarProperty Name="SA_IsArchive" ColumnName="SA_IsArchive" />
+                <ScalarProperty Name="SA_OTP" ColumnName="SA_OTP" />
+                <ScalarProperty Name="SA_Verified" ColumnName="SA_Verified" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblZones">
+            <EntityTypeMapping TypeName="dentalDBModel.tblZone">
+              <MappingFragment StoreEntitySet="tblZone">
+                <ScalarProperty Name="ZoneID" ColumnName="ZoneID" />
+                <ScalarProperty Name="ZoneName" ColumnName="ZoneName" />
+                <ScalarProperty Name="CityID" ColumnName="CityID" />
+                <ScalarProperty Name="Latitude" ColumnName="Latitude" />
+                <ScalarProperty Name="Longitude" ColumnName="Longitude" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
