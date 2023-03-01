@@ -218,7 +218,7 @@
                                 }
                             </div>
                             <div class="mb-4 text-muted text-center">
-                                Already Registered? <a href="auth-login.html">Login</a>
+                                Already Registered? <a href="@Url.Action("SignIn","Account")">Login</a>
                             </div>
                         </div>
                     </div>
@@ -258,8 +258,12 @@
                 if (IsOTPSend) {
                     return true;
                 } else {
-                    swal('OTP NOT RECIEVED', 'Please click on Get Code button to verify your profile!', 'error');
-                    $('#TxtOTP').show();
+                    var Email = $("#UserEmail").val();
+                    if (Email != undefined && Email != null
+                        && Email != '' && Email.length >= 5) {
+                        swal('OTP NOT RECIEVED', 'Please click on Get Code button to verify your profile!', 'error');
+                        $('#TxtOTP').show();
+                    }
                 }
             });
 

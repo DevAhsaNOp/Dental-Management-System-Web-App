@@ -8,6 +8,10 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using DMS_BOL.Validation_Classes;
 using System.Collections.Generic;
+using System.Web.Security;
+using System.Security.Principal;
+using System.Security.Claims;
+using System.Threading;
 
 namespace DMS_WebApplication.Controllers
 {
@@ -19,6 +23,23 @@ namespace DMS_WebApplication.Controllers
         public AccountController()
         {
             _httpClient = new HttpClient();
+        }
+
+        [Authorize]
+        public ActionResult Index()
+        {
+            return View();
+        }
+
+        [Authorize(Roles = "Admin, SuperAdmin")]
+        public ActionResult About()
+        {
+            return View();
+        }
+        
+        public ActionResult Contact()
+        {
+            return View();
         }
 
         public JsonResult IsEmailExist(string UserEmail)
@@ -63,10 +84,10 @@ namespace DMS_WebApplication.Controllers
                     users.Gender = users.Gender == "1" ? "Male" : "Female";
                     file.SaveAs(path);
                     ModelState.Clear();
-                    var getEmployee = _httpClient.PostAsJsonAsync(_BaseURL + "Register/Doctor", users).Result;
-                    if (getEmployee.IsSuccessStatusCode)
+                    var reas = _httpClient.PostAsJsonAsync(_BaseURL + "Register/Doctor", users).Result;
+                    if (reas.IsSuccessStatusCode)
                     {
-                        var json = JObject.Parse(getEmployee.Content.ReadAsStringAsync().Result);
+                        var json = JObject.Parse(reas.Content.ReadAsStringAsync().Result);
                         var StatusCode = JsonConvert.DeserializeObject<int>(json["StatusCode"].ToString());
                         if (StatusCode == 201)
                             TempData["SuccessMsg"] = "Account Created Successfully!";
@@ -89,6 +110,63 @@ namespace DMS_WebApplication.Controllers
                 throw ex;
             }
             return RedirectToAction("SignUp");
+        }
+
+        [AcceptVerbs(HttpVerbs.Get)]
+        public ActionResult SignIn()
+        {
+            ValidateUsersLogin login = new ValidateUsersLogin();
+            return View(login);
+        }
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult SignIn(ValidateUsersLogin usersLogin)
+        {
+            try
+            {
+                if (usersLogin != null)
+                {
+                    ModelState.Clear();
+                    var reas = _httpClient.PostAsJsonAsync(_BaseURL + "/login", usersLogin).Result;
+                    if (reas.IsSuccessStatusCode)
+                    {
+                        var json = JObject.Parse(reas.Content.ReadAsStringAsync().Result);
+                        var StatusCode = JsonConvert.DeserializeObject<int>(json["StatusCode"].ToString());
+                        if (StatusCode == 200)
+                        {
+                            FormsAuthentication.SetAuthCookie(usersLogin.UserEmail, false);
+                            var identity = new GenericIdentity(usersLogin.UserEmail);
+                            identity.AddClaim(new Claim(ClaimTypes.Email, usersLogin.UserEmail));
+                            identity.AddClaim(new Claim(ClaimTypes.Name, json["Username"].ToString().Normalize().Trim()));
+                            identity.AddClaim(new Claim(ClaimTypes.Role, json["Role"].ToString().Normalize().Trim()));
+                            identity.AddClaim(new Claim("AccessToken", json["access_token"].ToString()));
+                            IPrincipal principal = new GenericPrincipal(identity, new[] { json["Role"].ToString().Normalize().Trim() });
+                            Thread.CurrentPrincipal = principal;
+                            if (HttpContext.User != null)
+                            {
+                                HttpContext.User = principal;
+                            }
+                            TempData["SuccessMsg"] = "Account Login Successfully!";
+                        }
+                        else
+                            TempData["ErrorMsg"] = "Invalid Email Address or Password!";
+                    }
+                    else
+                    {
+                        TempData["ErrorMsg"] = "Error on logon account, Please try again later!";
+                    }
+                }
+                else
+                {
+                    TempData["ErrorMsg"] = "Please provide data!";
+                    return RedirectToAction("SignUp");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return RedirectToAction("Index");
         }
 
         public IEnumerable<tblState> GetAllState()

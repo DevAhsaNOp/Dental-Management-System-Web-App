@@ -1,0 +1,122 @@
+﻿@model DMS_BOL.Validation_Classes.ValidateUsersLogin
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
+    <title>DMS - SignIn Portal</title>
+    <link rel="stylesheet" href="~/assets/css/app.min.css">
+    <link rel="stylesheet" href="~/assets/css/style.css">
+    <link rel="stylesheet" href="~/assets/css/components.css">
+    <link rel="stylesheet" href="~/assets/css/custom.css">
+    <link rel='shortcut icon' type='image/x-icon' href='~/assets/img/favicon.ico' />
+    <script src="~/Scripts/jquery-3.2.1.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <style>
+        body {
+            background: url('../../assets/img/DentistBG.jpg') !important;
+            background-repeat: no-repeat !important;
+            background-size: cover !important;
+        }
+
+        .loader {
+            position: fixed;
+            left: 0px;
+            top: 0px;
+            width: 100%;
+            height: 100%;
+            z-index: 9999;
+            background: url(../../assets/img/loading.gif) 50% 50% no-repeat #f9f9f9;
+            opacity: 0.5;
+        }
+
+        .theme-white .card.card-primary {
+            border-top: 8px solid #6777ef;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="loader"></div>
+    <div id="app">
+        <section class="section">
+            <div class="container mt-5">
+                <div class="row">
+                    <div class="col-12 col-sm-8 offset-sm-2 col-md-6 offset-md-3 col-lg-6 offset-lg-3 col-xl-4 offset-xl-4">
+                        <div class="card card-primary">
+                            <div class="card-header">
+                                <h4>Login</h4>
+                            </div>
+                            <div class="card-body">
+                                @if (TempData["ErrorMsg"] != null)
+                                {
+                                    <div class="alert alert-danger alert-dismissible show fade">
+                                        <div class="alert-body">
+                                            <button class="close" data-dismiss="alert">
+                                                <span>×</span>
+                                            </button>
+                                            @Html.Raw(TempData["ErrorMsg"])
+                                        </div>
+                                    </div>
+                                }
+                                @if (TempData["SuccessMsg"] != null)
+                                {
+                                    <div class="alert alert-success alert-dismissible show fade">
+                                        <div class="alert-body">
+                                            <button class="close" data-dismiss="alert">
+                                                <span>×</span>
+                                            </button>
+                                            @Html.Raw(TempData["SuccessMsg"])
+                                        </div>
+                                    </div>
+                                }
+                                @using (Html.BeginForm("SignIn", "Account", FormMethod.Post))
+                                {
+                                    <div class="form-group">
+                                        <label>Email Address</label>
+                                        @Html.ValidationMessageFor(model => model.UserEmail, "", new { @class = "text-danger" })
+                                        @Html.EditorFor(model => model.UserEmail, new { htmlAttributes = new { placeholder = "Enter your email address", @class = "form-control", @tabindex = "1" } })
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="d-block">
+                                            <label for="password" class="control-label">Password</label>
+                                            @Html.ValidationMessageFor(model => model.UserPassword, "", new { @class = "text-danger" })
+                                            <div class="float-right">
+                                                <a href="auth-forgot-password.html" class="text-small">
+                                                    Forgot Password?
+                                                </a>
+                                            </div>
+                                        </div>
+                                        @Html.PasswordFor(model => model.UserPassword, htmlAttributes: new { placeholder = "Enter your secure password", @class = "form-control", @tabindex = "2" })
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" name="remember" class="custom-control-input" tabindex="3" id="remember-me">
+                                            <label class="custom-control-label" for="remember-me">Remember Me</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="submit" class="btn btn-primary btn-lg btn-block" value="Login" tabindex="4" />
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                        <div class="mt-5 text-muted text-center" style="text-shadow: 2px -1px 3px rgb(215 169 169 / 77%) !important; color: white !important;font-weight: 600 !important; font-size:16px !important;">
+                            Don't have an account? <a href="@Url.Action("SignUp","Account")" style="font-weight:600 !important;">Register As Doctor</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <script src="~/assets/js/app.min.js"></script>
+    <script src="~/assets/js/scripts.js"></script>
+    <script src="~/assets/js/custom.js"></script>
+</body>
+</html>
