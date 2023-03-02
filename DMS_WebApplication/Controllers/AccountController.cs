@@ -12,6 +12,7 @@ using System.Web.Security;
 using System.Security.Principal;
 using System.Security.Claims;
 using System.Threading;
+using System.Linq;
 
 namespace DMS_WebApplication.Controllers
 {
@@ -36,7 +37,8 @@ namespace DMS_WebApplication.Controllers
         {
             return View();
         }
-        
+
+        [Authorize(Roles = "Admin, SuperAdmin, Doctor")]
         public ActionResult Contact()
         {
             return View();
@@ -135,17 +137,12 @@ namespace DMS_WebApplication.Controllers
                         if (StatusCode == 200)
                         {
                             FormsAuthentication.SetAuthCookie(usersLogin.UserEmail, false);
-                            var identity = new GenericIdentity(usersLogin.UserEmail);
-                            identity.AddClaim(new Claim(ClaimTypes.Email, usersLogin.UserEmail));
-                            identity.AddClaim(new Claim(ClaimTypes.Name, json["Username"].ToString().Normalize().Trim()));
-                            identity.AddClaim(new Claim(ClaimTypes.Role, json["Role"].ToString().Normalize().Trim()));
-                            identity.AddClaim(new Claim("AccessToken", json["access_token"].ToString()));
-                            IPrincipal principal = new GenericPrincipal(identity, new[] { json["Role"].ToString().Normalize().Trim() });
-                            Thread.CurrentPrincipal = principal;
-                            if (HttpContext.User != null)
-                            {
-                                HttpContext.User = principal;
-                            }
+                            Session["AccessToken"] = json["access_token"].ToString();
+                            Session["Role"] = json["Role"].ToString().Normalize().Trim();
+                            Session["Email"] = json["Email"].ToString().Normalize().Trim();
+                            Session["UserID"] = json["UserID"].ToString().Normalize().Trim();
+                            Session["Username"] = json["Username"].ToString().Normalize().Trim();
+                            Session["UserImage"] = json["UserImage"].ToString().Normalize().Trim();
                             TempData["SuccessMsg"] = "Account Login Successfully!";
                         }
                         else
@@ -167,6 +164,14 @@ namespace DMS_WebApplication.Controllers
                 throw ex;
             }
             return RedirectToAction("Index");
+        }
+
+        public string[] GetRoleByUsername(string username)
+        {
+            string UserRole = null;
+            if (System.Web.HttpContext.Current.Session["Email"].ToString().Equals(username))
+                UserRole = System.Web.HttpContext.Current.Session["Role"].ToString();
+            return new string[] { UserRole };
         }
 
         public IEnumerable<tblState> GetAllState()

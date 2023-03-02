@@ -134,6 +134,7 @@
     <Compile Include="Models\LoginResponseValidation.cs" />
     <Compile Include="Models\SupportingFunctions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WebRoleProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="assets\bundles\amcharts4\animated.js" />

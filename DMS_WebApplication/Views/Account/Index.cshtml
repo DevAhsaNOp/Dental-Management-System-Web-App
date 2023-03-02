@@ -11,8 +11,10 @@
     <title>Index</title>
 </head>
 <body>
-    <div> 
-        Index
+    <div>
+        Index @Session["Username"]
+        <a href="@Url.Action("About","Account")">About</a>
+        <a href="@Url.Action("Contact","Account")">Contact</a>
     </div>
 </body>
 </html>
