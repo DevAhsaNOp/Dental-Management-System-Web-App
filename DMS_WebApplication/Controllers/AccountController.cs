@@ -5,14 +5,10 @@ using System.Web;
 using System.Web.Mvc;
 using System.Net.Http;
 using Newtonsoft.Json;
+using System.Web.Security;
 using Newtonsoft.Json.Linq;
 using DMS_BOL.Validation_Classes;
 using System.Collections.Generic;
-using System.Web.Security;
-using System.Security.Principal;
-using System.Security.Claims;
-using System.Threading;
-using System.Linq;
 
 namespace DMS_WebApplication.Controllers
 {
@@ -26,19 +22,25 @@ namespace DMS_WebApplication.Controllers
             _httpClient = new HttpClient();
         }
 
-        [Authorize]
+        [CustomAuthorize]
         public ActionResult Index()
         {
             return View();
         }
 
-        [Authorize(Roles = "Admin, SuperAdmin")]
+
+        public ActionResult Unauthorized()
+        {
+            return View();
+        }
+
+        [CustomAuthorize(Roles = "Admin, SuperAdmin")]
         public ActionResult About()
         {
             return View();
         }
 
-        [Authorize(Roles = "Admin, SuperAdmin, Doctor")]
+        [CustomAuthorize(Roles = "Admin, SuperAdmin, Doctor")]
         public ActionResult Contact()
         {
             return View();
