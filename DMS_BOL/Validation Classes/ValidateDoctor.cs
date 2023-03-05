@@ -25,7 +25,11 @@ namespace DMS_BOL.Validation_Classes
         [Required(ErrorMessage = "*")]
         [Display(Name = "About Me")]
         public string DoctorAboutMe { get; set; }
-        
+
+        [Required(ErrorMessage = "*")]
+        [Display(Name = "Is Profile Completed")]
+        public bool? D_IsProfileCompleted { get; set; }
+
         public int? DoctorSatisfactionRate { get; set; }
 
         [Required(ErrorMessage = "*")]
