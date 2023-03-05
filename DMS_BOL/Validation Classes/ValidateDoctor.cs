@@ -6,11 +6,11 @@ namespace DMS_BOL.Validation_Classes
 {
     public class ValidateDoctor : ValidateUsersProfiles
     {
-        [Required(ErrorMessage = "Provide your specialization")]
+        [Required(ErrorMessage = "*")]
         [Display(Name = "Doctor Specialization")]
         public string DoctorSpecialization { get; set; }
 
-        [Required(ErrorMessage = "Provide your year of experience")]
+        [Required(ErrorMessage = "*")]
         [Display(Name = "Year Of Experience")]
         public string DoctorYearsOfExperience { get; set; }
 
@@ -19,16 +19,16 @@ namespace DMS_BOL.Validation_Classes
         [RegularExpression(@"03[0-9]{2}(?!1234567)(?!1111111)(?!7654321)[0-9]{7}", ErrorMessage = "Invalid Phone Number")]
         public string DoctorWorkPhoneNumber { get; set; }
 
-        [Display(Name = "Awards and Achievements")]
+        [Display(Name = "*")]
         public string DoctorAwardsAndAchievements { get; set; }
 
-        [Required(ErrorMessage = "Provide your about me")]
+        [Required(ErrorMessage = "*")]
         [Display(Name = "About Me")]
         public string DoctorAboutMe { get; set; }
         
         public int? DoctorSatisfactionRate { get; set; }
 
-        [Required(ErrorMessage = "Provide your response time")]
+        [Required(ErrorMessage = "*")]
         [Display(Name = "Response Time")]
         public int? DoctorResponseTime { get; set; }
 

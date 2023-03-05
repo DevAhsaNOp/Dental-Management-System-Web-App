@@ -1,0 +1,135 @@
+﻿@model DMS_BOL.Validation_Classes.ValidateDoctor
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
+    <title>DMS - Profile Complete</title>
+    <link rel="stylesheet" href="~/assets/css/app.min.css">
+    <link rel="stylesheet" href="~/assets/css/style.css">
+    <link rel="stylesheet" href="~/assets/css/components.css">
+    <link rel="stylesheet" href="~/assets/css/custom.css">
+    <link rel='shortcut icon' type='image/x-icon' href='~/assets/img/favicon.ico' />
+    <script src="~/Scripts/jquery-3.2.1.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <style>
+        .main-content {
+            padding-left: 20px;
+            padding-right: 20px;
+            padding-top: 30px;
+            width: 100%;
+            position: relative;
+        }
+
+        .card .card-header {
+            border-bottom-color: #ededed !important;
+            border-bottom-left-radius: 10px !important;
+            border-bottom-right-radius: 10px !important;
+            justify-content: space-between !important;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="loader"></div>
+    <div id="app">
+        <div class="main-content">
+            <div class="container">
+                <h2>Complete Your Profile</h2>
+                <p><strong>To complete</strong> your profile write something about you and add your qualification and timings to attract more patients.</p>
+                <div id="accordion">
+                    @using (Html.BeginForm("ProfileComplete", "Doctor", FormMethod.Post))
+                    {
+                        <div class="card">
+                            <div class="card-header">
+                                <a class="card-link" data-toggle="collapse" href="#collapseOne">
+                                   <strong> Profile Information </strong>
+                                </a>
+                                <i class="fas fa-chevron-down" style="font-size:18px; cursor:pointer;" data-toggle="collapse" href="#collapseOne">
+                                </i>
+                            </div>
+                            <div id="collapseOne" class="collapse show" data-parent="#accordion">
+                                <div class="card-body">
+                                    <div class="form-group">
+                                        <label>Years Of Experience</label>
+                                        @Html.ValidationMessageFor(model => model.DoctorYearsOfExperience, "", new { @class = "text-danger" })
+                                        @Html.EditorFor(model => model.DoctorYearsOfExperience, new { htmlAttributes = new { placeholder = "Enter your years of experience", @class = "form-control", @tabindex = "1" } })
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Specialization</label>
+                                        @Html.ValidationMessageFor(model => model.DoctorSpecialization, "", new { @class = "text-danger" })
+                                        @Html.EditorFor(model => model.DoctorSpecialization, new { htmlAttributes = new { placeholder = "Enter your specialization", @class = "form-control", @tabindex = "2" } })
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Awards and Achievements</label>
+                                        @Html.ValidationMessageFor(model => model.DoctorAwardsAndAchievements, "", new { @class = "text-danger" })
+                                        @Html.EditorFor(model => model.UserEmail, new { htmlAttributes = new { placeholder = "Enter your awards and achievements", @class = "form-control", @tabindex = "3" } })
+                                    </div>
+                                    <div class="form-group">
+                                        <label>About Me</label>
+                                        @Html.ValidationMessageFor(model => model.DoctorAboutMe, "", new { @class = "text-danger" })
+                                        @Html.TextAreaFor(model => model.DoctorAboutMe, htmlAttributes: new { placeholder = "Enter your about me", @class = "form-control", @tabindex = "4", @style = "height:150px !important" })
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Response Time</label>
+                                        @Html.ValidationMessageFor(model => model.DoctorResponseTime, "", new { @class = "text-danger" })
+                                        @Html.EditorFor(model => model.DoctorResponseTime, new { htmlAttributes = new { placeholder = "Enter your response time", @class = "form-control", @tabindex = "5" } })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header">
+                                <a class="collapsed card-link" data-toggle="collapse" href="#collapseTwo">
+                                    Collapsible Group Item #2
+                                </a>
+                                <i class="fas fa-chevron-down" style="font-size:18px; cursor:pointer;" data-toggle="collapse" href="#collapseTwo">
+                                </i>
+                            </div>
+                            <div id="collapseTwo" class="collapse" data-parent="#accordion">
+                                <div class="card-body">
+                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header">
+                                <a class="collapsed card-link" data-toggle="collapse" href="#collapseThree">
+                                    Collapsible Group Item #3
+                                </a>
+                                <i class="fas fa-chevron-down" style="font-size:18px; cursor:pointer;" data-toggle="collapse" href="#collapseThree">
+                                </i>
+                            </div>
+                            <div id="collapseThree" class="collapse" data-parent="#accordion">
+                                <div class="card-body">
+                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" class="btn btn-primary btn-lg btn-block" value="Submit" tabindex="10" />
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        <footer class="main-footer">
+            <div class="footer-left">
+                <a href="templateshub.net">Templateshub</a>
+            </div>
+            <div class="footer-right">
+            </div>
+        </footer>
+    </div>
+    <script src="~/assets/js/app.min.js"></script>
+    <script src="~/assets/js/scripts.js"></script>
+    <script src="~/assets/js/custom.js"></script>
+</body>
+</html>
