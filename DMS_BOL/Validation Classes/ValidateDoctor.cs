@@ -12,6 +12,7 @@ namespace DMS_BOL.Validation_Classes
 
         [Required(ErrorMessage = "*")]
         [Display(Name = "Year Of Experience")]
+        [RegularExpression("^\\d{0,8}(\\.\\d{1,4})?$", ErrorMessage = "Invalid Year Of Experience")]
         public string DoctorYearsOfExperience { get; set; }
 
         [Required(ErrorMessage = "*")]
@@ -19,7 +20,7 @@ namespace DMS_BOL.Validation_Classes
         [RegularExpression(@"03[0-9]{2}(?!1234567)(?!1111111)(?!7654321)[0-9]{7}", ErrorMessage = "Invalid Phone Number")]
         public string DoctorWorkPhoneNumber { get; set; }
 
-        [Display(Name = "*")]
+        [Display(Name = "Awards And Achievements")]
         public string DoctorAwardsAndAchievements { get; set; }
 
         [Required(ErrorMessage = "*")]
@@ -35,6 +36,28 @@ namespace DMS_BOL.Validation_Classes
         [Required(ErrorMessage = "*")]
         [Display(Name = "Response Time")]
         public int? DoctorResponseTime { get; set; }
+
+        [Required(ErrorMessage = "*")]
+        [Display(Name = "Hospital Name")]
+        [RegularExpression(@"^[a-zA-Z ]+$", ErrorMessage = "Only Alphabets are allow")]
+        public string WEX_HospitalName { get; set; }
+
+        [Required(ErrorMessage = "*")]
+        [Display(Name = "Designation")]
+        [RegularExpression(@"^[a-zA-Z ]+$", ErrorMessage = "Only Alphabets are allow")]
+        public string WEX_Designation { get; set; }
+
+        [Required(ErrorMessage = "*")]
+        [Display(Name = "Still Working")]
+        public bool WEX_IsWorking { get; set; }
+
+        [Required(ErrorMessage = "*")]
+        [Display(Name = "Start Working Date")]
+        public DateTime? WEX_FromDate { get; set; }
+
+        [Required(ErrorMessage = "*")]
+        [Display(Name = "End of Working Date")]
+        public DateTime? WEX_ToDate { get; set; }
 
         public virtual ICollection<tblAppointment> tblAppointments { get; set; }
         public virtual ICollection<tblDiagnostic> tblDiagnostics { get; set; }

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
 using CompareAttribute = System.ComponentModel.DataAnnotations.CompareAttribute;
 
@@ -102,6 +103,10 @@ namespace DMS_BOL.Validation_Classes
         [Display(Name = "State")]
         [Range(1, int.MaxValue, ErrorMessage = "Must select a State")]
         public string State { get; set; }
+        
+        [Required(ErrorMessage = "*")]
+        [Display(Name = "Service")]
+        public List<int> Service { get; set; }
 
         [Required(ErrorMessage = "*")]
         [Display(Name = "City")]

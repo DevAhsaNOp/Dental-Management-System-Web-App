@@ -1016,6 +1016,7 @@
     <Content Include="Views\Account\Contact.cshtml" />
     <Content Include="Views\Account\Unauthorized.cshtml" />
     <Content Include="Views\Doctor\ProfileComplete.cshtml" />
+    <Content Include="Views\Shared\_AddQualification.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

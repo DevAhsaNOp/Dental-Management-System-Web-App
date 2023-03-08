@@ -11,6 +11,12 @@
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
     <title>DMS - Profile Complete</title>
     <link rel="stylesheet" href="~/assets/css/app.min.css">
+    <link rel="stylesheet" href="~/assets/bundles/bootstrap-daterangepicker/daterangepicker.css">
+    <link rel="stylesheet" href="~/assets/bundles/bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css">
+    <link rel="stylesheet" href="~/assets/bundles/select2/dist/css/select2.min.css">
+    <link rel="stylesheet" href="~/assets/bundles/jquery-selectric/selectric.css">
+    <link rel="stylesheet" href="~/assets/bundles/bootstrap-timepicker/css/bootstrap-timepicker.min.css">
+    <link rel="stylesheet" href="~/assets/bundles/bootstrap-tagsinput/dist/bootstrap-tagsinput.css">
     <link rel="stylesheet" href="~/assets/css/style.css">
     <link rel="stylesheet" href="~/assets/css/components.css">
     <link rel="stylesheet" href="~/assets/css/custom.css">
@@ -20,6 +26,10 @@
     <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
     <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
     <style>
+        .select2-container {
+            width: 100% !important;
+        }
+
         .main-content {
             padding-left: 20px;
             padding-right: 20px;
@@ -28,11 +38,17 @@
             position: relative;
         }
 
+        .form-group .control-label, .form-group > label {
+            font-size: 13px !important;
+        }
+
+        .card-heading {
+            font-size: 18px !important;
+            color: #6777ef !important;
+        }
+
         .card .card-header {
             border-bottom-color: #ededed !important;
-            border-bottom-left-radius: 10px !important;
-            border-bottom-right-radius: 10px !important;
-            justify-content: space-between !important;
         }
     </style>
 </head>
@@ -43,93 +59,131 @@
         <div class="main-content">
             <div class="container">
                 <h2>Complete Your Profile</h2>
-                <p><strong>To complete</strong> your profile write something about you and add your qualification and timings to attract more patients.</p>
-                <div id="accordion">
-                    @using (Html.BeginForm("ProfileComplete", "Doctor", FormMethod.Post))
-                    {
-                        <div class="card">
-                            <div class="card-header">
-                                <a class="card-link" data-toggle="collapse" href="#collapseOne">
-                                   <strong> Profile Information </strong>
-                                </a>
-                                <i class="fas fa-chevron-down" style="font-size:18px; cursor:pointer;" data-toggle="collapse" href="#collapseOne">
-                                </i>
+                <p style="font-size: 16px !important;"><strong>To complete</strong> your profile write something about you and add your qualification and timings to attract more patients.</p>
+                @using (Html.BeginForm("ProfileComplete", "Doctor", FormMethod.Post, htmlAttributes: new { @id = "form1" }))
+                {
+                    <div class="card">
+                        <div class="card-header">
+                            <a class="card-link">
+                                <strong class="card-heading"> Profile Information </strong>
+                            </a>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label>Years Of Experience</label>
+                                @Html.ValidationMessageFor(model => model.DoctorYearsOfExperience, "", new { @class = "text-danger" })
+                                @Html.EditorFor(model => model.DoctorYearsOfExperience, new { htmlAttributes = new { placeholder = "Enter your years of experience", @class = "form-control", @tabindex = "1" } })
                             </div>
-                            <div id="collapseOne" class="collapse show" data-parent="#accordion">
-                                <div class="card-body">
-                                    <div class="form-group">
-                                        <label>Years Of Experience</label>
-                                        @Html.ValidationMessageFor(model => model.DoctorYearsOfExperience, "", new { @class = "text-danger" })
-                                        @Html.EditorFor(model => model.DoctorYearsOfExperience, new { htmlAttributes = new { placeholder = "Enter your years of experience", @class = "form-control", @tabindex = "1" } })
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Specialization</label>
-                                        @Html.ValidationMessageFor(model => model.DoctorSpecialization, "", new { @class = "text-danger" })
-                                        @Html.EditorFor(model => model.DoctorSpecialization, new { htmlAttributes = new { placeholder = "Enter your specialization", @class = "form-control", @tabindex = "2" } })
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Awards and Achievements</label>
-                                        @Html.ValidationMessageFor(model => model.DoctorAwardsAndAchievements, "", new { @class = "text-danger" })
-                                        @Html.EditorFor(model => model.UserEmail, new { htmlAttributes = new { placeholder = "Enter your awards and achievements", @class = "form-control", @tabindex = "3" } })
-                                    </div>
-                                    <div class="form-group">
-                                        <label>About Me</label>
-                                        @Html.ValidationMessageFor(model => model.DoctorAboutMe, "", new { @class = "text-danger" })
-                                        @Html.TextAreaFor(model => model.DoctorAboutMe, htmlAttributes: new { placeholder = "Enter your about me", @class = "form-control", @tabindex = "4", @style = "height:150px !important" })
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Response Time</label>
-                                        @Html.ValidationMessageFor(model => model.DoctorResponseTime, "", new { @class = "text-danger" })
-                                        @Html.EditorFor(model => model.DoctorResponseTime, new { htmlAttributes = new { placeholder = "Enter your response time", @class = "form-control", @tabindex = "5" } })
-                                    </div>
-                                </div>
+                            <div class="form-group">
+                                <label>Specialization</label>
+                                @Html.ValidationMessageFor(model => model.DoctorSpecialization, "", new { @class = "text-danger" })
+                                @Html.EditorFor(model => model.DoctorSpecialization, new { htmlAttributes = new { placeholder = "Enter your specialization", @class = "form-control", @tabindex = "2" } })
+                            </div>
+                            <div class="form-group">
+                                <label>Awards and Achievements</label>
+                                @Html.ValidationMessageFor(model => model.DoctorAwardsAndAchievements, "", new { @class = "text-danger" })
+                                @Html.EditorFor(model => model.DoctorAwardsAndAchievements, new { htmlAttributes = new { placeholder = "Enter your awards and achievements", @class = "form-control", @tabindex = "3" } })
+                            </div>
+                            <div class="form-group">
+                                <label>About Me</label>
+                                @Html.ValidationMessageFor(model => model.DoctorAboutMe, "", new { @class = "text-danger" })
+                                @Html.TextAreaFor(model => model.DoctorAboutMe, htmlAttributes: new { placeholder = "Enter your about me", @class = "form-control", @tabindex = "4", @style = "height:150px !important" })
+                            </div>
+                            <div class="form-group">
+                                <label>Response Time (In Minutes)</label>
+                                @Html.ValidationMessageFor(model => model.DoctorResponseTime, "", new { @class = "text-danger" })
+                                @Html.EditorFor(model => model.DoctorResponseTime, new { htmlAttributes = new { placeholder = "Enter your response time", @class = "form-control", @tabindex = "5" } })
+                            </div>
+                            <div class="form-group">
+                                <label>Select Offered Services</label>
+                                @Html.ValidationMessageFor(model => model.Service, "", new { @class = "text-danger" })
+                                @Html.DropDownListFor(model => model.Service, (IEnumerable<SelectListItem>)ViewBag.Service, htmlAttributes: new { @class = "form-control select2", @multiple = "" })
                             </div>
                         </div>
-                        <div class="card">
+                    </div>
+                    @*<div class="card">
                             <div class="card-header">
-                                <a class="collapsed card-link" data-toggle="collapse" href="#collapseTwo">
-                                    Collapsible Group Item #2
+                                <a class="card-link">
+                                    <strong class="card-heading"> Services & Experience Information </strong>
                                 </a>
-                                <i class="fas fa-chevron-down" style="font-size:18px; cursor:pointer;" data-toggle="collapse" href="#collapseTwo">
-                                </i>
                             </div>
-                            <div id="collapseTwo" class="collapse" data-parent="#accordion">
-                                <div class="card-body">
-                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                                </div>
+                            <div class="card-body">
                             </div>
-                        </div>
-                        <div class="card">
-                            <div class="card-header">
-                                <a class="collapsed card-link" data-toggle="collapse" href="#collapseThree">
-                                    Collapsible Group Item #3
-                                </a>
-                                <i class="fas fa-chevron-down" style="font-size:18px; cursor:pointer;" data-toggle="collapse" href="#collapseThree">
-                                </i>
-                            </div>
-                            <div id="collapseThree" class="collapse" data-parent="#accordion">
-                                <div class="card-body">
-                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
+                        </div>*@
+                    @*<div class="form-group">
                             <input type="submit" class="btn btn-primary btn-lg btn-block" value="Submit" tabindex="10" />
+                        </div>*@
+                }
+                <div class="card">
+                    <div class="card-header">
+                        <a class="card-link">
+                            <strong class="card-heading">Experience Information </strong>
+                        </a>
+                    </div>
+                    <div class="card-body">
+                        <div>
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                                Modal
+                                With Form
+                            </button>
+                            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="formModal"
+                                 aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="formModal">Modal title</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            @using (Ajax.BeginForm("Complete", "Doctor", new AjaxOptions() { HttpMethod = "POST", UpdateTargetId = "frmEmp" }))
+                                            {
+                                                @Html.Partial("_AddQualification");
+                                                <div class="form-group">
+                                                    <input type="submit" class="btn btn-primary m-t-15 waves-effect" value="Submit" tabindex="10" />
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    }
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button form="form1" class="btn btn-primary btn-lg btn-block" type="submit">Submit</button>
                 </div>
             </div>
         </div>
         <footer class="main-footer">
             <div class="footer-left">
-                <a href="templateshub.net">Templateshub</a>
+                <a href="#">DMS - PORTAL</a>
             </div>
             <div class="footer-right">
             </div>
         </footer>
     </div>
     <script src="~/assets/js/app.min.js"></script>
+    <script src="~/assets/bundles/cleave-js/dist/addons/cleave-phone.us.js"></script>
+    <script src="~/assets/bundles/jquery-pwstrength/jquery.pwstrength.min.js"></script>
+    <script src="~/assets/bundles/bootstrap-daterangepicker/daterangepicker.js"></script>
+    <script src="~/assets/bundles/bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js"></script>
+    <script src="~/assets/bundles/bootstrap-timepicker/js/bootstrap-timepicker.min.js"></script>
+    <script src="~/assets/bundles/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js"></script>
+    <script src="~/assets/bundles/select2/dist/js/select2.full.min.js"></script>
+    <script src="~/assets/bundles/jquery-selectric/jquery.selectric.min.js"></script>
     <script src="~/assets/js/scripts.js"></script>
     <script src="~/assets/js/custom.js"></script>
+    <script>
+        function validate() {
+            var remember = document.getElementById('WEX_IsWorking_Value');
+            if (remember.checked) {
+                document.getElementById("ToDateID").style.display = "none";
+            } else {
+                document.getElementById("ToDateID").style.display = "block";
+            }
+        }
+    </script>
 </body>
 </html>
