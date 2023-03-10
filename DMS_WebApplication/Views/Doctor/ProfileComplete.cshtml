@@ -50,11 +50,23 @@
         .card .card-header {
             border-bottom-color: #ededed !important;
         }
+
+        .loader {
+            position: fixed;
+            left: 0px;
+            top: 0px;
+            width: 100%;
+            height: 100%;
+            z-index: 9999;
+            background: url(../../assets/img/loading.gif) 50% 50% no-repeat #f9f9f9;
+            opacity: 0.5;
+        }
+
     </style>
 </head>
 
 <body>
-    <div class="loader"></div>
+    <div id="loader" class="loader"></div>
     <div id="app">
         <div class="main-content">
             <div class="container">
@@ -138,7 +150,7 @@
                                             </button>
                                         </div>
                                         <div class="modal-body">
-                                            @using (Ajax.BeginForm("Complete", "Doctor", new AjaxOptions() { HttpMethod = "POST", UpdateTargetId = "ExpDiv", LoadingElementId= "loader" }))
+                                            @using (Ajax.BeginForm("Complete", "Doctor", new AjaxOptions() { HttpMethod = "POST", UpdateTargetId = "ExpDiv", LoadingElementId= "loader", OnSuccess= "ExpSuccess" }, htmlAttributes: new { @id = "Expform" }))
                                             {
                                                 var hospitalInfo = new DMS_BOL.Validation_Classes.ValidateDoctorHospitalInfo();
                                                 @Html.Partial("_AddExperience", hospitalInfo);
@@ -178,6 +190,11 @@
     <script src="~/assets/js/scripts.js"></script>
     <script src="~/assets/js/custom.js"></script>
     <script>
+        function ExpSuccess() {
+            $('#exampleModal').modal('hide');
+            $("#Expform").trigger("reset");
+        }
+
         function validate() {
             var remember = document.getElementById('WEX_IsWorking_Value');
             if (remember.checked) {
