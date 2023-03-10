@@ -1,0 +1,27 @@
+﻿@model IEnumerable<DMS_BOL.Validation_Classes.ValidateDoctorHospitalInfo>
+
+@{
+    var i = 1;
+
+    foreach (var item in Model)
+    {
+        <div class="d-flex flex-row align-items-start">
+            <p class="font-weight-bold font-15 mr-2">
+                @i.
+            </p>
+            <div class="w-100">
+                <p class="d-none mb-0 ExpID">1</p>
+                <div class="d-flex flex-row align-items-baseline justify-content-between">
+                    <p class="ExpDesignation mb-2 font-17 font-weight-bold">@item.WEX_Designation</p>
+                    <div>
+                        <a class="fas fa-pen mx-2" href="#" style="font-size: 15px !important; text-decoration: none !important;" title="Edit"></a>
+                        <a class="fas fa-trash" href="#" style="font-size: 15px !important; text-decoration: none !important;" title="Delete"></a>
+                    </div>
+                </div>
+                <p class="ExpHospital mb-0 font-weight-600" style="line-height: 18px !important; text-align:justify !important;">@item.WEX_HospitalName</p>
+                <p class="ExpRange" style="color: #6f6f6f; line-height: 14px; margin-top: 5px;">@item.WEX_FromDate.Value.ToString("MMMM yyyy") to @item.WEX_ToDate.Value.ToString("MMMM yyyy")</p>
+            </div>
+        </div>
+        i++;
+    }
+}

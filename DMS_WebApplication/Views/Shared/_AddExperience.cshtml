@@ -1,4 +1,4 @@
-﻿@model DMS_BOL.Validation_Classes.ValidateDoctor
+﻿@model DMS_BOL.Validation_Classes.ValidateDoctorHospitalInfo
 
 <div class="form-group">
     <label>Hospital Name</label>
@@ -10,7 +10,7 @@
     @Html.ValidationMessageFor(model => model.WEX_Designation, "", new { @class = "text-danger" })
     @Html.EditorFor(model => model.WEX_Designation, new { htmlAttributes = new { placeholder = "Enter your designation", @class = "form-control", @tabindex = "2" } })
 </div>
-<div class="form-group">
+<div class="form-group" style="margin-bottom: 10px !important;">
     @Html.CheckBoxFor(model => model.WEX_IsWorking, htmlAttributes: new { @tabindex = "3", @onchange = "validate()" })
     <label>I'm Currently Working Here</label>
     @Html.ValidationMessageFor(model => model.WEX_IsWorking, "", new { @class = "text-danger" })

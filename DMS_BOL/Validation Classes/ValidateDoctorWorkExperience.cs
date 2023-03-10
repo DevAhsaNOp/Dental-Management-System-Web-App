@@ -41,6 +41,8 @@ namespace DMS_BOL.Validation_Classes
 
     public class ValidateDoctorHospitalInfo
     {
+        public int HospitalID { get; set; }
+
         [Required(ErrorMessage = "*")]
         [Display(Name = "Hospital Name")]
         [RegularExpression(@"^[a-zA-Z ]+$", ErrorMessage = "Only Alphabets are allow")]
@@ -53,12 +55,13 @@ namespace DMS_BOL.Validation_Classes
 
         [Required(ErrorMessage = "*")]
         [Display(Name = "Still Working")]
-        public bool? WEX_IsWorking { get; set; }
+        public bool WEX_IsWorking { get; set; }
 
         [Required(ErrorMessage = "*")]
         [Display(Name = "Start Working Date")]
         public DateTime? WEX_FromDate { get; set; }
 
+        [Required(ErrorMessage = "*")]
         [Display(Name = "End of Working Date")]
         public DateTime? WEX_ToDate { get; set; }
     }

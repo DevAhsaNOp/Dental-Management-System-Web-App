@@ -18,7 +18,7 @@ namespace DMS_WebApplication.Controllers
 
         public DoctorController()
         {
-            _httpClient = new HttpClient();            
+            _httpClient = new HttpClient();
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
@@ -44,7 +44,38 @@ namespace DMS_WebApplication.Controllers
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Complete(ValidateDoctorHospitalInfo doctor)
         {
-            return View(doctor);
+            var reas = Session["ExperienceList"];
+            var ExperienceList = new List<ValidateDoctorHospitalInfo>();
+            if (reas == null)
+            {
+                ExperienceList.Add(new ValidateDoctorHospitalInfo()
+                {
+                    HospitalID = doctor.HospitalID <= 0 ? 1 : doctor.HospitalID,
+                    WEX_Designation = doctor.WEX_Designation,
+                    WEX_FromDate = doctor.WEX_FromDate,
+                    WEX_HospitalName = doctor.WEX_HospitalName,
+                    WEX_IsWorking = doctor.WEX_IsWorking,
+                    WEX_ToDate = doctor.WEX_ToDate,
+                });
+            }
+            else
+            {
+                var data = (List<ValidateDoctorHospitalInfo>)Session["ExperienceList"];
+                var ID = data.Max(x => x.HospitalID) + 1;
+                ExperienceList = data;
+                ExperienceList.Add(new ValidateDoctorHospitalInfo()
+                {
+                    HospitalID =  ID,
+                    WEX_Designation = doctor.WEX_Designation,
+                    WEX_FromDate = doctor.WEX_FromDate,
+                    WEX_HospitalName = doctor.WEX_HospitalName,
+                    WEX_IsWorking = doctor.WEX_IsWorking,
+                    WEX_ToDate = doctor.WEX_ToDate,
+                });
+
+            }
+            Session["ExperienceList"] = ExperienceList;
+            return PartialView("_ShowExperience", ExperienceList);
         }
 
         public IEnumerable<tblService> GetAllServices()
