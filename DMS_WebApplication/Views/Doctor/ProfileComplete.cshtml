@@ -21,6 +21,7 @@
     <link rel="stylesheet" href="~/assets/css/components.css">
     <link rel="stylesheet" href="~/assets/css/custom.css">
     <link rel='shortcut icon' type='image/x-icon' href='~/assets/img/favicon.ico' />
+    <link rel="stylesheet" href="~/assets/bundles/pretty-checkbox/pretty-checkbox.min.css">
     <script src="~/Scripts/jquery-3.2.1.min.js"></script>
     <script src="~/Scripts/jquery.validate.min.js"></script>
     <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
@@ -68,7 +69,7 @@
     <div id="loader" class="loader"></div>
     <div id="app">
         <div class="main-content">
-            <div class="container">
+            <div class="container p-0">
                 <h2>Complete Your Profile</h2>
                 <p style="font-size: 16px !important;"><strong>To complete</strong> your profile write something about you and add your qualification and timings to attract more patients.</p>
                 @using (Html.BeginForm("ProfileComplete", "Doctor", FormMethod.Post, htmlAttributes: new { @id = "form1" }))
@@ -174,32 +175,40 @@
                         <div>
                             <div id="OFCDDiv">
                             </div>
-                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#OFCDModal">
-                                Add Offline Consultation
-                            </button>
-                            <div class="modal fade" id="OFCDModal" tabindex="-1" role="dialog" aria-labelledby="formModal"
-                                 aria-hidden="true">
-                                <div class="modal-dialog w-75" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="formModal">Offline Consultation Details</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body">
-                                            @using (Ajax.BeginForm("InsertOfflineConsultation", "Doctor", new AjaxOptions() { HttpMethod = "POST", UpdateTargetId = "OFCDDiv", LoadingElementId = "loader", OnSuccess = "OFCDSuccess" }, htmlAttributes: new { @id = "OFCDform" }))
-                                            {
-                                                var hospitalInfo = new DMS_BOL.Validation_Classes.ValidateDoctorOfflineConsultaionDetails();
-                                                @Html.Partial("_AddOfflineConsultation", hospitalInfo);
-                                                <div class="form-group">
-                                                    <input type="submit" class="btn btn-primary m-t-15 waves-effect" value="Submit" tabindex="10" />
-                                                </div>
-                                            }
+                            @using (Ajax.BeginForm("InsertOfflineConsultation", "Doctor", new AjaxOptions() { HttpMethod = "POST", UpdateTargetId = "OFCDDiv", LoadingElementId = "loader", OnSuccess = "OFCDSuccess" }, htmlAttributes: new { @id = "OFCDform" }))
+                            {
+                                var hospitalInfo = new DMS_BOL.Validation_Classes.ValidateDoctorOfflineConsultaionDetails();
+                                @Html.Partial("_AddOfflineConsultation", hospitalInfo);
+                                <div class="form-group">
+                                    <input type="submit" class="btn btn-primary m-t-15 waves-effect" value="Submit" tabindex="10" />
+                                </div>
+                            }
+                            @*<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#OFCDModal">
+                                    Add Offline Consultation
+                                </button>
+                                <div class="modal fade" id="OFCDModal" tabindex="-1" role="dialog" aria-labelledby="formModal"
+                                     aria-hidden="true">
+                                    <div class="modal-dialog w-75" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="formModal">Offline Consultation Details</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                @using (Ajax.BeginForm("InsertOfflineConsultation", "Doctor", new AjaxOptions() { HttpMethod = "POST", UpdateTargetId = "OFCDDiv", LoadingElementId = "loader", OnSuccess = "OFCDSuccess" }, htmlAttributes: new { @id = "OFCDform" }))
+                                                {
+                                                    var hospitalInfo = new DMS_BOL.Validation_Classes.ValidateDoctorOfflineConsultaionDetails();
+                                                    @Html.Partial("_AddOfflineConsultation", hospitalInfo);
+                                                    <div class="form-group">
+                                                        <input type="submit" class="btn btn-primary m-t-15 waves-effect" value="Submit" tabindex="10" />
+                                                    </div>
+                                                }
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
+                                </div>*@
                         </div>
                     </div>
                 </div>

@@ -1,4 +1,21 @@
 ﻿@model DMS_BOL.Validation_Classes.ValidateDoctorOfflineConsultaionDetails
+<style>
+    td {
+        padding-right: 10px !important;
+        font-size: 14px !important;
+    }
+
+    th{
+        font-size: 18px !important;
+        margin-bottom:10px !important;
+    }
+
+    @@media screen and (min-width: 768px) {
+        input[type=time] {
+            width: 65% !important;
+        }
+    }
+</style>
 
 <div class="form-group" id="ToDateID">
     @Html.ValidationMessageFor(model => model.MinimumOnedayShouldBeAdded, "", new { @class = "text-danger" })
@@ -43,82 +60,91 @@
         <th>Day</th>
         <th>Start Time</th>
         <th>End Time</th>
+        <th>Availability</th>
     </tr>
     <tr>
         <td>Monday</td>
         <td>
             @Html.ValidationMessageFor(model => model.OFCD_MondayStartTime, "", new { @class = "text-danger" })
-            @Html.EditorFor(model => model.OFCD_MondayStartTime, new { htmlAttributes = new { @tabindex = "3", @type = "time", @class = "form-control", @style = "width: 80%;" } })
+            @Html.EditorFor(model => model.OFCD_MondayStartTime, new { htmlAttributes = new { @tabindex = "3", @type = "time", @class = "form-control p-0" } })
         </td>
         <td>
             @Html.ValidationMessageFor(model => model.OFCD_MondayEndTime, "", new { @class = "text-danger" })
-            @Html.EditorFor(model => model.OFCD_MondayEndTime, new { htmlAttributes = new { @tabindex = "3", @type = "time", @class = "form-control", @style = "width: 80%;" } })
+            @Html.EditorFor(model => model.OFCD_MondayEndTime, new { htmlAttributes = new { @tabindex = "3", @type = "time", @class = "form-control p-0" } })
+        </td>
+        <td>
+            <div class="pretty p-switch p-fill">
+                <input type="checkbox" onchange="Avalvalidate(this)">
+                <div class="state p-danger">
+                    <label id="labelD">Available</label>
+                </div>
+            </div>
         </td>
     </tr>
     <tr>
         <td>Tuesday</td>
         <td>
             @Html.ValidationMessageFor(model => model.OFCD_TuesdayStartTime, "", new { @class = "text-danger" })
-            @Html.EditorFor(model => model.OFCD_TuesdayStartTime, new { htmlAttributes = new { @tabindex = "3", @type = "time", @class = "form-control", @style = "width: 80%;" } })
+            @Html.EditorFor(model => model.OFCD_TuesdayStartTime, new { htmlAttributes = new { @tabindex = "3", @type = "time", @class = "form-control p-0" } })
         </td>
         <td>
             @Html.ValidationMessageFor(model => model.OFCD_TuesdayEndTime, "", new { @class = "text-danger" })
-            @Html.EditorFor(model => model.OFCD_TuesdayEndTime, new { htmlAttributes = new { @tabindex = "3", @type = "time", @class = "form-control", @style = "width: 80%;" } })
+            @Html.EditorFor(model => model.OFCD_TuesdayEndTime, new { htmlAttributes = new { @tabindex = "3", @type = "time", @class = "form-control p-0" } })
         </td>
     </tr>
     <tr>
         <td>Wednesday</td>
         <td>
             @Html.ValidationMessageFor(model => model.OFCD_WednesdayStartTime, "", new { @class = "text-danger" })
-            @Html.EditorFor(model => model.OFCD_WednesdayStartTime, new { htmlAttributes = new { @tabindex = "3", @type = "time", @class = "form-control", @style = "width: 80%;" } })
+            @Html.EditorFor(model => model.OFCD_WednesdayStartTime, new { htmlAttributes = new { @tabindex = "3", @type = "time", @class = "form-control p-0" } })
         </td>
         <td>
             @Html.ValidationMessageFor(model => model.OFCD_WednesdayEndTime, "", new { @class = "text-danger" })
-            @Html.EditorFor(model => model.OFCD_WednesdayEndTime, new { htmlAttributes = new { @tabindex = "3", @type = "time", @class = "form-control", @style = "width: 80%;" } })
+            @Html.EditorFor(model => model.OFCD_WednesdayEndTime, new { htmlAttributes = new { @tabindex = "3", @type = "time", @class = "form-control p-0" } })
         </td>
     </tr>
     <tr>
         <td>Thursday</td>
         <td>
             @Html.ValidationMessageFor(model => model.OFCD_ThursdayStartTime, "", new { @class = "text-danger" })
-            @Html.EditorFor(model => model.OFCD_ThursdayStartTime, new { htmlAttributes = new { @tabindex = "3", @type = "time", @class = "form-control", @style = "width: 80%;" } })
+            @Html.EditorFor(model => model.OFCD_ThursdayStartTime, new { htmlAttributes = new { @tabindex = "3", @type = "time", @class = "form-control p-0" } })
         </td>
         <td>
             @Html.ValidationMessageFor(model => model.OFCD_ThursdayEndTime, "", new { @class = "text-danger" })
-            @Html.EditorFor(model => model.OFCD_ThursdayEndTime, new { htmlAttributes = new { @tabindex = "3", @type = "time", @class = "form-control", @style = "width: 80%;" } })
+            @Html.EditorFor(model => model.OFCD_ThursdayEndTime, new { htmlAttributes = new { @tabindex = "3", @type = "time", @class = "form-control p-0" } })
         </td>
     </tr>
     <tr>
         <td>Friday</td>
         <td>
             @Html.ValidationMessageFor(model => model.OFCD_FridayStartTime, "", new { @class = "text-danger" })
-            @Html.EditorFor(model => model.OFCD_FridayStartTime, new { htmlAttributes = new { @tabindex = "3", @type = "time", @class = "form-control", @style = "width: 80%;" } })
+            @Html.EditorFor(model => model.OFCD_FridayStartTime, new { htmlAttributes = new { @tabindex = "3", @type = "time", @class = "form-control p-0" } })
         </td>
         <td>
             @Html.ValidationMessageFor(model => model.OFCD_FridayEndTime, "", new { @class = "text-danger" })
-            @Html.EditorFor(model => model.OFCD_FridayEndTime, new { htmlAttributes = new { @tabindex = "3", @type = "time", @class = "form-control", @style = "width: 80%;" } })
+            @Html.EditorFor(model => model.OFCD_FridayEndTime, new { htmlAttributes = new { @tabindex = "3", @type = "time", @class = "form-control p-0" } })
         </td>
     </tr>
     <tr>
         <td>Saturday</td>
         <td>
             @Html.ValidationMessageFor(model => model.OFCD_SaturdayStartTime, "", new { @class = "text-danger" })
-            @Html.EditorFor(model => model.OFCD_SaturdayStartTime, new { htmlAttributes = new { @tabindex = "3", @type = "time", @class = "form-control", @style = "width: 80%;" } })
+            @Html.EditorFor(model => model.OFCD_SaturdayStartTime, new { htmlAttributes = new { @tabindex = "3", @type = "time", @class = "form-control p-0" } })
         </td>
         <td>
             @Html.ValidationMessageFor(model => model.OFCD_SaturdayEndTime, "", new { @class = "text-danger" })
-            @Html.EditorFor(model => model.OFCD_SaturdayEndTime, new { htmlAttributes = new { @tabindex = "3", @type = "time", @class = "form-control", @style = "width: 80%;" } })
+            @Html.EditorFor(model => model.OFCD_SaturdayEndTime, new { htmlAttributes = new { @tabindex = "3", @type = "time", @class = "form-control p-0" } })
         </td>
     </tr>
     <tr>
         <td>Sunday</td>
         <td>
             @Html.ValidationMessageFor(model => model.OFCD_SundayStartTime, "", new { @class = "text-danger" })
-            @Html.EditorFor(model => model.OFCD_SundayStartTime, new { htmlAttributes = new { @tabindex = "3", @type = "time", @class = "form-control", @style = "width: 80%;" } })
+            @Html.EditorFor(model => model.OFCD_SundayStartTime, new { htmlAttributes = new { @tabindex = "3", @type = "time", @class = "form-control p-0" } })
         </td>
         <td>
             @Html.ValidationMessageFor(model => model.OFCD_SundayEndTime, "", new { @class = "text-danger" })
-            @Html.EditorFor(model => model.OFCD_SundayEndTime, new { htmlAttributes = new { @tabindex = "3", @type = "time", @class = "form-control", @style = "width: 80%;" } })
+            @Html.EditorFor(model => model.OFCD_SundayEndTime, new { htmlAttributes = new { @tabindex = "3", @type = "time", @class = "form-control p-0" } })
         </td>
     </tr>
 </table>
@@ -128,6 +154,14 @@
     @Html.EditorFor(model => model.OFCD_Charges, new { htmlAttributes = new { @class = "form-control", @tabindex = "4", @placeholder = "Enter hospital consultation charges", } })
 </div>
 <script>
+    function Avalvalidate(el) {
+        if (el.checked) {
+            document.getElementById("labelD").innerText = "Not Available";
+        } else {
+            document.getElementById("labelD").innerText = "Available";
+        }
+    }
+
     $(document).ready(function () {
         $('#CityD').hide();
         $('#AreaD').hide();
