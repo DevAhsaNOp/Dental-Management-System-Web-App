@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace DMS_BOL.Validation_Classes
@@ -27,47 +28,95 @@ namespace DMS_BOL.Validation_Classes
         [RegularExpression("^[0-9]+$", ErrorMessage = "Invalid Address ID")]
         public int OFCD_HospitalAddressID { get; set; }
 
+        [Required(ErrorMessage = "*")]
+        [Display(Name = "State")]
+        [Range(1, int.MaxValue, ErrorMessage = "Must select a State")]
+        public string State { get; set; }
+
+        [Required(ErrorMessage = "*")]
+        [Display(Name = "Service")]
+        public List<int> Service { get; set; }
+
+        [Required(ErrorMessage = "*")]
+        [Display(Name = "City")]
+        [Range(1, int.MaxValue, ErrorMessage = "Must select a City")]
+        public string City { get; set; }
+
+        [Required(ErrorMessage = "*")]
+        [Display(Name = "Area")]
+        [Range(1, int.MaxValue, ErrorMessage = "Must select a Area")]
+        public string Area { get; set; }
+
+        [Required(ErrorMessage = "*")]
+        [Display(Name = "State")]
+        public int StateID { get; set; }
+
+        [Required(ErrorMessage = "*")]
+        [Display(Name = "City")]
+        public int CityID { get; set; }
+
+        [Required(ErrorMessage = "*")]
+        [Display(Name = "Area")]
+        public int AreaID { get; set; }
+
+        [Display(Name = "Address")]
+        public string CompleteAddress { get; set; }
+
+        [Required(ErrorMessage = "*")]
         [Display(Name = "Monday Start Time")]
-        public TimeSpan? OFCD_MondayStartTime { get; set; }
+        public TimeSpan OFCD_MondayStartTime { get; set; }
 
+        [Required(ErrorMessage = "*")]
         [Display(Name = "Monday End Time")]
-        public TimeSpan? OFCD_MondayEndTime { get; set; }
+        public TimeSpan OFCD_MondayEndTime { get; set; }
 
+        [Required(ErrorMessage = "*")]
         [Display(Name = "Tuesday Start Time")]
-        public TimeSpan? OFCD_TuesdayStartTime { get; set; }
+        public TimeSpan OFCD_TuesdayStartTime { get; set; }
 
+        [Required(ErrorMessage = "*")]
         [Display(Name = "Tuesday End Time")]
-        public TimeSpan? OFCD_TuesdayEndTime { get; set; }
+        public TimeSpan OFCD_TuesdayEndTime { get; set; }
 
+        [Required(ErrorMessage = "*")]
         [Display(Name = "Wednesday Start Time")]
-        public TimeSpan? OFCD_WednesdayStartTime { get; set; }
+        public TimeSpan OFCD_WednesdayStartTime { get; set; }
 
+        [Required(ErrorMessage = "*")]
         [Display(Name = "Wednesday End Time")]
-        public TimeSpan? OFCD_WednesdayEndTime { get; set; }
+        public TimeSpan OFCD_WednesdayEndTime { get; set; }
 
+        [Required(ErrorMessage = "*")]
         [Display(Name = "Thursday Start Time")]
-        public TimeSpan? OFCD_ThursdayStartTime { get; set; }
+        public TimeSpan OFCD_ThursdayStartTime { get; set; }
 
+        [Required(ErrorMessage = "*")]
         [Display(Name = "Thursday End Time")]
-        public TimeSpan? OFCD_ThursdayEndTime { get; set; }
+        public TimeSpan OFCD_ThursdayEndTime { get; set; }
 
+        [Required(ErrorMessage = "*")]
         [Display(Name = "Friday Start Time")]
-        public TimeSpan? OFCD_FridayStartTime { get; set; }
+        public TimeSpan OFCD_FridayStartTime { get; set; }
 
+        [Required(ErrorMessage = "*")]
         [Display(Name = "Friday End Time")]
-        public TimeSpan? OFCD_FridayEndTime { get; set; }
+        public TimeSpan OFCD_FridayEndTime { get; set; }
 
+        [Required(ErrorMessage = "*")]
         [Display(Name = "Saturday Start Time")]
-        public TimeSpan? OFCD_SaturdayStartTime { get; set; }
+        public TimeSpan OFCD_SaturdayStartTime { get; set; }
 
+        [Required(ErrorMessage = "*")]
         [Display(Name = "Saturday End Time")]
-        public TimeSpan? OFCD_SaturdayEndTime { get; set; }
+        public TimeSpan OFCD_SaturdayEndTime { get; set; }
 
+        [Required(ErrorMessage = "*")]
         [Display(Name = "Sunday Start Time")]
-        public TimeSpan? OFCD_SundayStartTime { get; set; }
+        public TimeSpan OFCD_SundayStartTime { get; set; }
 
+        [Required(ErrorMessage = "*")]
         [Display(Name = "Sunday End Time")]
-        public TimeSpan? OFCD_SundayEndTime { get; set; }
+        public TimeSpan OFCD_SundayEndTime { get; set; }
 
         [Required(ErrorMessage = "*")]
         [Display(Name = "Checkup Charges")]
@@ -94,7 +143,7 @@ namespace DMS_BOL.Validation_Classes
         
         public DateTime? OFCD_UpdatedOn { get; set; }
 
-        [Required(ErrorMessage = "*")]
+        [Required(ErrorMessage = "Minimum One day Should Be Added")]
         [Display(Name = "Number of checkup days")]
         [RegularExpression("^\\d{0,8}(\\.\\d{1,4})?$", ErrorMessage = "Invalid Number of checkup days")]
         [Range(1, 7, ErrorMessage = "Invalid Number of checkup days")]

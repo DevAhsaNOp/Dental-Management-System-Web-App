@@ -149,10 +149,49 @@
                                             </button>
                                         </div>
                                         <div class="modal-body">
-                                            @using (Ajax.BeginForm("Complete", "Doctor", new AjaxOptions() { HttpMethod = "POST", UpdateTargetId = "ExpDiv", LoadingElementId = "loader", OnSuccess = "ExpSuccess" }, htmlAttributes: new { @id = "Expform" }))
+                                            @using (Ajax.BeginForm("InsertExp", "Doctor", new AjaxOptions() { HttpMethod = "POST", UpdateTargetId = "ExpDiv", LoadingElementId = "loader", OnSuccess = "ExpSuccess" }, htmlAttributes: new { @id = "Expform" }))
                                             {
                                                 var hospitalInfo = new DMS_BOL.Validation_Classes.ValidateDoctorHospitalInfo();
                                                 @Html.Partial("_AddExperience", hospitalInfo);
+                                                <div class="form-group">
+                                                    <input type="submit" class="btn btn-primary m-t-15 waves-effect" value="Submit" tabindex="10" />
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <a class="card-link">
+                            <strong class="card-heading">Offline Consultation Information </strong>
+                        </a>
+                    </div>
+                    <div class="card-body">
+                        <div>
+                            <div id="OFCDDiv">
+                            </div>
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#OFCDModal">
+                                Add Offline Consultation
+                            </button>
+                            <div class="modal fade" id="OFCDModal" tabindex="-1" role="dialog" aria-labelledby="formModal"
+                                 aria-hidden="true">
+                                <div class="modal-dialog w-75" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="formModal">Offline Consultation Details</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            @using (Ajax.BeginForm("InsertOfflineConsultation", "Doctor", new AjaxOptions() { HttpMethod = "POST", UpdateTargetId = "OFCDDiv", LoadingElementId = "loader", OnSuccess = "OFCDSuccess" }, htmlAttributes: new { @id = "OFCDform" }))
+                                            {
+                                                var hospitalInfo = new DMS_BOL.Validation_Classes.ValidateDoctorOfflineConsultaionDetails();
+                                                @Html.Partial("_AddOfflineConsultation", hospitalInfo);
                                                 <div class="form-group">
                                                     <input type="submit" class="btn btn-primary m-t-15 waves-effect" value="Submit" tabindex="10" />
                                                 </div>
@@ -193,6 +232,11 @@
         function ExpSuccess() {
             $('#exampleModal').modal('hide');
             $("#Expform").trigger("reset");
+        }
+
+        function OFCDSuccess() {
+            $('#OFCDModal').modal('hide');
+            $("#OFCDform").trigger("reset");
         }
 
         function validate() {
