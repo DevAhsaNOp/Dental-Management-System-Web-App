@@ -61,7 +61,6 @@
             background: url(../../assets/img/loading.gif) 50% 50% no-repeat #f9f9f9;
             opacity: 0.5;
         }
-
     </style>
 </head>
 
@@ -150,7 +149,7 @@
                                             </button>
                                         </div>
                                         <div class="modal-body">
-                                            @using (Ajax.BeginForm("Complete", "Doctor", new AjaxOptions() { HttpMethod = "POST", UpdateTargetId = "ExpDiv", LoadingElementId= "loader", OnSuccess= "ExpSuccess" }, htmlAttributes: new { @id = "Expform" }))
+                                            @using (Ajax.BeginForm("Complete", "Doctor", new AjaxOptions() { HttpMethod = "POST", UpdateTargetId = "ExpDiv", LoadingElementId = "loader", OnSuccess = "ExpSuccess" }, htmlAttributes: new { @id = "Expform" }))
                                             {
                                                 var hospitalInfo = new DMS_BOL.Validation_Classes.ValidateDoctorHospitalInfo();
                                                 @Html.Partial("_AddExperience", hospitalInfo);
@@ -189,6 +188,7 @@
     <script src="~/assets/bundles/jquery-selectric/jquery.selectric.min.js"></script>
     <script src="~/assets/js/scripts.js"></script>
     <script src="~/assets/js/custom.js"></script>
+    <script src="~/assets/bundles/sweetalert/sweetalert.min.js"></script>
     <script>
         function ExpSuccess() {
             $('#exampleModal').modal('hide');
@@ -196,12 +196,64 @@
         }
 
         function validate() {
-            var remember = document.getElementById('WEX_IsWorking_Value');
+            var remember = document.getElementById('WEX_IsWorking');
             if (remember.checked) {
                 document.getElementById("ToDateID").style.display = "none";
             } else {
                 document.getElementById("ToDateID").style.display = "block";
             }
+        }
+
+        function deleteExp(expID) {
+            swal({
+                title: 'Are you sure?',
+                text: 'Once deleted, you will not be able to recover this Experience detail!',
+                icon: 'warning',
+                buttons: true,
+                dangerMode: true,
+            })
+                .then((willDelete) => {
+                    if (willDelete) {
+                    $("#loader").show();
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("DeleteExp", "Doctor")",
+                        data: JSON.stringify({ ExpID: expID }),
+                        contentType: "application/json; charset=utf-8",
+                        success: function (response) {
+                            $("#loader").hide();
+                            $("#ExpDiv").empty();
+                            $("#ExpDiv").append(response);
+                            swal('Poof! Your Experience detail has been deleted!', {
+                                icon: 'success',
+                                });
+                        }
+                    });
+                    } else {
+                        swal('Your experience details is safe!');
+                    }
+                });
+
+            //if (expID > 0) {
+            //    if (confirm("Are you sure to delete your Experience?")) {
+            //        $("#loader").show();
+            //        $.ajax({
+            //            type: "POST",
+            //            @*url: "@Url.Action("DeleteExp", "Doctor")",*@
+            //            data: JSON.stringify({ ExpID: expID }),
+            //            contentType: "application/json; charset=utf-8",
+            //            success: function (response) {
+            //                $("#loader").hide();
+            //                $("#ExpDiv").empty();
+            //                $("#ExpDiv").append(response);
+            //            }
+            //        });
+            //    }
+            //}
+            //else {
+            //    alert('Something went wrong please try again later!');
+            //}
+
         }
     </script>
 </body>
