@@ -109,7 +109,7 @@
                             <div class="form-group">
                                 <label>Select Offered Services</label>
                                 @Html.ValidationMessageFor(model => model.Service, "", new { @class = "text-danger" })
-                                @Html.DropDownListFor(model => model.Service, (IEnumerable<SelectListItem>)ViewBag.Service, htmlAttributes: new { @class = "form-control select2", @multiple = "" })
+                                @Html.DropDownListFor(model => model.Service, (IEnumerable<SelectListItem>)ViewBag.Service, htmlAttributes: new { @class = "form-control select2", @multiple = "", @tabindex = "6" })
                             </div>
                         </div>
                     </div>
@@ -155,7 +155,7 @@
                                                 var hospitalInfo = new DMS_BOL.Validation_Classes.ValidateDoctorHospitalInfo();
                                                 @Html.Partial("_AddExperience", hospitalInfo);
                                                 <div class="form-group">
-                                                    <input type="submit" class="btn btn-primary m-t-15 waves-effect" value="Submit" tabindex="10" />
+                                                    <input type="submit" class="btn btn-primary m-t-15 waves-effect" value="Submit" tabindex="12" />
                                                 </div>
                                             }
                                         </div>
@@ -166,49 +166,33 @@
                     </div>
                 </div>
                 <div class="card">
-                    <div class="card-header">
+                    <div class="card-header d-flex align-items-center justify-content-between">
                         <a class="card-link">
                             <strong class="card-heading">Offline Consultation Information </strong>
                         </a>
+                        <div class="pretty p-switch p-fill">
+                            <input type="checkbox" id="chkDoes1" onchange="chkDoes()">
+                            <div class="state p-danger">
+                                <label id="labelDoes1">It Apply On Me</label>
+                            </div>
+                        </div>
                     </div>
                     <div class="card-body">
                         <div>
                             <div id="OFCDDiv">
                             </div>
+                            <button type="button" class="btn btn-primary" id="btnOFCD" onclick="OFCDOpen()">
+                                Add Offline Consultation
+                            </button>
                             @using (Ajax.BeginForm("InsertOfflineConsultation", "Doctor", new AjaxOptions() { HttpMethod = "POST", UpdateTargetId = "OFCDDiv", LoadingElementId = "loader", OnSuccess = "OFCDSuccess" }, htmlAttributes: new { @id = "OFCDform" }))
                             {
                                 var hospitalInfo = new DMS_BOL.Validation_Classes.ValidateDoctorOfflineConsultaionDetails();
                                 @Html.Partial("_AddOfflineConsultation", hospitalInfo);
-                                <div class="form-group">
-                                    <input type="submit" class="btn btn-primary m-t-15 waves-effect" value="Submit" tabindex="10" />
+                                <div>
+                                    <input type="button" class="btn btn-danger m-t-15 waves-effect" value="Cancel" onclick="btnCancel()" tabindex="35" />
+                                    <input type="submit" class="btn btn-primary m-t-15 waves-effect Isdisabled" value="Submit" tabindex="36" />
                                 </div>
                             }
-                            @*<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#OFCDModal">
-                                    Add Offline Consultation
-                                </button>
-                                <div class="modal fade" id="OFCDModal" tabindex="-1" role="dialog" aria-labelledby="formModal"
-                                     aria-hidden="true">
-                                    <div class="modal-dialog w-75" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="formModal">Offline Consultation Details</h5>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                @using (Ajax.BeginForm("InsertOfflineConsultation", "Doctor", new AjaxOptions() { HttpMethod = "POST", UpdateTargetId = "OFCDDiv", LoadingElementId = "loader", OnSuccess = "OFCDSuccess" }, htmlAttributes: new { @id = "OFCDform" }))
-                                                {
-                                                    var hospitalInfo = new DMS_BOL.Validation_Classes.ValidateDoctorOfflineConsultaionDetails();
-                                                    @Html.Partial("_AddOfflineConsultation", hospitalInfo);
-                                                    <div class="form-group">
-                                                        <input type="submit" class="btn btn-primary m-t-15 waves-effect" value="Submit" tabindex="10" />
-                                                    </div>
-                                                }
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>*@
                         </div>
                     </div>
                 </div>
@@ -238,13 +222,26 @@
     <script src="~/assets/js/custom.js"></script>
     <script src="~/assets/bundles/sweetalert/sweetalert.min.js"></script>
     <script>
+        $(document).ready(function () {
+            $("#OFCDform").hide();
+        });
+
+        function OFCDOpen() {
+            $("#OFCDform").show();
+            $("#btnOFCD").hide();
+        }
+
+        function btnCancel() {
+            $("#OFCDform").hide();
+            $("#btnOFCD").show();
+        }
+
         function ExpSuccess() {
             $('#exampleModal').modal('hide');
             $("#Expform").trigger("reset");
         }
 
         function OFCDSuccess() {
-            $('#OFCDModal').modal('hide');
             $("#OFCDform").trigger("reset");
         }
 

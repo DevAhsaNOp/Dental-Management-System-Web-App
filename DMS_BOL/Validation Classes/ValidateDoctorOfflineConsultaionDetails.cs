@@ -147,7 +147,7 @@ namespace DMS_BOL.Validation_Classes
         [Display(Name = "Number of checkup days")]
         [RegularExpression("^\\d{0,8}(\\.\\d{1,4})?$", ErrorMessage = "Invalid Number of checkup days")]
         [Range(1, 7, ErrorMessage = "Invalid Number of checkup days")]
-        public int MinimumOnedayShouldBeAdded { get; set; }
+        public int? MinimumOnedayShouldBeAdded { get; set; }
 
         public virtual tblAddress tblAddress { get; set; }
         public virtual tblDoctor tblDoctor { get; set; }

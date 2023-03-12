@@ -3,27 +3,27 @@
 <div class="form-group">
     <label>Hospital Name</label>
     @Html.ValidationMessageFor(model => model.WEX_HospitalName, "", new { @class = "text-danger" })
-    @Html.EditorFor(model => model.WEX_HospitalName, new { htmlAttributes = new { placeholder = "Enter your hospital name", @class = "form-control", @tabindex = "1" } })
+    @Html.EditorFor(model => model.WEX_HospitalName, new { htmlAttributes = new { placeholder = "Enter your hospital name", @class = "form-control", @tabindex = "7" } })
 </div>
 <div class="form-group">
     <label>Designation</label>
     @Html.ValidationMessageFor(model => model.WEX_Designation, "", new { @class = "text-danger" })
-    @Html.EditorFor(model => model.WEX_Designation, new { htmlAttributes = new { placeholder = "Enter your designation", @class = "form-control", @tabindex = "2" } })
+    @Html.EditorFor(model => model.WEX_Designation, new { htmlAttributes = new { placeholder = "Enter your designation", @class = "form-control", @tabindex = "8" } })
 </div>
 <div class="form-group" style="margin-bottom: 10px !important;">
-    @Html.CheckBoxFor(model => model.WEX_IsWorking, htmlAttributes: new { @tabindex = "3", @onchange = "validate()" })
+    @Html.CheckBoxFor(model => model.WEX_IsWorking, htmlAttributes: new { @tabindex = "9", @onchange = "validate()" })
     <label>I'm Currently Working Here</label>
     @Html.ValidationMessageFor(model => model.WEX_IsWorking, "", new { @class = "text-danger" })
 </div>
 <div class="form-group">
     <label>From Date</label>
     @Html.ValidationMessageFor(model => model.WEX_FromDate, "", new { @class = "text-danger" })
-    @Html.EditorFor(model => model.WEX_FromDate, new { htmlAttributes = new { @class = "form-control", @type = "month", @tabindex = "4" } })
+    @Html.EditorFor(model => model.WEX_FromDate, new { htmlAttributes = new { @class = "form-control", @type = "month", @tabindex = "10" } })
 </div>
 <div class="form-group" id="ToDateID">
     <label>To Date</label>
     @Html.ValidationMessageFor(model => model.WEX_ToDate, "", new { @class = "text-danger" })
-    @Html.EditorFor(model => model.WEX_ToDate, new { htmlAttributes = new { @class = "form-control", @type = "month", @tabindex = "5" } })
+    @Html.EditorFor(model => model.WEX_ToDate, new { htmlAttributes = new { @class = "form-control", @type = "month", @tabindex = "11" } })
 </div>
 <script>
     function validate() {

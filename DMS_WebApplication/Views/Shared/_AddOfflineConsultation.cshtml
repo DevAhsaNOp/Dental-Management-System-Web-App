@@ -15,44 +15,58 @@
             width: 65% !important;
         }
     }
+
+    .pretty.p-switch .state:before {
+        border: 1px solid #28a745;
+    }
+
+    .pretty.p-switch .state label:after {
+        background-color: #28a745 !important;
+    }
+
+    #labelDoes1, #label1, #label2, #label3,
+    #label4, #label5, #label6, #label7 {
+        color: #28a745;
+        font-weight: 700;
+    }
 </style>
 
-<div class="form-group" id="ToDateID">
-    @Html.ValidationMessageFor(model => model.MinimumOnedayShouldBeAdded, "", new { @class = "text-danger" })
-    @Html.EditorFor(model => model.MinimumOnedayShouldBeAdded, new { htmlAttributes = new { @class = "form-control", @tabindex = "5" } })
+<div class="form-group">
+    @Html.ValidationMessageFor(model => model.MinimumOnedayShouldBeAdded, "", new { @class = "text-danger", @style = "font-weight:700;" })
+    @Html.EditorFor(model => model.MinimumOnedayShouldBeAdded, new { htmlAttributes = new { @class = "form-control", @tabindex = "13", @style = "visibility:hidden;" } })
 </div>
 <div class="form-group">
     <label>Hospital Name</label>
     @Html.ValidationMessageFor(model => model.OFCD_HospitalName, "", new { @class = "text-danger" })
-    @Html.EditorFor(model => model.OFCD_HospitalName, new { htmlAttributes = new { placeholder = "Enter hospital name", @class = "form-control", @tabindex = "1" } })
+    @Html.EditorFor(model => model.OFCD_HospitalName, new { htmlAttributes = new { placeholder = "Enter hospital name", @class = "form-control Isdisabled", @tabindex = "14" } })
 </div>
 <div class="form-group">
     <label>Hospital Phone Number</label>
     @Html.ValidationMessageFor(model => model.OFCD_HospitalPhoneNumber, "", new { @class = "text-danger" })
-    @Html.EditorFor(model => model.OFCD_HospitalPhoneNumber, new { htmlAttributes = new { placeholder = "Enter hospital phone number", @class = "form-control", @tabindex = "2" } })
+    @Html.EditorFor(model => model.OFCD_HospitalPhoneNumber, new { htmlAttributes = new { placeholder = "Enter hospital phone number", @class = "form-control Isdisabled", @tabindex = "15" } })
 </div>
 <div class="row">
     <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6" id="StateD">
         <label>State</label>
         @Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger" })
-        @Html.DropDownListFor(model => model.State, (IEnumerable<SelectListItem>)ViewBag.State, "---Select State---", htmlAttributes: new { @class = "form-control select2" })
+        @Html.DropDownListFor(model => model.State, (IEnumerable<SelectListItem>)ViewBag.State, "---Select State---", htmlAttributes: new { @class = "form-control Isdisabled select2", @tabindex = "16" })
     </div>
     <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6" id="CityD">
         <label>City</label>
         @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
-        @Html.DropDownListFor(model => model.City, new SelectList(""), htmlAttributes: new { @class = "form-control select2" })
+        @Html.DropDownListFor(model => model.City, new SelectList(""), htmlAttributes: new { @class = "form-control Isdisabled select2", @tabindex = "17" })
     </div>
 </div>
 <div class="row">
     <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6" id="AreaD">
         <label>Area</label>
         @Html.ValidationMessageFor(model => model.Area, "", new { @class = "text-danger" })
-        @Html.DropDownListFor(model => model.Area, new SelectList(""), htmlAttributes: new { @class = "form-control select2" })
+        @Html.DropDownListFor(model => model.Area, new SelectList(""), htmlAttributes: new { @class = "form-control Isdisabled select2", @tabindex = "18" })
     </div>
     <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6" id="AddressD">
         <label>Complete Address</label>
         @Html.ValidationMessageFor(model => model.CompleteAddress, "", new { @class = "text-danger" })
-        @Html.EditorFor(model => model.CompleteAddress, new { htmlAttributes = new { placeholder = "Enter your complete address", @class = "form-control" } })
+        @Html.EditorFor(model => model.CompleteAddress, new { htmlAttributes = new { placeholder = "Enter your complete address", @class = "form-control Isdisabled", @tabindex = "19" } })
     </div>
 </div>
 <table style="width: 100%;">
@@ -66,15 +80,15 @@
         <td>Monday</td>
         <td>
             @Html.ValidationMessageFor(model => model.OFCD_MondayStartTime, "", new { @class = "text-danger" })
-            @Html.EditorFor(model => model.OFCD_MondayStartTime, new { htmlAttributes = new { @tabindex = "3", @type = "time", @value="", @class = "form-control p-0" } })
+            @Html.EditorFor(model => model.OFCD_MondayStartTime, new { htmlAttributes = new { @tabindex = "20", @type = "time", @value = "", @class = "form-control Isdisabled p-0 time1" } })
         </td>
         <td>
             @Html.ValidationMessageFor(model => model.OFCD_MondayEndTime, "", new { @class = "text-danger" })
-            @Html.EditorFor(model => model.OFCD_MondayEndTime, new { htmlAttributes = new { @tabindex = "3", @type = "time", @value = "", @class = "form-control p-0" } })
+            @Html.EditorFor(model => model.OFCD_MondayEndTime, new { htmlAttributes = new { @tabindex = "21", @type = "time", @value = "", @class = "form-control Isdisabled p-0 time1" } })
         </td>
         <td>
             <div class="pretty p-switch p-fill">
-                <input type="checkbox" id="checkbox1" onchange="Avalvalidate(1)">
+                <input type="checkbox" class="Isdisabled" id="checkbox1" onchange="Avalvalidate(1)">
                 <div class="state p-danger">
                     <label id="label1">Available</label>
                 </div>
@@ -85,15 +99,15 @@
         <td>Tuesday</td>
         <td>
             @Html.ValidationMessageFor(model => model.OFCD_TuesdayStartTime, "", new { @class = "text-danger" })
-            @Html.EditorFor(model => model.OFCD_TuesdayStartTime, new { htmlAttributes = new { @tabindex = "3", @type = "time", @value = "", @class = "form-control p-0" } })
+            @Html.EditorFor(model => model.OFCD_TuesdayStartTime, new { htmlAttributes = new { @tabindex = "22", @type = "time", @value = "", @class = "form-control Isdisabled p-0 time2" } })
         </td>
         <td>
             @Html.ValidationMessageFor(model => model.OFCD_TuesdayEndTime, "", new { @class = "text-danger" })
-            @Html.EditorFor(model => model.OFCD_TuesdayEndTime, new { htmlAttributes = new { @tabindex = "3", @type = "time", @value = "", @class = "form-control p-0" } })
+            @Html.EditorFor(model => model.OFCD_TuesdayEndTime, new { htmlAttributes = new { @tabindex = "23", @type = "time", @value = "", @class = "form-control Isdisabled p-0 time2" } })
         </td>
         <td>
             <div class="pretty p-switch p-fill">
-                <input type="checkbox" id="checkbox2" onchange="Avalvalidate(2)">
+                <input type="checkbox" class="Isdisabled" id="checkbox2" onchange="Avalvalidate(2)">
                 <div class="state p-danger">
                     <label id="label2">Available</label>
                 </div>
@@ -104,15 +118,15 @@
         <td>Wednesday</td>
         <td>
             @Html.ValidationMessageFor(model => model.OFCD_WednesdayStartTime, "", new { @class = "text-danger" })
-            @Html.EditorFor(model => model.OFCD_WednesdayStartTime, new { htmlAttributes = new { @tabindex = "3", @type = "time", @class = "form-control p-0" } })
+            @Html.EditorFor(model => model.OFCD_WednesdayStartTime, new { htmlAttributes = new { @tabindex = "24", @type = "time", @class = "form-control Isdisabled p-0 time3" } })
         </td>
         <td>
             @Html.ValidationMessageFor(model => model.OFCD_WednesdayEndTime, "", new { @class = "text-danger" })
-            @Html.EditorFor(model => model.OFCD_WednesdayEndTime, new { htmlAttributes = new { @tabindex = "3", @type = "time", @class = "form-control p-0" } })
+            @Html.EditorFor(model => model.OFCD_WednesdayEndTime, new { htmlAttributes = new { @tabindex = "25", @type = "time", @class = "form-control Isdisabled p-0 time3" } })
         </td>
         <td>
             <div class="pretty p-switch p-fill">
-                <input type="checkbox" id="checkbox3" onchange="Avalvalidate(3)">
+                <input type="checkbox" class="Isdisabled" id="checkbox3" onchange="Avalvalidate(3)">
                 <div class="state p-danger">
                     <label id="label3">Available</label>
                 </div>
@@ -123,15 +137,15 @@
         <td>Thursday</td>
         <td>
             @Html.ValidationMessageFor(model => model.OFCD_ThursdayStartTime, "", new { @class = "text-danger" })
-            @Html.EditorFor(model => model.OFCD_ThursdayStartTime, new { htmlAttributes = new { @tabindex = "3", @type = "time", @class = "form-control p-0" } })
+            @Html.EditorFor(model => model.OFCD_ThursdayStartTime, new { htmlAttributes = new { @tabindex = "26", @type = "time", @class = "form-control Isdisabled p-0 time4" } })
         </td>
         <td>
             @Html.ValidationMessageFor(model => model.OFCD_ThursdayEndTime, "", new { @class = "text-danger" })
-            @Html.EditorFor(model => model.OFCD_ThursdayEndTime, new { htmlAttributes = new { @tabindex = "3", @type = "time", @class = "form-control p-0" } })
+            @Html.EditorFor(model => model.OFCD_ThursdayEndTime, new { htmlAttributes = new { @tabindex = "27", @type = "time", @class = "form-control Isdisabled p-0 time4" } })
         </td>
         <td>
             <div class="pretty p-switch p-fill">
-                <input type="checkbox" id="checkbox4" onchange="Avalvalidate(4)">
+                <input type="checkbox" class="Isdisabled" id="checkbox4" onchange="Avalvalidate(4)">
                 <div class="state p-danger">
                     <label id="label4">Available</label>
                 </div>
@@ -142,15 +156,15 @@
         <td>Friday</td>
         <td>
             @Html.ValidationMessageFor(model => model.OFCD_FridayStartTime, "", new { @class = "text-danger" })
-            @Html.EditorFor(model => model.OFCD_FridayStartTime, new { htmlAttributes = new { @tabindex = "3", @type = "time", @class = "form-control p-0" } })
+            @Html.EditorFor(model => model.OFCD_FridayStartTime, new { htmlAttributes = new { @tabindex = "28", @type = "time", @class = "form-control Isdisabled p-0 time5" } })
         </td>
         <td>
             @Html.ValidationMessageFor(model => model.OFCD_FridayEndTime, "", new { @class = "text-danger" })
-            @Html.EditorFor(model => model.OFCD_FridayEndTime, new { htmlAttributes = new { @tabindex = "3", @type = "time", @class = "form-control p-0" } })
+            @Html.EditorFor(model => model.OFCD_FridayEndTime, new { htmlAttributes = new { @tabindex = "29", @type = "time", @class = "form-control Isdisabled p-0 time5" } })
         </td>
         <td>
             <div class="pretty p-switch p-fill">
-                <input type="checkbox" id="checkbox5" onchange="Avalvalidate(5)">
+                <input type="checkbox" class="Isdisabled" id="checkbox5" onchange="Avalvalidate(5)">
                 <div class="state p-danger">
                     <label id="label5">Available</label>
                 </div>
@@ -161,15 +175,15 @@
         <td>Saturday</td>
         <td>
             @Html.ValidationMessageFor(model => model.OFCD_SaturdayStartTime, "", new { @class = "text-danger" })
-            @Html.EditorFor(model => model.OFCD_SaturdayStartTime, new { htmlAttributes = new { @tabindex = "3", @type = "time", @class = "form-control p-0" } })
+            @Html.EditorFor(model => model.OFCD_SaturdayStartTime, new { htmlAttributes = new { @tabindex = "30", @type = "time", @class = "form-control Isdisabled p-0 time6" } })
         </td>
         <td>
             @Html.ValidationMessageFor(model => model.OFCD_SaturdayEndTime, "", new { @class = "text-danger" })
-            @Html.EditorFor(model => model.OFCD_SaturdayEndTime, new { htmlAttributes = new { @tabindex = "3", @type = "time", @class = "form-control p-0" } })
+            @Html.EditorFor(model => model.OFCD_SaturdayEndTime, new { htmlAttributes = new { @tabindex = "31", @type = "time", @class = "form-control Isdisabled p-0 time6" } })
         </td>
         <td>
             <div class="pretty p-switch p-fill">
-                <input type="checkbox" id="checkbox6" onchange="Avalvalidate(6)">
+                <input type="checkbox" class="Isdisabled" id="checkbox6" onchange="Avalvalidate(6)">
                 <div class="state p-danger">
                     <label id="label6">Available</label>
                 </div>
@@ -180,15 +194,15 @@
         <td>Sunday</td>
         <td>
             @Html.ValidationMessageFor(model => model.OFCD_SundayStartTime, "", new { @class = "text-danger" })
-            @Html.EditorFor(model => model.OFCD_SundayStartTime, new { htmlAttributes = new { @tabindex = "3", @type = "time", @class = "form-control p-0" } })
+            @Html.EditorFor(model => model.OFCD_SundayStartTime, new { htmlAttributes = new { @tabindex = "32", @type = "time", @class = "form-control Isdisabled p-0 time7" } })
         </td>
         <td>
             @Html.ValidationMessageFor(model => model.OFCD_SundayEndTime, "", new { @class = "text-danger" })
-            @Html.EditorFor(model => model.OFCD_SundayEndTime, new { htmlAttributes = new { @tabindex = "3", @type = "time", @class = "form-control p-0" } })
+            @Html.EditorFor(model => model.OFCD_SundayEndTime, new { htmlAttributes = new { @tabindex = "33", @type = "time", @class = "form-control Isdisabled p-0 time7" } })
         </td>
         <td>
             <div class="pretty p-switch p-fill">
-                <input type="checkbox" id="checkbox7" onchange="Avalvalidate(7)">
+                <input type="checkbox" class="Isdisabled" id="checkbox7" onchange="Avalvalidate(7)">
                 <div class="state p-danger">
                     <label id="label7">Available</label>
                 </div>
@@ -199,15 +213,45 @@
 <div class="form-group">
     <label>Consultation Charges</label>
     @Html.ValidationMessageFor(model => model.OFCD_Charges, "", new { @class = "text-danger" })
-    @Html.EditorFor(model => model.OFCD_Charges, new { htmlAttributes = new { @class = "form-control", @tabindex = "4", @placeholder = "Enter hospital consultation charges", } })
+    @Html.EditorFor(model => model.OFCD_Charges, new { htmlAttributes = new { @class = "form-control Isdisabled", @tabindex = "34", @placeholder = "Enter hospital consultation charges", } })
 </div>
 <script>
     function Avalvalidate(el) {
         var remember = document.getElementById("checkbox" + el);
         if (remember.checked) {
             document.getElementById("label" + el).innerText = "Not Available";
+            document.getElementsByClassName("time" + el)[0].disabled = true;
+            document.getElementsByClassName("time" + el)[1].disabled = true;
+            document.getElementById("label" + el).style.color = "#d9534f";
         } else {
             document.getElementById("label" + el).innerText = "Available";
+            document.getElementsByClassName("time" + el)[0].disabled = false;
+            document.getElementsByClassName("time" + el)[1].disabled = false;
+            document.getElementById("label" + el).style.color = "#28a745";
+
+        }
+    }
+
+    function chkDoes() {
+        var remember = document.getElementById("chkDoes1");
+        if (remember.checked) {
+            document.getElementById("labelDoes1").innerText = "Not Apply On Me";
+            document.getElementById("labelDoes1").style.color = "#d9534f";
+            $("#OFCDDiv").hide();
+            $("#btnOFCD").prop('disabled', true);
+            var inputs = document.getElementsByClassName("Isdisabled");
+            for (var i = 0; i < inputs.length; i++) {
+                inputs[i].disabled = true;
+            }
+        } else {
+            document.getElementById("labelDoes1").innerText = "It Apply On Me";
+            document.getElementById("labelDoes1").style.color = "#28a745";
+            $("#OFCDDiv").show();
+            $("#btnOFCD").prop('disabled',false);
+            var inputs = document.getElementsByClassName("Isdisabled");
+            for (var i = 0; i < inputs.length; i++) {
+                inputs[i].disabled = false;
+            }
         }
     }
 

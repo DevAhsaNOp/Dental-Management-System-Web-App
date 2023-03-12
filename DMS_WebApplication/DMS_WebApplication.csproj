@@ -1019,6 +1019,7 @@
     <Content Include="Views\Shared\_AddExperience.cshtml" />
     <Content Include="Views\Shared\_ShowExperience.cshtml" />
     <Content Include="Views\Shared\_AddOfflineConsultation.cshtml" />
+    <Content Include="Views\Shared\_ShowOfflineConsultation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
