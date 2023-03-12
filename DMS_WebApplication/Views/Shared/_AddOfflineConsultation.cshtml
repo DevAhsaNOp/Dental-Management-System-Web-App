@@ -5,9 +5,9 @@
         font-size: 14px !important;
     }
 
-    th{
+    th {
         font-size: 18px !important;
-        margin-bottom:10px !important;
+        margin-bottom: 10px !important;
     }
 
     @@media screen and (min-width: 768px) {
@@ -19,7 +19,7 @@
 
 <div class="form-group" id="ToDateID">
     @Html.ValidationMessageFor(model => model.MinimumOnedayShouldBeAdded, "", new { @class = "text-danger" })
-    @Html.EditorFor(model => model.MinimumOnedayShouldBeAdded, new { htmlAttributes = new { @class = "form-control", @type = "month", @tabindex = "5" } })
+    @Html.EditorFor(model => model.MinimumOnedayShouldBeAdded, new { htmlAttributes = new { @class = "form-control", @tabindex = "5" } })
 </div>
 <div class="form-group">
     <label>Hospital Name</label>
@@ -27,7 +27,7 @@
     @Html.EditorFor(model => model.OFCD_HospitalName, new { htmlAttributes = new { placeholder = "Enter hospital name", @class = "form-control", @tabindex = "1" } })
 </div>
 <div class="form-group">
-    <label>Designation</label>
+    <label>Hospital Phone Number</label>
     @Html.ValidationMessageFor(model => model.OFCD_HospitalPhoneNumber, "", new { @class = "text-danger" })
     @Html.EditorFor(model => model.OFCD_HospitalPhoneNumber, new { htmlAttributes = new { placeholder = "Enter hospital phone number", @class = "form-control", @tabindex = "2" } })
 </div>
@@ -66,17 +66,17 @@
         <td>Monday</td>
         <td>
             @Html.ValidationMessageFor(model => model.OFCD_MondayStartTime, "", new { @class = "text-danger" })
-            @Html.EditorFor(model => model.OFCD_MondayStartTime, new { htmlAttributes = new { @tabindex = "3", @type = "time", @class = "form-control p-0" } })
+            @Html.EditorFor(model => model.OFCD_MondayStartTime, new { htmlAttributes = new { @tabindex = "3", @type = "time", @value="", @class = "form-control p-0" } })
         </td>
         <td>
             @Html.ValidationMessageFor(model => model.OFCD_MondayEndTime, "", new { @class = "text-danger" })
-            @Html.EditorFor(model => model.OFCD_MondayEndTime, new { htmlAttributes = new { @tabindex = "3", @type = "time", @class = "form-control p-0" } })
+            @Html.EditorFor(model => model.OFCD_MondayEndTime, new { htmlAttributes = new { @tabindex = "3", @type = "time", @value = "", @class = "form-control p-0" } })
         </td>
         <td>
             <div class="pretty p-switch p-fill">
-                <input type="checkbox" onchange="Avalvalidate(this)">
+                <input type="checkbox" id="checkbox1" onchange="Avalvalidate(1)">
                 <div class="state p-danger">
-                    <label id="labelD">Available</label>
+                    <label id="label1">Available</label>
                 </div>
             </div>
         </td>
@@ -85,11 +85,19 @@
         <td>Tuesday</td>
         <td>
             @Html.ValidationMessageFor(model => model.OFCD_TuesdayStartTime, "", new { @class = "text-danger" })
-            @Html.EditorFor(model => model.OFCD_TuesdayStartTime, new { htmlAttributes = new { @tabindex = "3", @type = "time", @class = "form-control p-0" } })
+            @Html.EditorFor(model => model.OFCD_TuesdayStartTime, new { htmlAttributes = new { @tabindex = "3", @type = "time", @value = "", @class = "form-control p-0" } })
         </td>
         <td>
             @Html.ValidationMessageFor(model => model.OFCD_TuesdayEndTime, "", new { @class = "text-danger" })
-            @Html.EditorFor(model => model.OFCD_TuesdayEndTime, new { htmlAttributes = new { @tabindex = "3", @type = "time", @class = "form-control p-0" } })
+            @Html.EditorFor(model => model.OFCD_TuesdayEndTime, new { htmlAttributes = new { @tabindex = "3", @type = "time", @value = "", @class = "form-control p-0" } })
+        </td>
+        <td>
+            <div class="pretty p-switch p-fill">
+                <input type="checkbox" id="checkbox2" onchange="Avalvalidate(2)">
+                <div class="state p-danger">
+                    <label id="label2">Available</label>
+                </div>
+            </div>
         </td>
     </tr>
     <tr>
@@ -102,6 +110,14 @@
             @Html.ValidationMessageFor(model => model.OFCD_WednesdayEndTime, "", new { @class = "text-danger" })
             @Html.EditorFor(model => model.OFCD_WednesdayEndTime, new { htmlAttributes = new { @tabindex = "3", @type = "time", @class = "form-control p-0" } })
         </td>
+        <td>
+            <div class="pretty p-switch p-fill">
+                <input type="checkbox" id="checkbox3" onchange="Avalvalidate(3)">
+                <div class="state p-danger">
+                    <label id="label3">Available</label>
+                </div>
+            </div>
+        </td>
     </tr>
     <tr>
         <td>Thursday</td>
@@ -112,6 +128,14 @@
         <td>
             @Html.ValidationMessageFor(model => model.OFCD_ThursdayEndTime, "", new { @class = "text-danger" })
             @Html.EditorFor(model => model.OFCD_ThursdayEndTime, new { htmlAttributes = new { @tabindex = "3", @type = "time", @class = "form-control p-0" } })
+        </td>
+        <td>
+            <div class="pretty p-switch p-fill">
+                <input type="checkbox" id="checkbox4" onchange="Avalvalidate(4)">
+                <div class="state p-danger">
+                    <label id="label4">Available</label>
+                </div>
+            </div>
         </td>
     </tr>
     <tr>
@@ -124,6 +148,14 @@
             @Html.ValidationMessageFor(model => model.OFCD_FridayEndTime, "", new { @class = "text-danger" })
             @Html.EditorFor(model => model.OFCD_FridayEndTime, new { htmlAttributes = new { @tabindex = "3", @type = "time", @class = "form-control p-0" } })
         </td>
+        <td>
+            <div class="pretty p-switch p-fill">
+                <input type="checkbox" id="checkbox5" onchange="Avalvalidate(5)">
+                <div class="state p-danger">
+                    <label id="label5">Available</label>
+                </div>
+            </div>
+        </td>
     </tr>
     <tr>
         <td>Saturday</td>
@@ -134,6 +166,14 @@
         <td>
             @Html.ValidationMessageFor(model => model.OFCD_SaturdayEndTime, "", new { @class = "text-danger" })
             @Html.EditorFor(model => model.OFCD_SaturdayEndTime, new { htmlAttributes = new { @tabindex = "3", @type = "time", @class = "form-control p-0" } })
+        </td>
+        <td>
+            <div class="pretty p-switch p-fill">
+                <input type="checkbox" id="checkbox6" onchange="Avalvalidate(6)">
+                <div class="state p-danger">
+                    <label id="label6">Available</label>
+                </div>
+            </div>
         </td>
     </tr>
     <tr>
@@ -146,6 +186,14 @@
             @Html.ValidationMessageFor(model => model.OFCD_SundayEndTime, "", new { @class = "text-danger" })
             @Html.EditorFor(model => model.OFCD_SundayEndTime, new { htmlAttributes = new { @tabindex = "3", @type = "time", @class = "form-control p-0" } })
         </td>
+        <td>
+            <div class="pretty p-switch p-fill">
+                <input type="checkbox" id="checkbox7" onchange="Avalvalidate(7)">
+                <div class="state p-danger">
+                    <label id="label7">Available</label>
+                </div>
+            </div>
+        </td>
     </tr>
 </table>
 <div class="form-group">
@@ -155,10 +203,11 @@
 </div>
 <script>
     function Avalvalidate(el) {
-        if (el.checked) {
-            document.getElementById("labelD").innerText = "Not Available";
+        var remember = document.getElementById("checkbox" + el);
+        if (remember.checked) {
+            document.getElementById("label" + el).innerText = "Not Available";
         } else {
-            document.getElementById("labelD").innerText = "Available";
+            document.getElementById("label" + el).innerText = "Available";
         }
     }
 
