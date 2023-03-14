@@ -179,7 +179,7 @@
                     </div>
                     <div class="card-body">
                         <div>
-                            <div id="OFCDDiv">
+                            <div id="OFCDDiv mb-2">
                             </div>
                             <button type="button" class="btn btn-primary" id="btnOFCD" onclick="OFCDOpen()">
                                 Add Offline Consultation
@@ -243,6 +243,8 @@
 
         function OFCDSuccess() {
             $("#OFCDform").trigger("reset");
+            $("#OFCDform").hide();
+            $("#btnOFCD").show();
         }
 
         function validate() {
@@ -264,26 +266,57 @@
             })
                 .then((willDelete) => {
                     if (willDelete) {
-                    $("#loader").show();
-                    $.ajax({
-                        type: "POST",
-                        url: "@Url.Action("DeleteExp", "Doctor")",
-                        data: JSON.stringify({ ExpID: expID }),
-                        contentType: "application/json; charset=utf-8",
-                        success: function (response) {
-                            $("#loader").hide();
-                            $("#ExpDiv").empty();
-                            $("#ExpDiv").append(response);
-                            swal('Poof! Your Experience detail has been deleted!', {
-                                icon: 'success',
+                        $("#loader").show();
+                        $.ajax({
+                            type: "POST",
+                            url: "@Url.Action("DeleteExp", "Doctor")",
+                            data: JSON.stringify({ ExpID: expID }),
+                            contentType: "application/json; charset=utf-8",
+                            success: function (response) {
+                                $("#loader").hide();
+                                $("#ExpDiv").empty();
+                                $("#ExpDiv").append(response);
+                                swal('Poof! Your Experience detail has been deleted!', {
+                                    icon: 'success',
                                 });
-                        }
-                    });
+                            }
+                        });
                     } else {
                         swal('Your experience details is safe!');
                     }
                 });
+        }
 
+        function deleteOfcd(ofcdID) {
+            swal({
+                title: 'Are you sure?',
+                text: 'Once deleted, you will not be able to recover this Offline Consultation detail!',
+                icon: 'warning',
+                buttons: true,
+                dangerMode: true,
+            })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        $("#loader").show();
+                        $.ajax({
+                            type: "POST",
+                            url: "@Url.Action("DeleteOfflineConsultation", "Doctor")",
+                            data: JSON.stringify({ OfcdID: ofcdID }),
+                            contentType: "application/json; charset=utf-8",
+                            success: function (response) {
+                                $("#loader").hide();
+                                $("#OFCDDiv").empty();
+                                $("#OFCDDiv").append(response);
+                                swal('Poof! Your Offline Consultation detail has been deleted!', {
+                                    icon: 'success',
+                                });
+                            }
+                        });
+                    } else {
+                        swal('Your offline consultation details is safe!');
+                    }
+                });
+        }
             //if (expID > 0) {
             //    if (confirm("Are you sure to delete your Experience?")) {
             //        $("#loader").show();
@@ -304,7 +337,6 @@
             //    alert('Something went wrong please try again later!');
             //}
 
-        }
     </script>
 </body>
 </html>

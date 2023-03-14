@@ -232,31 +232,31 @@ namespace DMS_WebApplication.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult DeleteOfflineConsultation(int ExpID)
+        public ActionResult DeleteOfflineConsultation(int OfcdID)
         {
-            var reas = Session["ExperienceList"];
-            var ExperienceList = new List<ValidateDoctorHospitalInfo>();
-            if (ExpID <= 0)
+            var reas = Session["OFCDList"];
+            var OFCDList = new List<ValidateDoctorOfflineConsultaionDetails>();
+            if (OfcdID <= 0)
             {
-                var data = (List<ValidateDoctorHospitalInfo>)Session["ExperienceList"];
-                ExperienceList = data;
-                Session["ExperienceList"] = ExperienceList;
-                return PartialView("_ShowExperience", ExperienceList);
+                var data = (List<ValidateDoctorOfflineConsultaionDetails>)Session["OFCDList"];
+                OFCDList = data;
+                Session["OFCDList"] = OFCDList;
+                return PartialView("_ShowOfflineConsultation", OFCDList);
             }
             else
             {
                 if (reas == null)
                 {
-                    return PartialView("_ShowExperience", ExperienceList);
+                    return PartialView("_ShowOfflineConsultation", OFCDList);
                 }
                 else
                 {
-                    var data = (List<ValidateDoctorHospitalInfo>)Session["ExperienceList"];
-                    var ExpItem = data.Where(x => x.HospitalID == ExpID).FirstOrDefault();
+                    var data = (List<ValidateDoctorOfflineConsultaionDetails>)Session["OFCDList"];
+                    var ExpItem = data.Where(x => x.OFCD_ID == OfcdID).FirstOrDefault();
                     data.Remove(ExpItem);
-                    ExperienceList = data;
-                    Session["ExperienceList"] = ExperienceList;
-                    return PartialView("_ShowExperience", ExperienceList);
+                    OFCDList = data;
+                    Session["OFCDList"] = OFCDList;
+                    return PartialView("_ShowOfflineConsultation", OFCDList);
                 }
             }
         }
