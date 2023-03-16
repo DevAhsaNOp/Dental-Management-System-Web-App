@@ -8,6 +8,9 @@ using System.Linq;
 using System.Net.Http;
 using System.Web;
 using System.Web.Mvc;
+using System.IO;
+using System.Net.Http.Headers;
+using System.Threading.Tasks;
 
 namespace DMS_WebApplication.Controllers
 {
@@ -20,6 +23,24 @@ namespace DMS_WebApplication.Controllers
         public DoctorController()
         {
             _httpClient = new HttpClient();
+        }
+
+        private async Task<ActionResult> getservices()
+        {
+            string apiUrl = _BaseURL + "Get/AllServices";
+            HttpClient client = new HttpClient();
+            var acc = Session["AccessToken"].ToString();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer",acc);
+            HttpResponseMessage response = await client.GetAsync(apiUrl);
+            if (response.IsSuccessStatusCode)
+            {
+                string responseContent = await response.Content.ReadAsStringAsync();
+                return View();
+            }
+            else
+            {
+                return null;
+            }
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
@@ -47,7 +68,42 @@ namespace DMS_WebApplication.Controllers
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult ProfileComplete(ValidateDoctor doctor)
         {
-            return View(doctor);
+            try
+            {
+                if (doctor != null)
+                {
+                    doctor.UserUpdateEmail = Session["Email"].ToString();
+                    doctor.UserID = int.Parse(Session["UserID"].ToString());
+                    doctor.UserUpdatePhoneNumber = Session["PhoneNumber"].ToString();
+                    doctor.UserUpdatedBy = int.Parse(Session["UserID"].ToString());
+                    //ModelState.Clear();
+                    //_httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Session["AccessToken"].ToString());
+                    var reas = _httpClient.PostAsJsonAsync(_BaseURL + "Update/Doctor", doctor).Result;
+                    if (reas.IsSuccessStatusCode)
+                    {
+                        var json = JObject.Parse(reas.Content.ReadAsStringAsync().Result);
+                        var StatusCode = JsonConvert.DeserializeObject<int>(json["StatusCode"].ToString());
+                        if (StatusCode == 201)
+                            TempData["SuccessMsg"] = "Your profile is completed successfully!";
+                        else
+                            TempData["ErrorMsg"] = "Error on completing profile!";
+                    }
+                    else
+                    {
+                        TempData["ErrorMsg"] = "Error on completing profile!";
+                    }
+                }
+                else
+                {
+                    TempData["ErrorMsg"] = "Error on completing profile!";
+                    return RedirectToAction("SignUp");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return RedirectToAction("SignUp");
         }
 
         [AcceptVerbs(HttpVerbs.Post)]

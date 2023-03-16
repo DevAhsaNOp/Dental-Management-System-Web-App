@@ -27,6 +27,12 @@ namespace DMS_BOL.Validation_Classes
         [Display(Name = "About Me")]
         public string DoctorAboutMe { get; set; }
 
+        [Required(ErrorMessage = "Minimum One day Should Be Added")]
+        [Display(Name = "Number of checkup days")]
+        [RegularExpression("^\\d{0,8}(\\.\\d{1,4})?$", ErrorMessage = "Invalid Number of checkup days")]
+        [Range(1, 7, ErrorMessage = "Invalid Number of checkup days")]
+        public int? MinimumOnedayShouldBeAdded { get; set; }
+
         [Required(ErrorMessage = "*")]
         [Display(Name = "Is Profile Completed")]
         public bool? D_IsProfileCompleted { get; set; }

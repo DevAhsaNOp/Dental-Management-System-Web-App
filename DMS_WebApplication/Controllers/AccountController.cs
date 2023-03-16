@@ -9,6 +9,8 @@ using System.Web.Security;
 using Newtonsoft.Json.Linq;
 using DMS_BOL.Validation_Classes;
 using System.Collections.Generic;
+using System.Net;
+using System.Web.Helpers;
 
 namespace DMS_WebApplication.Controllers
 {
@@ -95,6 +97,14 @@ namespace DMS_WebApplication.Controllers
                         var StatusCode = JsonConvert.DeserializeObject<int>(json["StatusCode"].ToString());
                         if (StatusCode == 201)
                             TempData["SuccessMsg"] = "Account Created Successfully!";
+                        else if (StatusCode == 403)
+                            TempData["ErrorMsg"] = "Invalid OTP provided. Please ensure to enter correct OTP again!";
+                        else if (StatusCode == 404)
+                            TempData["ErrorMsg"] = "Email already exists. Please ensure to enter not used email account again!";
+                        else if (StatusCode == 405)
+                            TempData["ErrorMsg"] = "Phone Number already exists. Please ensure to enter not used phone number again!";
+                        else if(StatusCode == 500)
+                            TempData["ErrorMsg"] = "Error occured on creating Account. Please try again later!";
                         else
                             TempData["ErrorMsg"] = "Error on creating account!";
                     }
@@ -145,14 +155,19 @@ namespace DMS_WebApplication.Controllers
                             Session["UserID"] = json["UserID"].ToString().Normalize().Trim();
                             Session["Username"] = json["Username"].ToString().Normalize().Trim();
                             Session["UserImage"] = json["UserImage"].ToString().Normalize().Trim();
+                            Session["PhoneNumber"] = json["PhoneNumber"].ToString().Normalize().Trim();
                             TempData["SuccessMsg"] = "Account Login Successfully!";
                         }
                         else
+                        {
                             TempData["ErrorMsg"] = "Invalid Email Address or Password!";
+                            return RedirectToAction("SignIn");
+                        }
                     }
                     else
                     {
                         TempData["ErrorMsg"] = "Error on logon account, Please try again later!";
+                        return RedirectToAction("SignIn");
                     }
                 }
                 else
