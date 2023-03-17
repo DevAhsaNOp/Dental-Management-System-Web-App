@@ -1,0 +1,91 @@
+﻿@model IEnumerable<DMS_BOL.tblPatient>
+
+@{
+    ViewBag.Title = "DMS - Patients";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css">
+<link rel="stylesheet" href="~/assets/bundles/datatables/DataTables-1.10.16/css/dataTables.bootstrap4.min.css">
+
+<div class="section-body">
+    <div class="row mb-2">
+        <div class="col-12">
+            <h3>Your Patients</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="row mb-4">
+                <div class="col-12">
+                    <a class="btn btn-lg btn-primary" href="@Url.Action("AddPatient","Patient")">Add Patient</a>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <h4>All Patients</h4>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped" id="table-1">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">
+                                        #
+                                    </th>
+                                    <th>Patient Name</th>
+                                    <th>Contact Number</th>
+                                    <th>Gender</th>
+                                    <th>Email</th>
+                                    <th>Address</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    var i = 1;
+                                    foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @i
+                                            </td>
+                                            <td>
+                                                <img alt="image" src="@Url.Content(item.P_ProfileImage)" width="35">
+                                                @item.P_FirstName @item.P_LastName
+                                            </td>
+                                            <td>@item.P_PhoneNumber</td>
+                                            <td>@item.P_Gender</td>
+                                            <td>@item.P_Email</td>
+                                            <td>@item.tblAddress.tblZone.ZoneName, @item.tblAddress.tblCity.CityName</td>
+                                            @if (item.P_IsActive.Value)
+                                            {
+                                                <td><span class="badge badge-success">Active</span></td>
+                                            }
+                                            else
+                                            {
+                                                <td><span class="badge badge-danger">Inctive</span></td>
+                                            }
+                                            <td><a href="#" class="btn btn-primary">Detail</a></td>
+                                        </tr>
+                                        i++;
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    document.getElementById('appointmentS').classList.remove('active')
+    document.getElementById('dashboardS').classList.remove('active')
+    document.getElementById('paymentS').classList.remove('active')
+    document.getElementById('messageS').classList.remove('active')
+    document.getElementById('patientS').classList.add('active')
+</script>
+<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
+<script src="~/assets/bundles/datatables/DataTables-1.10.16/js/dataTables.bootstrap4.min.js"></script>
+<script src="~/assets/js/page/datatables.js"></script>

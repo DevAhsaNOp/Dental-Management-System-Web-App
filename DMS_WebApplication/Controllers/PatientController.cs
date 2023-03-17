@@ -1,4 +1,5 @@
 ﻿using DMS_BLL.Repositories;
+using DMS_BOL;
 using DMS_BOL.Validation_Classes;
 using DMS_DAL.DBLayer;
 using System;
@@ -81,14 +82,7 @@ namespace DMS_WebApplication.Controllers
         [CustomAuthorize(Roles = "Admin, SuperAdmin, Doctor")]
         public ActionResult Patients()
         {
-            var AllStates = AddressRepoObj.GetAllState();
-            var states = new List<SelectListItem>();
-            foreach (var item in AllStates)
-            {
-                states.Add(new SelectListItem() { Text = item.StateName, Value = item.StateID.ToString() });
-            }
-            ViewBag.State = states;
-            ValidatePatient patient = new ValidatePatient();
+            IEnumerable<tblPatient> patient = UserRepoObj.GetAllPatient();
             return View(patient);
         }
     }

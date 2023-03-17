@@ -265,7 +265,7 @@
                             <a href="@Url.Action("Appointments","Doctor")" class="nav-link toggled"><img src="~/assets/img/sidebar/calendar-24.png" alt="calendar" /><span class="ml-2">Appointments</span></a>
                         </li>
                         <li class="dropdown" id="patientS">
-                            <a href="index.html" class="nav-link toggled"><img src="~/assets/img/sidebar/customer-24.png" alt="patients" /><span class="ml-2">Patients</span></a>
+                            <a href="@Url.Action("Patients","Patient")" class="nav-link toggled"><img src="~/assets/img/sidebar/customer-24.png" alt="patients" /><span class="ml-2">Patients</span></a>
                         </li>
                         <li class="dropdown" id="messageS">
                             <a href="@Url.Action("Messages","Doctor")" class="nav-link toggled"><img src="~/assets/img/sidebar/chat-24.png" alt="messages" /><span class="ml-2">Messages</span></a>
@@ -274,7 +274,7 @@
                             <a href="index.html" class="nav-link toggled"><img src="~/assets/img/sidebar/payment-24.png" alt="payments" /><span class="ml-2">Payments</span></a>
                         </li>
                         <li class="dropdown">
-                            <a href="index.html" class="nav-link toggled"><img src="~/assets/img/sidebar/slider-24.png" alt="settings" /><span class="ml-2">Settings</span></a>
+                            <a href="@Url.Action("Settings","Doctor", new { DoctorID = int.Parse(Session["UserID"].ToString()) } )" class="nav-link toggled"><img src="~/assets/img/sidebar/slider-24.png" alt="settings" /><span class="ml-2">Settings</span></a>
                         </li>
                     </ul>
                 </aside>

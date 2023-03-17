@@ -7,6 +7,7 @@ using DMS_DAL.UserDefine;
 using System.Data.Entity;
 using DMS_BOL.Validation_Classes;
 using static System.Net.WebRequestMethods;
+using System.Collections.Generic;
 
 namespace DMS_DAL.DBLayer
 {
@@ -115,6 +116,19 @@ namespace DMS_DAL.DBLayer
         public tblPatient GetPatientByID(int modelId)
         {
             return _context.tblPatients.Find(modelId);
+        }
+        
+        public IEnumerable<tblPatient> GetAllPatient()
+        {
+            var reas = _context.tblPatients.ToList();
+            foreach (var item in reas)
+            {
+                item.tblAddress = _context.tblAddresses.Find(item.P_AddressID);
+                item.tblAddress.tblCity = _context.tblCities.Find(item.tblAddress.AddressCity);
+                item.tblAddress.tblState = _context.tblStates.Find(item.tblAddress.AddressState);
+                item.tblAddress.tblZone = _context.tblZones.Find(item.tblAddress.AddressZone);
+            }
+            return reas;
         }
 
         public bool InActivePatient(tblPatient model)
