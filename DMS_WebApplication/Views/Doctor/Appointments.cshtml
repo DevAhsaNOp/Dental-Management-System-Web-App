@@ -1,0 +1,35 @@
+﻿
+@{
+    ViewBag.Title = "DMS - Doctor Appointments";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@if (User.Identity.IsAuthenticated)
+{
+    <div class="section-body">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4>Calendar</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="fc-overflow">
+                            <div id="myEvent"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('appointmentS').classList.add('active')
+        document.getElementById('dashboardS').classList.remove('active')
+        document.getElementById('paymentS').classList.remove('active')
+        document.getElementById('messageS').classList.remove('active')
+        document.getElementById('patientS').classList.remove('active')
+    </script>
+    <script src="~/assets/js/app.min.js"></script>
+    <script src="~/assets/bundles/fullcalendar/fullcalendar.min.js"></script>
+    <script src="~/assets/js/page/calendar.js"></script>
+}

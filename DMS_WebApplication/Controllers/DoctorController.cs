@@ -1,60 +1,49 @@
-﻿using DMS_BOL;
-using DMS_BOL.Validation_Classes;
-using Newtonsoft.Json.Linq;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
 using System.Net.Http;
-using System.Web;
 using System.Web.Mvc;
-using System.IO;
-using System.Net.Http.Headers;
-using System.Threading.Tasks;
+using DMS_BLL.Repositories;
+using DMS_BOL.Validation_Classes;
+using System.Collections.Generic;
+using DMS_WebApplication.Models;
+using DMS_BOL;
+using System.Drawing;
 
 namespace DMS_WebApplication.Controllers
 {
     public class DoctorController : Controller
     {
         private HttpClient _httpClient;
-        string _BaseURL = "https://dmswepapi.azurewebsites.net/api/";
         AccountController acObj = new AccountController();
+        private AddressRepo AddressRepoObj;
+        private DoctorsRepo DoctorsRepoObj;
+        private DoctorServicesRepo servicesRepoObj;
+        private DoctorOfflineConsultaionDetailsRepo OfcdRepoObj;
+        private DoctorWorkExperienceRepo WexRepoObj;
 
         public DoctorController()
         {
             _httpClient = new HttpClient();
-        }
-
-        private async Task<ActionResult> getservices()
-        {
-            string apiUrl = _BaseURL + "Get/AllServices";
-            HttpClient client = new HttpClient();
-            var acc = Session["AccessToken"].ToString();
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer",acc);
-            HttpResponseMessage response = await client.GetAsync(apiUrl);
-            if (response.IsSuccessStatusCode)
-            {
-                string responseContent = await response.Content.ReadAsStringAsync();
-                return View();
-            }
-            else
-            {
-                return null;
-            }
+            AddressRepoObj = new AddressRepo();
+            DoctorsRepoObj = new DoctorsRepo();
+            servicesRepoObj = new DoctorServicesRepo();
+            WexRepoObj = new DoctorWorkExperienceRepo();
+            OfcdRepoObj = new DoctorOfflineConsultaionDetailsRepo();
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
+        [CustomAuthorize(Roles = "Admin, SuperAdmin, Doctor")]
         public ActionResult ProfileComplete()
         {
 
-            var AllStates = acObj.GetAllState();
+            var AllStates = AddressRepoObj.GetAllState();
             var states = new List<SelectListItem>();
             foreach (var item in AllStates)
             {
                 states.Add(new SelectListItem() { Text = item.StateName, Value = item.StateID.ToString() });
             }
             ViewBag.State = states;
-            var AllService = GetAllServices();
+            var AllService = servicesRepoObj.GetAllDoctorServices();
             var service = new List<SelectListItem>();
             foreach (var item in AllService)
             {
@@ -65,48 +54,154 @@ namespace DMS_WebApplication.Controllers
             return View(doctor);
         }
 
+        public static IEnumerable<KeyValuePair<string, string>> ObjectToKeyValuePairs(object obj)
+        {
+            var properties = obj.GetType().GetProperties();
+
+            foreach (var property in properties)
+            {
+                yield return new KeyValuePair<string, string>(property.Name, property.GetValue(obj)?.ToString());
+            }
+        }
+
         [AcceptVerbs(HttpVerbs.Post)]
+        [CustomAuthorize(Roles = "Admin, SuperAdmin, Doctor")]
         public ActionResult ProfileComplete(ValidateDoctor doctor)
         {
             try
             {
                 if (doctor != null)
                 {
-                    doctor.UserUpdateEmail = Session["Email"].ToString();
                     doctor.UserID = int.Parse(Session["UserID"].ToString());
-                    doctor.UserUpdatePhoneNumber = Session["PhoneNumber"].ToString();
-                    doctor.UserUpdatedBy = int.Parse(Session["UserID"].ToString());
-                    //ModelState.Clear();
-                    //_httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Session["AccessToken"].ToString());
-                    var reas = _httpClient.PostAsJsonAsync(_BaseURL + "Update/Doctor", doctor).Result;
-                    if (reas.IsSuccessStatusCode)
+                    var Docreas = DoctorsRepoObj.GetUserDetailById(doctor.UserID);
+                    ValidateDoctor validateDoctor = new ValidateDoctor()
                     {
-                        var json = JObject.Parse(reas.Content.ReadAsStringAsync().Result);
-                        var StatusCode = JsonConvert.DeserializeObject<int>(json["StatusCode"].ToString());
-                        if (StatusCode == 201)
-                            TempData["SuccessMsg"] = "Your profile is completed successfully!";
-                        else
-                            TempData["ErrorMsg"] = "Error on completing profile!";
+                        tblAddress = Docreas.tblAddress,
+                        UserID = int.Parse(Session["UserID"].ToString()),
+                        UserFirstName = Docreas.UserFirstName,
+                        UserLastName = Docreas.UserLastName,
+                        UserEmail = Docreas.UserEmail,
+                        UserPhoneNumber = Docreas.UserPhoneNumber,
+                        UserProfileImage = Docreas.UserProfileImage,
+                        UserPassword = Docreas.UserPassword,
+                        tblRole = Docreas.tblRole,
+                        UserIsActive = Docreas.UserIsActive.Value,
+                        UserVerified = Docreas.UserVerified.Value,
+                        UserOTP = null,
+                        UserIsArchive = Docreas.UserIsArchive.Value,
+                        UserUpdatedBy = int.Parse(Session["UserID"].ToString()),
+                        UserUpdatedOn = Docreas.UserUpdatedOn.Value,
+                        UserCreatedBy = Docreas.UserCreatedBy.Value,
+                        UserCreatedOn = Docreas.UserCreatedOn.Value,
+                        Gender = "Male",
+                        D_IsProfileCompleted = true,
+                        UserUpdatePhoneNumber = Session["PhoneNumber"].ToString(),
+                        UserUpdateEmail = Session["Email"].ToString(),
+                        DoctorAboutMe = doctor.DoctorAboutMe,
+                        DoctorAwardsAndAchievements = doctor.DoctorAwardsAndAchievements,
+                        DoctorResponseTime = doctor.DoctorResponseTime,
+                        DoctorSpecialization = doctor.DoctorSpecialization,
+                        DoctorWorkPhoneNumber = doctor.DoctorWorkPhoneNumber,
+                        DoctorYearsOfExperience = doctor.DoctorYearsOfExperience,
+                        AreaID = Docreas.tblAddress.AddressZone.Value,
+                        CityID = Docreas.tblAddress.AddressCity.Value,
+                        StateID = Docreas.tblAddress.AddressState.Value,
+                        CompleteAddress = Docreas.tblAddress.AddressComplete
+                    };
+
+                    /*
+                     ** Code For Jwt Authorization **
+                     * var acc = Session["AccessToken"].ToString();
+                     * var client = new HttpClient();
+                     * var request = new HttpRequestMessage(HttpMethod.Post, "https://localhost:44316/api/Update/Doctor");
+                     * request.Headers.Add("Authorization", "Bearer " + acc);
+                     * var val = ObjectToKeyValuePairs(doctor);
+                     * request.Content = new FormUrlEncodedContent(val);
+                     * var response = await client.SendAsync(request);
+                     * response.EnsureSuccessStatusCode();
+                     * var ereas = await response.Content.ReadAsStringAsync();
+                    */
+                    if (Session["OFCDList"] != null)
+                    {
+                        var data = (List<ValidateDoctorOfflineConsultaionDetails>)Session["OFCDList"];
+                        if (data != null && data.Count > 0)
+                        {
+                            foreach (var item in data)
+                            {
+                                item.OFCD_DoctorID = doctor.UserID;
+                                item.OFCD_ID = 0;
+                                item.OFCD_CreatedBy = doctor.UserID;
+                                OfcdRepoObj.InsertOfflineConsultaionDetail(item);
+                            }
+                        }
+                    }
+                    if (Session["ExperienceList"] != null)
+                    {
+                        var data = (List<ValidateDoctorHospitalInfo>)Session["ExperienceList"];
+                        if (data != null && data.Count > 0)
+                        {
+                            ValidateDoctorWorkExperience experience = new ValidateDoctorWorkExperience()
+                            {
+                                WEX_ID = 0,
+                                WEX_DoctorID = doctor.UserID,
+                                HospitalInfos = data,
+                                WEX_CreatedBy = doctor.UserID,
+                            };
+                            WexRepoObj.InsertDoctorWorkExperience(experience);
+                        }
+                    }
+                    var reas = DoctorsRepoObj.UpdateDoctor(validateDoctor);
+                    if (reas == 1)
+                    {
+                        TempData["SuccessMsg"] = "Your profile is completed successfully!";
+                        TempData["SuccessP"] = "1";
+                    }
+                    else if (reas == -1)
+                    {
+                        TempData["ErrorMsg"] = "Email already exists. Please ensure to enter not used email account again!";
+                        TempData["ErrorP"] = "0";
+                    }
+                    else if (reas == -2)
+                    {
+                        TempData["ErrorMsg"] = "Phone Number already exists. Please ensure to enter not used phone number again!";
+                        TempData["ErrorP"] = "2";
                     }
                     else
                     {
-                        TempData["ErrorMsg"] = "Error on completing profile!";
+                        TempData["ErrorMsg"] = "Error on completing profile. Please try again later!";
+                        TempData["ErrorP"] = "3";
                     }
                 }
                 else
                 {
                     TempData["ErrorMsg"] = "Error on completing profile!";
-                    return RedirectToAction("SignUp");
+                    TempData["ErrorP"] = "4";
+                    return RedirectToAction("ProfileComplete");
                 }
             }
             catch (Exception ex)
             {
                 throw ex;
             }
-            return RedirectToAction("SignUp");
+            return RedirectToAction("Index", "Account");
+        }
+
+        [AcceptVerbs(HttpVerbs.Get)]
+        [CustomAuthorize(Roles = "Admin, SuperAdmin, Doctor")]
+        public ActionResult Appointments()
+        {
+            return View();
+        }
+
+        [AcceptVerbs(HttpVerbs.Get)]
+        [CustomAuthorize(Roles = "Admin, SuperAdmin, Doctor")]
+        public ActionResult Messages()
+        {
+            return View();
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
+        [CustomAuthorize(Roles = "Admin, SuperAdmin, Doctor")]
         public ActionResult InsertExp(ValidateDoctorHospitalInfo doctor)
         {
             var reas = Session["ExperienceList"];
@@ -159,6 +254,7 @@ namespace DMS_WebApplication.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
+        [CustomAuthorize(Roles = "Admin, SuperAdmin, Doctor")]
         public ActionResult DeleteExp(int ExpID)
         {
             var reas = Session["ExperienceList"];
@@ -189,6 +285,7 @@ namespace DMS_WebApplication.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
+        [CustomAuthorize(Roles = "Admin, SuperAdmin, Doctor")]
         public ActionResult InsertOfflineConsultation(ValidateDoctorOfflineConsultaionDetails ofcd)
         {
             var reas = Session["OFCDList"];
@@ -288,6 +385,7 @@ namespace DMS_WebApplication.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
+        [CustomAuthorize(Roles = "Admin, SuperAdmin, Doctor")]
         public ActionResult DeleteOfflineConsultation(int OfcdID)
         {
             var reas = Session["OFCDList"];
@@ -317,30 +415,135 @@ namespace DMS_WebApplication.Controllers
             }
         }
 
-        public IEnumerable<tblService> GetAllServices()
+        [AcceptVerbs(HttpVerbs.Get)]
+        [CustomAuthorize(Roles = "Admin, SuperAdmin, Doctor")]
+        public ActionResult DoctorProfile(int DoctorID)
+        {
+            tblDoctor reas = DoctorsRepoObj.GetDoctorByID(DoctorID);
+            IEnumerable<tblOfflineConsultaionDetail> ofcdDetails = OfcdRepoObj.GetDoctorAllOfflineConsultaionDetailsByID(DoctorID);
+            IEnumerable<tblDoctorWorkExperience> WexDetails = WexRepoObj.GetDoctorAllWorkExperiencesByID(DoctorID);
+            IEnumerable<string> serviceDetails = servicesRepoObj.GetAllDoctorServicesByID(DoctorID);
+            DoctorProfileView doctorProfile = new DoctorProfileView()
+            {
+                Experience = WexDetails,
+                OfflineConsultation = ofcdDetails,
+                Profile = reas,
+                Services = serviceDetails
+            };
+            return View(doctorProfile);
+        }
+
+        [AcceptVerbs(HttpVerbs.Get)]
+        [CustomAuthorize(Roles = "Admin, SuperAdmin, Doctor")]
+        public ActionResult Settings(int DoctorID)
         {
             try
             {
-                var response = _httpClient.GetAsync(_BaseURL + "Get/AllServices");
-                var reas = response.GetAwaiter().GetResult();
-                response.Wait();
-                using (HttpContent content = reas.Content)
+                tblDoctor reas = DoctorsRepoObj.GetDoctorByID(DoctorID);
+                var reas1 = DoctorsRepoObj.GetUserDetailById(DoctorID);
+                ValidateDoctor doctor = new ValidateDoctor()
                 {
-                    var json = JObject.Parse(content.ReadAsStringAsync().Result);
-                    var StatusCode = JsonConvert.DeserializeObject<int>(json["StatusCode"].ToString());
-                    if (StatusCode == 200)
-                    {
-                        IEnumerable<tblService> Services = JsonConvert.DeserializeObject<IEnumerable<tblService>>(json["Datalist"].ToString());
-                        return Services;
-                    }
-                    else
-                        return null;
-                }
+                    AreaID = reas.tblAddress.AddressZone.Value,
+                    StateID = reas.tblAddress.AddressState.Value,
+                    CityID = reas.tblAddress.AddressCity.Value,
+                    CompleteAddress = reas.tblAddress.AddressComplete,
+                    UserID = reas.D_ID,
+                    ConfirmPassowrd = reas1.UserPassword,
+                    UserPassword = reas1.UserPassword,
+                    DoctorWorkPhoneNumber = reas.D_WorkPhoneNumber,
+                    UserFirstName = reas.D_FirstName,
+                    UserLastName = reas.D_LastName,
+                    Gender = reas.D_Gender == "Male" ? "1" : "2",
+                    UserProfileImage = reas.D_ProfileImage,
+                    DoctorAboutMe = reas.D_AboutMe,
+                    DoctorYearsOfExperience = reas.D_YearsOfExperience,
+                    DoctorAwardsAndAchievements = reas.D_AwardsAndAchievements,
+                    DoctorResponseTime = reas.D_ResponseTime,
+                    DoctorSpecialization = reas.D_Specialization,
+                };
+                Session["DoctorID"] = doctor.UserID;
+                return View(doctor);
             }
             catch (Exception ex)
             {
                 throw ex;
             }
         }
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        [CustomAuthorize(Roles = "Admin, SuperAdmin, Doctor")]
+        public ActionResult Settings(ValidateDoctor doctor)
+        {
+            try
+            {
+                doctor.UserID = int.Parse(Session["DoctorID"].ToString());
+                var Docreas = DoctorsRepoObj.GetUserDetailById(doctor.UserID);
+                ValidateDoctor validateDoctor = new ValidateDoctor()
+                {
+                    tblAddress = Docreas.tblAddress,
+                    UserID = Docreas.UserID,
+                    UserFirstName = doctor.UserFirstName,
+                    UserLastName = doctor.UserLastName,
+                    UserEmail = Docreas.UserEmail,
+                    UserPhoneNumber = Docreas.UserPhoneNumber,
+                    UserProfileImage = Docreas.UserProfileImage,
+                    UserPassword = doctor.UserPassword,
+                    tblRole = Docreas.tblRole,
+                    UserIsActive = Docreas.UserIsActive.Value,
+                    UserVerified = Docreas.UserVerified.Value,
+                    UserOTP = null,
+                    UserIsArchive = Docreas.UserIsArchive.Value,
+                    UserUpdatedBy = Docreas.UserID,
+                    UserUpdatedOn = Docreas.UserUpdatedOn.Value,
+                    UserCreatedBy = Docreas.UserCreatedBy.Value,
+                    UserCreatedOn = Docreas.UserCreatedOn.Value,
+                    Gender = doctor.Gender == "1" ? "Male" : "Female",
+                    D_IsProfileCompleted = true,
+                    UserUpdatePhoneNumber = Session["PhoneNumber"].ToString(),
+                    UserUpdateEmail = Session["Email"].ToString(),
+                    DoctorAboutMe = doctor.DoctorAboutMe,
+                    DoctorAwardsAndAchievements = doctor.DoctorAwardsAndAchievements,
+                    DoctorResponseTime = doctor.DoctorResponseTime,
+                    DoctorSpecialization = doctor.DoctorSpecialization,
+                    DoctorWorkPhoneNumber = doctor.DoctorWorkPhoneNumber,
+                    DoctorYearsOfExperience = doctor.DoctorYearsOfExperience,
+                    AreaID = Docreas.tblAddress.AddressZone.Value,
+                    CityID = Docreas.tblAddress.AddressCity.Value,
+                    StateID = Docreas.tblAddress.AddressState.Value,
+                    CompleteAddress = Docreas.tblAddress.AddressComplete,
+                };
+                if (validateDoctor != null)
+                {
+                    var reas = DoctorsRepoObj.UpdateDoctor(validateDoctor);
+                    if (reas == 1)
+                    {
+                        TempData["SuccessMsg"] = "Your profile is completed successfully!";
+                    }
+                    else if (reas == -1)
+                    {
+                        TempData["ErrorMsg"] = "Email already exists. Please ensure to enter not used email account again!";
+                    }
+                    else if (reas == -2)
+                    {
+                        TempData["ErrorMsg"] = "Phone Number already exists. Please ensure to enter not used phone number again!";
+                    }
+                    else
+                    {
+                        TempData["ErrorMsg"] = "Error on completing profile. Please try again later!";
+                    }
+                }
+                else
+                {
+                    TempData["ErrorMsg"] = "Error on completing profile!";
+                    return RedirectToAction("Settings", new { DoctorID = int.Parse(Session["UserID"].ToString()) });
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return RedirectToAction("Settings", new { DoctorID = int.Parse(Session["UserID"].ToString()) });
+        }
+
     }
 }

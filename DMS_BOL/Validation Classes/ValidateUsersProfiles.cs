@@ -99,6 +99,9 @@ namespace DMS_BOL.Validation_Classes
         [Display(Name = "User Verified")]
         public bool? UserVerified { get; set; }
 
+        [Display(Name = "Is Profile Completed")]
+        public bool? IsProfileCompleted { get; set; }
+
         [Required(ErrorMessage = "*")]
         [Display(Name = "State")]
         [Range(1, int.MaxValue, ErrorMessage = "Must select a State")]
@@ -120,14 +123,17 @@ namespace DMS_BOL.Validation_Classes
 
         [Required(ErrorMessage = "*")]
         [Display(Name = "State")]
+        [Range(1, int.MaxValue, ErrorMessage = "Must select a State")]
         public int StateID { get; set; }
 
         [Required(ErrorMessage = "*")]
         [Display(Name = "City")]
+        [Range(1, int.MaxValue, ErrorMessage = "Must select a City")]
         public int CityID { get; set; }
 
         [Required(ErrorMessage = "*")]
         [Display(Name = "Area")]
+        [Range(1, int.MaxValue, ErrorMessage = "Must select a Area")]
         public int AreaID { get; set; }
 
         [Display(Name = "Address")]

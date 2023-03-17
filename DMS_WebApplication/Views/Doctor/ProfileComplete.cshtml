@@ -72,7 +72,7 @@
             <div class="container p-0">
                 <h2>Complete Your Profile</h2>
                 <p style="font-size: 16px !important;"><strong>To complete</strong> your profile write something about you and add your qualification and timings to attract more patients.</p>
-                @using (Ajax.BeginForm("ProfileComplete", "Doctor", new AjaxOptions() { HttpMethod = "POST", LoadingElementId = "loader", OnBegin = "OFCDCheck" }, htmlAttributes: new { @id = "form1" }))
+                @using (Ajax.BeginForm("ProfileComplete", "Doctor", new AjaxOptions() { HttpMethod = "POST", LoadingElementId = "loader", OnBegin = "OFCDCheck", OnSuccess="fnSuccessP" }, htmlAttributes: new { @id = "form1" }))
                 {
                     <div class="card">
                         <div class="card-header">
@@ -244,6 +244,27 @@
         function ExpSuccess() {
             $('#exampleModal').modal('hide');
             $("#Expform").trigger("reset");
+        }
+
+        function fnSuccessP() {
+            var Sval = '@(TempData["SuccessP"])';
+            var Eval = '@(TempData["ErrorP"])';
+            if (Sval == 1) {
+                swal('Hurray', 'Your profile is completed successfully!', 'success');
+                window.location.href = '/Account/Index';
+            }
+            else if (Eval == 0) {
+                swal('Error Occured', 'Email already exists. Please ensure to enter not used email account again!', 'error');
+            }
+            else if (Eval == 2) {
+                swal('Error Occured', 'Phone Number already exists. Please ensure to enter not used phone number again!', 'error');
+            }
+            else if (Eval == 3) {
+                swal('Error Occured', 'Error on completing profile. Please try again later!', 'error');
+            }
+            else if (Eval == 4) {
+                swal('Error Occured', 'Error on completing profile!', 'error');
+            }
         }
 
         function OFCDCheck() {

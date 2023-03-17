@@ -1,27 +1,28 @@
 ﻿using System;
-using DMS_BOL;
 using System.IO;
 using System.Web;
 using System.Web.Mvc;
 using System.Net.Http;
-using Newtonsoft.Json;
 using System.Web.Security;
-using Newtonsoft.Json.Linq;
+using DMS_BLL.Repositories;
 using DMS_BOL.Validation_Classes;
 using System.Collections.Generic;
-using System.Net;
-using System.Web.Helpers;
 
 namespace DMS_WebApplication.Controllers
 {
     public class AccountController : Controller
     {
         private HttpClient _httpClient;
-        string _BaseURL = "https://dmswepapi.azurewebsites.net/api/";
+        private DoctorsRepo DoctorRepoObj;
+        private UsersRepo UserRepoObj;
+        private AddressRepo AddressRepoObj;
 
         public AccountController()
         {
             _httpClient = new HttpClient();
+            DoctorRepoObj = new DoctorsRepo();
+            UserRepoObj = new UsersRepo();
+            AddressRepoObj = new AddressRepo();
         }
 
         [CustomAuthorize]
@@ -48,6 +49,17 @@ namespace DMS_WebApplication.Controllers
             return View();
         }
 
+        public ActionResult Logout()
+        {
+            FormsAuthentication.SignOut();
+            Session.Abandon();
+            Session.Clear();
+            Session.RemoveAll();
+            Response.Cache.SetExpires(DateTime.UtcNow.AddMinutes(-1));
+            Response.Cache.SetCacheability(HttpCacheability.NoCache);
+            Response.Cache.SetNoStore();
+            return View("SignIn");
+        }
         public JsonResult IsEmailExist(string UserEmail)
         {
             return Json(CheckEmailExist(UserEmail), JsonRequestBehavior.AllowGet);
@@ -61,7 +73,7 @@ namespace DMS_WebApplication.Controllers
         [AcceptVerbs(HttpVerbs.Get)]
         public ActionResult SignUp()
         {
-            var AllStates = GetAllState();
+            var AllStates = AddressRepoObj.GetAllState();
             var states = new List<SelectListItem>();
             foreach (var item in AllStates)
             {
@@ -90,28 +102,17 @@ namespace DMS_WebApplication.Controllers
                     users.Gender = users.Gender == "1" ? "Male" : "Female";
                     file.SaveAs(path);
                     ModelState.Clear();
-                    var reas = _httpClient.PostAsJsonAsync(_BaseURL + "Register/Doctor", users).Result;
-                    if (reas.IsSuccessStatusCode)
-                    {
-                        var json = JObject.Parse(reas.Content.ReadAsStringAsync().Result);
-                        var StatusCode = JsonConvert.DeserializeObject<int>(json["StatusCode"].ToString());
-                        if (StatusCode == 201)
-                            TempData["SuccessMsg"] = "Account Created Successfully!";
-                        else if (StatusCode == 403)
-                            TempData["ErrorMsg"] = "Invalid OTP provided. Please ensure to enter correct OTP again!";
-                        else if (StatusCode == 404)
-                            TempData["ErrorMsg"] = "Email already exists. Please ensure to enter not used email account again!";
-                        else if (StatusCode == 405)
-                            TempData["ErrorMsg"] = "Phone Number already exists. Please ensure to enter not used phone number again!";
-                        else if(StatusCode == 500)
-                            TempData["ErrorMsg"] = "Error occured on creating Account. Please try again later!";
-                        else
-                            TempData["ErrorMsg"] = "Error on creating account!";
-                    }
+                    var StatusCode = DoctorRepoObj.InsertDoctor(users);
+                    if (StatusCode == 1)
+                        TempData["SuccessMsg"] = "Account Created Successfully!";
+                    else if (StatusCode == -1)
+                        TempData["ErrorMsg"] = "Invalid OTP provided. Please ensure to enter correct OTP again!";
+                    else if (StatusCode == -2)
+                        TempData["ErrorMsg"] = "Email already exists. Please ensure to enter not used email account again!";
+                    else if (StatusCode == -3)
+                        TempData["ErrorMsg"] = "Phone Number already exists. Please ensure to enter not used phone number again!";
                     else
-                    {
-                        TempData["ErrorMsg"] = "Error on creating account!";
-                    }
+                        TempData["ErrorMsg"] = "Error occured on creating Account. Please try again later!";
                 }
                 else
                 {
@@ -141,32 +142,20 @@ namespace DMS_WebApplication.Controllers
                 if (usersLogin != null)
                 {
                     ModelState.Clear();
-                    var reas = _httpClient.PostAsJsonAsync(_BaseURL + "/login", usersLogin).Result;
-                    if (reas.IsSuccessStatusCode)
+                    var reas = UserRepoObj.CheckLoginDetails(usersLogin.UserEmail, usersLogin.UserPassword);
+                    if (reas != null)
                     {
-                        var json = JObject.Parse(reas.Content.ReadAsStringAsync().Result);
-                        var StatusCode = JsonConvert.DeserializeObject<int>(json["StatusCode"].ToString());
-                        if (StatusCode == 200)
-                        {
-                            FormsAuthentication.SetAuthCookie(usersLogin.UserEmail, false);
-                            Session["AccessToken"] = json["access_token"].ToString();
-                            Session["Role"] = json["Role"].ToString().Normalize().Trim();
-                            Session["Email"] = json["Email"].ToString().Normalize().Trim();
-                            Session["UserID"] = json["UserID"].ToString().Normalize().Trim();
-                            Session["Username"] = json["Username"].ToString().Normalize().Trim();
-                            Session["UserImage"] = json["UserImage"].ToString().Normalize().Trim();
-                            Session["PhoneNumber"] = json["PhoneNumber"].ToString().Normalize().Trim();
-                            TempData["SuccessMsg"] = "Account Login Successfully!";
-                        }
-                        else
-                        {
-                            TempData["ErrorMsg"] = "Invalid Email Address or Password!";
-                            return RedirectToAction("SignIn");
-                        }
+                        FormsAuthentication.SetAuthCookie(usersLogin.UserEmail, false);
+                        Session["Role"] = reas.Role.ToString().Normalize().Trim();
+                        Session["Email"] = reas.Email.ToString().Normalize().Trim();
+                        Session["UserID"] = reas.ID.ToString().Normalize().Trim();
+                        Session["Username"] = reas.Name.ToString().Normalize().Trim();
+                        Session["UserImage"] = reas.Image.ToString().Normalize().Trim();
+                        Session["PhoneNumber"] = reas.PhoneNumber.ToString().Normalize().Trim();
                     }
                     else
                     {
-                        TempData["ErrorMsg"] = "Error on logon account, Please try again later!";
+                        TempData["ErrorMsg"] = "Invalid Email Address or Password!";
                         return RedirectToAction("SignIn");
                     }
                 }
@@ -191,32 +180,6 @@ namespace DMS_WebApplication.Controllers
             return new string[] { UserRole };
         }
 
-        public IEnumerable<tblState> GetAllState()
-        {
-            try
-            {
-                var response = _httpClient.GetAsync(_BaseURL + "Get/State");
-                var reas = response.GetAwaiter().GetResult();
-                response.Wait();
-                using (HttpContent content = reas.Content)
-                {
-                    var json = JObject.Parse(content.ReadAsStringAsync().Result);
-                    var StatusCode = JsonConvert.DeserializeObject<int>(json["StatusCode"].ToString());
-                    if (StatusCode == 200)
-                    {
-                        IEnumerable<tblState> States = JsonConvert.DeserializeObject<IEnumerable<tblState>>(json["Datalist"].ToString());
-                        return States;
-                    }
-                    else
-                        return null;
-                }
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-
         [AcceptVerbs(HttpVerbs.Get)]
         public JsonResult SendOTP(string Email)
         {
@@ -224,17 +187,9 @@ namespace DMS_WebApplication.Controllers
             {
                 if (!string.IsNullOrEmpty(Email) && Email.Length > 5)
                 {
-                    _httpClient.BaseAddress = new Uri(_BaseURL);
-                    HttpResponseMessage getOTP = _httpClient.GetAsync("Send/OTP?Email=" + Email).Result;
-                    if (getOTP.IsSuccessStatusCode)
-                    {
-                        var json = JObject.Parse(getOTP.Content.ReadAsStringAsync().Result);
-                        var StatusCode = JsonConvert.DeserializeObject<int>(json["StatusCode"].ToString());
-                        if (StatusCode == 201)
-                            return Json(true, JsonRequestBehavior.AllowGet);
-                        else
-                            return Json(false, JsonRequestBehavior.AllowGet);
-                    }
+                    var reas = UserRepoObj.GenerateUserOTP(Email);
+                    if (reas)
+                        return Json(true, JsonRequestBehavior.AllowGet);
                     else
                         return Json(false, JsonRequestBehavior.AllowGet);
                 }
@@ -254,19 +209,11 @@ namespace DMS_WebApplication.Controllers
             {
                 if (!string.IsNullOrEmpty(Email) && Email.Length > 5)
                 {
-                    _httpClient.BaseAddress = new Uri(_BaseURL);
-                    HttpResponseMessage getOTP = _httpClient.GetAsync("Check/EmailExist?Email=" + Email).Result;
-                    if (getOTP.IsSuccessStatusCode)
-                    {
-                        var json = JObject.Parse(getOTP.Content.ReadAsStringAsync().Result);
-                        var StatusCode = JsonConvert.DeserializeObject<int>(json["StatusCode"].ToString());
-                        if (StatusCode == 200)
-                            return true;
-                        else
-                            return false;
-                    }
-                    else
+                    var reas = UserRepoObj.IsEmailExist(Email);
+                    if (reas)
                         return false;
+                    else
+                        return true;
                 }
                 else
                     return false;
@@ -277,80 +224,21 @@ namespace DMS_WebApplication.Controllers
             }
         }
 
+        [AcceptVerbs(HttpVerbs.Get)]
         public bool CheckPhoneNumberExist(string PhoneNumber)
         {
             try
             {
                 if (!string.IsNullOrEmpty(PhoneNumber) && PhoneNumber.Length > 5)
                 {
-                    _httpClient.BaseAddress = new Uri(_BaseURL);
-                    HttpResponseMessage getOTP = _httpClient.GetAsync("Check/PhoneNumberExist?PhoneNumber=" + PhoneNumber).Result;
-                    if (getOTP.IsSuccessStatusCode)
-                    {
-                        var json = JObject.Parse(getOTP.Content.ReadAsStringAsync().Result);
-                        var StatusCode = JsonConvert.DeserializeObject<int>(json["StatusCode"].ToString());
-                        if (StatusCode == 200)
-                            return true;
-                        else
-                            return false;
-                    }
-                    else
+                    var reas = UserRepoObj.IsPhoneNumberExist(PhoneNumber);
+                    if (reas)
                         return false;
+                    else
+                        return true;
                 }
                 else
                     return false;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-
-        public IEnumerable<tblCity> GetCitiesByState(int StateID)
-        {
-            try
-            {
-                var response = _httpClient.GetAsync(_BaseURL + "Get/CityByState?StateID=" + StateID + "");
-                var reas = response.GetAwaiter().GetResult();
-                response.Wait();
-                using (HttpContent content = reas.Content)
-                {
-                    var json = JObject.Parse(content.ReadAsStringAsync().Result);
-                    var StatusCode = JsonConvert.DeserializeObject<int>(json["StatusCode"].ToString());
-                    if (StatusCode == 200)
-                    {
-                        IEnumerable<tblCity> Cities = JsonConvert.DeserializeObject<IEnumerable<tblCity>>(json["Datalist"].ToString());
-                        return Cities;
-                    }
-                    else
-                        return null;
-                }
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-
-        public IEnumerable<tblZone> GetZoneByCity(int CityID)
-        {
-            try
-            {
-                var response = _httpClient.GetAsync(_BaseURL + "Get/ZoneByCity?CityID=" + CityID + "");
-                var reas = response.GetAwaiter().GetResult();
-                response.Wait();
-                using (HttpContent content = reas.Content)
-                {
-                    var json = JObject.Parse(content.ReadAsStringAsync().Result);
-                    var StatusCode = JsonConvert.DeserializeObject<int>(json["StatusCode"].ToString());
-                    if (StatusCode == 200)
-                    {
-                        IEnumerable<tblZone> Zones = JsonConvert.DeserializeObject<IEnumerable<tblZone>>(json["Datalist"].ToString());
-                        return Zones;
-                    }
-                    else
-                        return null;
-                }
             }
             catch (Exception ex)
             {
@@ -360,14 +248,14 @@ namespace DMS_WebApplication.Controllers
 
         public ActionResult GetCityList(int StateID)
         {
-            var city = GetCitiesByState(StateID);
+            var city = AddressRepoObj.GetCitiesByState(StateID);
             ViewBag.City = new SelectList(city, "CityID", "CityName");
             return PartialView("DisplayCity");
         }
 
         public ActionResult GetZoneList(int CityID)
         {
-            var zone = GetZoneByCity(CityID);
+            var zone = AddressRepoObj.GetZoneByCity(CityID);
             ViewBag.Zone = new SelectList(zone, "ZoneID", "ZoneName");
             return PartialView("DisplayZone");
         }

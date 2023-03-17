@@ -1,0 +1,323 @@
+﻿@model DMS_BOL.Validation_Classes.ValidatePatient
+@{
+    ViewBag.Title = "DMS - Add Patient";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@if (User.Identity.IsAuthenticated)
+{
+    <link rel="stylesheet" href="~/assets/css/app.min.css">
+    <link rel="stylesheet" href="~/assets/css/style.css">
+    <link rel="stylesheet" href="~/assets/css/components.css">
+    <link rel="stylesheet" href="~/assets/css/custom.css">
+    <link rel='shortcut icon' type='image/x-icon' href='~/assets/img/favicon.ico' />
+    <script src="~/Scripts/jquery-3.2.1.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <link rel="stylesheet" href="~/assets/bundles/select2/dist/css/select2.min.css">
+    <script src="~/assets/bundles/select2/dist/js/select2.full.min.js"></script>
+    <style>
+        .select2-container {
+            width: 100% !important;
+        }
+
+        .loader {
+            position: fixed;
+            left: 0px;
+            top: 0px;
+            width: 100%;
+            height: 100%;
+            z-index: 9999;
+            background: url(../../assets/img/loading.gif) 50% 50% no-repeat #f9f9f9;
+            opacity: 0.5;
+        }
+
+        .image-preview, #callback-preview {
+            width: 150px;
+            height: 150px;
+            border: 2px solid #ddd;
+            border-radius: 50%;
+            position: relative;
+            overflow: hidden;
+            background-color: #ffffff;
+            color: #ecf0f1;
+        }
+
+        .card .card-body {
+            padding-top: 10px !important;
+            padding-bottom: 10px !important;
+        }
+
+        .form-group {
+            margin-bottom: 15px !important;
+        }
+
+        .theme-white .card.card-primary {
+            border-top: 8px solid #6777ef;
+        }
+    </style>
+
+
+    <div class="row">
+        <div class="col-12 col-sm-12 col-md-10 col-lg-10 col-xl-10">
+            <div class="card card-primary">
+                <div class="card-header">
+                    <h4>Add Patient</h4>
+                </div>
+                <div class="card-body">
+                    @if (TempData["ErrorMsg"] != null)
+                    {
+                        <div class="alert alert-danger alert-dismissible show fade">
+                            <div class="alert-body">
+                                <button class="close" data-dismiss="alert">
+                                    <span>×</span>
+                                </button>
+                                @Html.Raw(TempData["ErrorMsg"])
+                            </div>
+                        </div>
+                    }
+                    @if (TempData["SuccessMsg"] != null)
+                    {
+                        <div class="alert alert-success alert-dismissible show fade">
+                            <div class="alert-body">
+                                <button class="close" data-dismiss="alert">
+                                    <span>×</span>
+                                </button>
+                                @Html.Raw(TempData["SuccessMsg"])
+                            </div>
+                        </div>
+                    }
+                    @using (Html.BeginForm("AddPatient", "Patient", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                    {
+                        <div class="row">
+                            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
+                                <label>First Name</label>
+                                @Html.ValidationMessageFor(model => model.UserFirstName, "", new { @class = "text-danger" })
+                                @Html.EditorFor(model => model.UserFirstName, new { htmlAttributes = new { placeholder = "Enter your first name", @class = "form-control" } })
+                            </div>
+                            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
+                                <label>Last Name</label>
+                                @Html.ValidationMessageFor(model => model.UserLastName, "", new { @class = "text-danger" })
+                                @Html.EditorFor(model => model.UserLastName, new { htmlAttributes = new { placeholder = "Enter your last name", @class = "form-control" } })
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
+                                <label>Phone Number</label>
+                                @Html.ValidationMessageFor(model => model.UserPhoneNumber, "", new { @class = "text-danger" })
+                                @Html.EditorFor(model => model.UserPhoneNumber, new { htmlAttributes = new { placeholder = "Enter your phone number", @class = "form-control" } })
+                            </div>
+                            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
+                                <label>Email Address</label>
+                                @Html.ValidationMessageFor(model => model.UserEmail, "", new { @class = "text-danger", @id = "EmailVAL" })
+                                <div class="input-group">
+                                    @Html.EditorFor(model => model.UserEmail, new { htmlAttributes = new { placeholder = "Enter your email address", @class = "form-control", @oncopy = "return false", @onpaste = "return false", @oncut = "return false", @ondelete = "return false" } })
+                                    <div class="input-group-append">
+                                        <button class="btn btn-primary" type="button" id="btnGetCode">Get Code</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
+                                <label>Password</label>
+                                @Html.ValidationMessageFor(model => model.UserPassword, "", new { @class = "text-danger" })
+                                @Html.PasswordFor(model => model.UserPassword, htmlAttributes: new { placeholder = "Enter your secure password", @class = "form-control" })
+                            </div>
+                            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
+                                <label>Confirm Password</label>
+                                @Html.ValidationMessageFor(model => model.ConfirmPassowrd, "", new { @class = "text-danger" })
+                                @Html.PasswordFor(model => model.ConfirmPassowrd, htmlAttributes: new { placeholder = "Enter your confirm password", @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
+                                <label>State</label>
+                                @Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger" })
+                                @Html.DropDownListFor(model => model.State, (IEnumerable<SelectListItem>)ViewBag.State, "---Select State---", htmlAttributes: new { @class = "form-control select2" })
+                            </div>
+                            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6" id="CityD">
+                                <label>City</label>
+                                @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
+                                @Html.DropDownListFor(model => model.City, new SelectList(""), htmlAttributes: new { @class = "form-control select2" })
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6" id="AreaD">
+                                <label>Area</label>
+                                @Html.ValidationMessageFor(model => model.Area, "", new { @class = "text-danger" })
+                                @Html.DropDownListFor(model => model.Area, new SelectList(""), htmlAttributes: new { @class = "form-control select2" })
+                            </div>
+                            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6" id="AddressD">
+                                <label>Complete Address</label>
+                                @Html.ValidationMessageFor(model => model.CompleteAddress, "", new { @class = "text-danger" })
+                                @Html.EditorFor(model => model.CompleteAddress, new { htmlAttributes = new { placeholder = "Enter your complete address", @class = "form-control" } })
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
+                                <label>Gender</label>
+                                @Html.ValidationMessageFor(model => model.Gender, "", new { @class = "text-danger" })
+                                <div>
+                                    <div class="custom-control custom-radio d-inline-block pr-3">
+                                        @Html.RadioButtonFor(model => model.Gender, "1", htmlAttributes: new { @class = "custom-control-input", @id = "customRadio1" })
+                                        <label class="custom-control-label" for="customRadio1">Male</label>
+                                    </div>
+                                    <div class="custom-control custom-radio d-inline-block">
+                                        @Html.RadioButtonFor(model => model.Gender, "2", htmlAttributes: new { @class = "custom-control-input", @id = "customRadio2" })
+                                        <label class="custom-control-label" for="customRadio2">Female</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" id="TxtOTP">
+                            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
+                                <label>OTP</label>
+                                @Html.ValidationMessageFor(model => model.UserOTP, "", new { @class = "text-danger" })
+                                @Html.EditorFor(model => model.UserOTP, new { htmlAttributes = new { placeholder = "Enter your OTP", @class = "form-control" } })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" name="agree" class="custom-control-input" id="agree" required>
+                                <label class="custom-control-label" for="agree">I agree with the terms and conditions</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" class="btn btn-primary btn-lg btn-block" value="Add Patient" id="SignUpSubmit">
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="~/assets/js/app.min.js"></script>
+    <script src="~/assets/bundles/jquery-pwstrength/jquery.pwstrength.min.js"></script>
+    <script src="~/assets/bundles/jquery-selectric/jquery.selectric.min.js"></script>
+    <script src="~/assets/bundles/upload-preview/assets/js/jquery.uploadPreview.min.js"></script>
+    <script src="~/assets/bundles/sweetalert/sweetalert.min.js"></script>
+    <script src="~/assets/js/page/auth-register.js"></script>
+    <script src="~/assets/js/scripts.js"></script>
+    <script src="~/assets/bundles/select2/dist/js/select2.full.min.js"></script>
+    <script src="~/assets/js/scripts.js"></script>
+    <script src="~/assets/js/custom.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#CityD').hide();
+            $('#AreaD').hide();
+            $('#TxtOTP').hide();
+            $('#AddressD').hide();
+            var IsOTPSend = false;
+
+            $('#SignUpSubmit').on("click", function () {
+                if (IsOTPSend) {
+                    return true;
+                } else {
+                    var Email = $("#UserEmail").val();
+                    if (Email != undefined && Email != null
+                        && Email != '' && Email.length >= 5) {
+                        swal('OTP NOT RECIEVED', 'Please click on Get Code button to verify your profile!', 'error');
+                        $('#TxtOTP').show();
+                    }
+                }
+            });
+
+            $("#btnGetCode").click(function () {
+                var emailReg = /^([\w-\.]+@@([\w-]+\.)+[\w-]{2,4})?$/;
+                var Email = $("#UserEmail").val();
+                if (Email != undefined && Email != null
+                    && Email != '' && Email.length >= 5) {
+                    var test = emailReg.test(Email);
+                    if (test) {
+                        $(".loader").show();
+                        $.ajax({
+                            type: "get",
+                            url: "/Account/CheckEmailExist?Email=" + Email,
+                            contentType: "application/json",
+                            success: function (response) {
+                                console.log(response);
+                                $(".loader").hide();
+                                if (response == "True") {
+                                    $(".loader").show();
+                                    $.ajax({
+                                        type: "get",
+                                        url: "/Account/SendOTP?Email=" + Email,
+                                        contentType: "html",
+                                        success: function (response) {
+                                            console.log(response);
+                                            $(".loader").hide();
+                                            if (response) {
+                                                swal('OTP Send', 'Please check your mail inbox or spam folder to get OTP', 'success');
+                                                $('#TxtOTP').show();
+                                                IsOTPSend = true;
+                                            }
+                                            else {
+                                                swal('OTP Unsend', 'Please try again later!', 'error');
+                                            }
+                                        }
+                                    })
+                                } else {
+                                    $(".loader").hide();
+                                    $("#UserEmail-error").remove();
+                                    $("#EmailVAL").append("<span id='UserEmail-error' class=''> Email is already registered! </span>");
+                                }
+                            }
+                        })
+                    }
+                    else {
+                        $("#UserEmail-error").remove();
+                        $("#EmailVAL").append("<span id='UserEmail-error' class=''> Invalid Email Address </span>");
+                    }
+                } else {
+                    $("#UserEmail-error").remove();
+                    $("#EmailVAL").append("<span id='UserEmail-error' class=''> * </span>");
+                }
+            })
+
+            $("#State").change(function () {
+                var StateId = $(this).val();
+                $(".loader").show();
+                $.ajax({
+                    type: "post",
+                    url: "/Account/GetCityList?StateId=" + StateId,
+                    contentType: "html",
+                    success: function (response) {
+                        $("#City").empty();
+                        $("#Area").empty();
+                        $('#AreaD').hide();
+                        $('#AddressD').hide();
+                        $("#City").append(response);
+                        $('#CityD').show();
+                        $(".loader").hide();
+                    }
+                })
+            })
+
+            $("#City").change(function () {
+                var CityId = $(this).val();
+                $(".loader").show();
+                $.ajax({
+                    type: "post",
+                    url: "/Account/GetZoneList?CityId=" + CityId,
+                    contentType: "html",
+                    success: function (response) {
+                        $("#Area").empty();
+                        $("#Area").append(response);
+                        $('#AreaD').show();
+                        $(".loader").hide();
+                    }
+                })
+            })
+
+            $("#Area").change(function () {
+                var AreaId = $(this).val();
+                $(".loader").show();
+                if (AreaId > 0) {
+                    $('#AddressD').show();
+                    $(".loader").hide();
+                }
+            })
+        })
+    </script>
+}

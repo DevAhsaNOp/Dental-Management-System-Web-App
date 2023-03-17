@@ -14,7 +14,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>DMS_WebApplication</RootNamespace>
     <AssemblyName>DMS_WebApplication</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
@@ -25,6 +25,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -60,6 +61,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Net.Http.Formatting, Version=5.2.9.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.9\lib\net45\System.Net.Http.Formatting.dll</HintPath>
@@ -68,17 +70,14 @@
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Http, Version=5.2.9.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.9\lib\net45\System.Web.Http.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Http.WebHost, Version=5.2.9.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.9\lib\net45\System.Web.Http.WebHost.dll</HintPath>
     </Reference>
-    <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Web" />
-    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Abstractions" />
     <Reference Include="System.Web.Routing" />
     <Reference Include="System.Xml" />
@@ -120,6 +119,7 @@
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.9\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
+    <Reference Include="System.Xml.Linq" />
     <Reference Include="WebGrease">
       <Private>True</Private>
       <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
@@ -135,10 +135,12 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\DoctorController.cs" />
+    <Compile Include="Controllers\PatientController.cs" />
     <Compile Include="CustomAuthorize.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\DoctorProfileView.cs" />
     <Compile Include="Models\LoginResponseValidation.cs" />
     <Compile Include="Models\SupportingFunctions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -851,6 +853,8 @@
     <Content Include="assets\img\products\product-4.png" />
     <Content Include="assets\img\products\product-5.png" />
     <Content Include="assets\img\Registration Page BG.jpg" />
+    <Content Include="assets\img\sidebar\calendar-24.png" />
+    <Content Include="assets\img\sidebar\calendar-48.png" />
     <Content Include="assets\img\spinner-white.svg" />
     <Content Include="assets\img\spinner.svg" />
     <Content Include="assets\img\typing.svg" />
@@ -1026,6 +1030,12 @@
     <Content Include="Views\Shared\_ShowExperience.cshtml" />
     <Content Include="Views\Shared\_AddOfflineConsultation.cshtml" />
     <Content Include="Views\Shared\_ShowOfflineConsultation.cshtml" />
+    <Content Include="Views\Doctor\Appointments.cshtml" />
+    <Content Include="Views\Doctor\Messages.cshtml" />
+    <Content Include="Views\Doctor\DoctorProfile.cshtml" />
+    <Content Include="Views\Shared\_ShowOFCD.cshtml" />
+    <Content Include="Views\Doctor\Settings.cshtml" />
+    <Content Include="Views\Patient\AddPatient.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1057,9 +1067,17 @@
     <Content Include="Scripts\bootstrap.bundle.js.map" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DMS_BLL\DMS_BLL.csproj">
+      <Project>{31184EDA-6AD8-4DF9-9E0A-BAF41B214FE3}</Project>
+      <Name>DMS_BLL</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DMS_BOL\DMS_BOL.csproj">
       <Project>{f6557f1c-031e-4937-b297-afd6d4bb542f}</Project>
       <Name>DMS_BOL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DMS_DAL\DMS_DAL.csproj">
+      <Project>{DF04FF6E-0C6F-4631-AD60-E54FE64EAD1D}</Project>
+      <Name>DMS_DAL</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
