@@ -6,20 +6,46 @@
 
 @if (User.Identity.IsAuthenticated)
 {
-    <link rel="stylesheet" href="~/assets/css/app.min.css">
-    <link rel="stylesheet" href="~/assets/css/style.css">
-    <link rel="stylesheet" href="~/assets/css/components.css">
-    <link rel="stylesheet" href="~/assets/css/custom.css">
-    <link rel='shortcut icon' type='image/x-icon' href='~/assets/img/favicon.ico' />
-    <script src="~/Scripts/jquery-3.2.1.min.js"></script>
-    <script src="~/Scripts/jquery.validate.min.js"></script>
-    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
-    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
-    <link rel="stylesheet" href="~/assets/bundles/select2/dist/css/select2.min.css">
-    <script src="~/assets/bundles/select2/dist/js/select2.full.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="~/assets/css/image-uploader.min.css">
+    <script type="text/javascript" src="~/assets/js/image-uploader.min.js"></script>
+    <script src="~/assets/bundles/sweetalert/sweetalert.min.js"></script>
+    <script>
+        function loadProfile(e) {
+            var files = e.target.files;
+            for (var i = 0; i < files.length; i++) {
+                $("#dynamicImage").attr("src", URL.createObjectURL(e.target.files[i]));
+            }
+        }
+    </script>
     <style>
         .select2-container {
             width: 100% !important;
+        }
+
+        .custom-file-upload {
+            background-color: #7a88f1;
+            border-radius: 25px;
+            border: 1px solid #7a8aff;
+            display: inline-block;
+            padding: 6px 12px;
+            cursor: pointer;
+            text-align: center;
+            width: 8rem;
+            color: #fff !important;
+            margin-top: 3px;
+        }
+
+        .dynamicImage {
+            height: 150px !important;
+            width: 150px !important;
+            margin: 10px !important;
+            border: 2px solid #ededed !important;
+        }
+
+        #dynamicImage {
+            background: #f8f8f8;
+            border: 1px solid #ededed;
+            border-radius: 2px;
         }
 
         .loader {
@@ -31,17 +57,6 @@
             z-index: 9999;
             background: url(../../assets/img/loading.gif) 50% 50% no-repeat #f9f9f9;
             opacity: 0.5;
-        }
-
-        .image-preview, #callback-preview {
-            width: 150px;
-            height: 150px;
-            border: 2px solid #ddd;
-            border-radius: 50%;
-            position: relative;
-            overflow: hidden;
-            background-color: #ffffff;
-            color: #ecf0f1;
         }
 
         .card .card-body {
@@ -90,6 +105,17 @@
                     }
                     @using (Html.BeginForm("AddPatient", "Patient", FormMethod.Post, new { enctype = "multipart/form-data" }))
                     {
+                        <div class="form-group" style=" display: flex; flex-direction: column-reverse; align-items: center;">
+                            <label for="choose-file" class="custom-file-upload" id="choose-file-label">
+                                Change Avatar
+                            </label>
+                            <input name="file" type="file" id="choose-file" required="required"
+                                   accept="image/png,image/jpg,image/jpeg" onchange="loadProfile(e)" style="display: none !important;" />
+                            @if (Session["ImageAvatar"] != null)
+                            {
+                                <img id="dynamicImage" src="@Url.Content(Session["ImageAvatar"].ToString())" alt="Profile Image" width="120" height="120" style="border-radius: 50%;" />
+                            }
+                        </div>
                         <div class="row">
                             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
                                 <label>First Name</label>
@@ -192,16 +218,8 @@
             </div>
         </div>
     </div>
-    <script src="~/assets/js/app.min.js"></script>
-    <script src="~/assets/bundles/jquery-pwstrength/jquery.pwstrength.min.js"></script>
-    <script src="~/assets/bundles/jquery-selectric/jquery.selectric.min.js"></script>
-    <script src="~/assets/bundles/upload-preview/assets/js/jquery.uploadPreview.min.js"></script>
-    <script src="~/assets/bundles/sweetalert/sweetalert.min.js"></script>
-    <script src="~/assets/js/page/auth-register.js"></script>
-    <script src="~/assets/js/scripts.js"></script>
-    <script src="~/assets/bundles/select2/dist/js/select2.full.min.js"></script>
-    <script src="~/assets/js/scripts.js"></script>
-    <script src="~/assets/js/custom.js"></script>
+    <script src="~/Scripts/jquery-3.2.1.min.js"></script>
+    <script src="~/Scripts/jquery-3.2.1.slim.min.js"></script>
     <script>
         $(document).ready(function () {
             $('#CityD').hide();
@@ -209,7 +227,10 @@
             $('#TxtOTP').hide();
             $('#AddressD').hide();
             var IsOTPSend = false;
-
+            $('#choose-file').change(function () {
+                var file = $('#choose-file')[0].files[0].name;
+                $('#choose-file-label').text(file);
+            });
             $('#SignUpSubmit').on("click", function () {
                 if (IsOTPSend) {
                     return true;

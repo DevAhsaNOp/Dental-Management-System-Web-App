@@ -34,6 +34,7 @@ namespace DMS_WebApplication.Controllers
             }
             ViewBag.State = states;
             ValidatePatient patient = new ValidatePatient();
+            Session["ImageAvatar"] = "~/uploads/PatientsProfileImage/nophoto.png";
             return View(patient);
         }
 
@@ -43,7 +44,9 @@ namespace DMS_WebApplication.Controllers
         {
             try
             {
-                users.UserProfileImage = "~/uploads/PatientsProfileImage/patient.jpg";
+                string _filename = DateTime.Now.ToString("yymmssfff") + Path.GetFileName(file.FileName);
+                string path = Path.Combine(Server.MapPath("~/uploads/PatientsProfileImage/"), _filename);
+                users.UserProfileImage = "~/uploads/PatientsProfileImage/" + _filename;
                 if (users != null)
                 {
                     users.StateID = int.Parse(users.State);
