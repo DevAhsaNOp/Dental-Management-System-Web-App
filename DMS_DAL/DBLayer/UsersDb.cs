@@ -467,7 +467,7 @@ namespace DMS_DAL.DBLayer
 
         public void SendEmail(string otp, string emailtext)
         {
-            var email = "ahnkhan804@gmail.com";
+            var email = "saafali804@gmail.com";
             using (MailMessage mm = new MailMessage(email, emailtext))
             {
                 mm.Subject = "Password Reset OTP";
@@ -478,7 +478,7 @@ namespace DMS_DAL.DBLayer
                     mm.IsBodyHtml = true;
                     smtp.Host = "smtp.gmail.com";
                     smtp.EnableSsl = true;
-                    NetworkCredential NetworkCred = new NetworkCredential(email, "vcwonsjwxtsbyajf");
+                    NetworkCredential NetworkCred = new NetworkCredential(email, "diiouqkyebkiblku");
                     smtp.UseDefaultCredentials = true;
                     smtp.Credentials = NetworkCred;
                     smtp.Port = 587;
