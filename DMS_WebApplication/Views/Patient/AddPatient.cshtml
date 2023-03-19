@@ -10,10 +10,10 @@
     <script type="text/javascript" src="~/assets/js/image-uploader.min.js"></script>
     <script src="~/assets/bundles/sweetalert/sweetalert.min.js"></script>
     <script>
-        function loadProfile(e) {
-            var files = e.target.files;
+        function loadProfile(event) {
+            var files = event.target.files;
             for (var i = 0; i < files.length; i++) {
-                $("#dynamicImage").attr("src", URL.createObjectURL(e.target.files[i]));
+                $("#dynamicImage").attr("src", URL.createObjectURL(event.target.files[i]));
             }
         }
     </script>
@@ -110,7 +110,7 @@
                                 Change Avatar
                             </label>
                             <input name="file" type="file" id="choose-file" required="required"
-                                   accept="image/png,image/jpg,image/jpeg" onchange="loadProfile(e)" style="display: none !important;" />
+                                   accept="image/png,image/jpg,image/jpeg" onchange="loadProfile(event)" style="display: none !important;" />
                             @if (Session["ImageAvatar"] != null)
                             {
                                 <img id="dynamicImage" src="@Url.Content(Session["ImageAvatar"].ToString())" alt="Profile Image" width="120" height="120" style="border-radius: 50%;" />
@@ -222,15 +222,24 @@
     <script src="~/Scripts/jquery-3.2.1.slim.min.js"></script>
     <script>
         $(document).ready(function () {
+
+            document.getElementById('appointmentS').classList.remove('active')
+            document.getElementById('dashboardS').classList.remove('active')
+            document.getElementById('paymentS').classList.remove('active')
+            document.getElementById('messageS').classList.remove('active')
+            document.getElementById('patientS').classList.add('active')
+
             $('#CityD').hide();
             $('#AreaD').hide();
             $('#TxtOTP').hide();
             $('#AddressD').hide();
             var IsOTPSend = false;
+
             $('#choose-file').change(function () {
                 var file = $('#choose-file')[0].files[0].name;
                 $('#choose-file-label').text(file);
             });
+
             $('#SignUpSubmit').on("click", function () {
                 if (IsOTPSend) {
                     return true;

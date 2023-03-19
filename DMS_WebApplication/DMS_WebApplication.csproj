@@ -1132,7 +1132,6 @@
     <Content Include="Views\Doctor\Settings.cshtml" />
     <Content Include="Views\Patient\AddPatient.cshtml" />
     <Content Include="Views\Patient\Patients.cshtml" />
-    <Content Include="Views\Patient\AllPatients.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
