@@ -8,6 +8,9 @@ using System.Collections.Generic;
 using DMS_WebApplication.Models;
 using DMS_BOL;
 using System.Drawing;
+using System.Web;
+using DMS_DAL.DBLayer;
+using System.IO;
 
 namespace DMS_WebApplication.Controllers
 {
@@ -460,6 +463,9 @@ namespace DMS_WebApplication.Controllers
                     DoctorAwardsAndAchievements = reas.D_AwardsAndAchievements,
                     DoctorResponseTime = reas.D_ResponseTime,
                     DoctorSpecialization = reas.D_Specialization,
+                    UserUpdateEmail = reas.D_Email,
+                    UserUpdatePhoneNumber = reas.D_PhoneNumber,
+                    D_IsProfileCompleted = reas.D_IsProfileCompleted,
                 };
                 Session["DoctorID"] = doctor.UserID;
                 return View(doctor);
@@ -472,49 +478,42 @@ namespace DMS_WebApplication.Controllers
 
         [AcceptVerbs(HttpVerbs.Post)]
         [CustomAuthorize(Roles = "Admin, SuperAdmin, Doctor")]
-        public ActionResult Settings(ValidateDoctor doctor)
+        public ActionResult Settings(HttpPostedFileBase file, ValidateDoctor doctor)
         {
             try
             {
+                if (file != null)
+                {
+                    string _filename = DateTime.Now.ToString("yymmssfff") + Path.GetFileName(file.FileName);
+                    string path = Path.Combine(Server.MapPath("~/uploads/DoctorsProfileImage/"), _filename);
+                    doctor.UserProfileImage = "~/uploads/DoctorsProfileImage/" + _filename;
+                }
+                else
+                {
+                    doctor.UserProfileImage = Session["UserImage"].ToString();
+                }
                 doctor.UserID = int.Parse(Session["DoctorID"].ToString());
                 var Docreas = DoctorsRepoObj.GetUserDetailById(doctor.UserID);
-                ValidateDoctor validateDoctor = new ValidateDoctor()
+
+                doctor.tblAddress = Docreas.tblAddress;
+                doctor.UserID = Docreas.UserID;
+                doctor.UserEmail = doctor.UserUpdateEmail;
+                doctor.UserPhoneNumber = doctor.UserUpdatePhoneNumber;
+                doctor.UserProfileImage = doctor.UserProfileImage;
+                doctor.UserOTP = null;
+                doctor.UserUpdatedBy = Docreas.UserID;
+                doctor.Gender = doctor.Gender == "1" ? "Male" : "Female";
+                doctor.D_IsProfileCompleted = true;
+                doctor.AreaID = Docreas.tblAddress.AddressZone.Value;
+                doctor.CityID = Docreas.tblAddress.AddressCity.Value;
+                doctor.StateID = Docreas.tblAddress.AddressState.Value;
+                doctor.CompleteAddress = Docreas.tblAddress.AddressComplete;
+                Session["PhoneNumber"] = doctor.UserUpdatePhoneNumber;
+                Session["Email"] = doctor.UserUpdateEmail;
+
+                if (doctor != null)
                 {
-                    tblAddress = Docreas.tblAddress,
-                    UserID = Docreas.UserID,
-                    UserFirstName = doctor.UserFirstName,
-                    UserLastName = doctor.UserLastName,
-                    UserEmail = Docreas.UserEmail,
-                    UserPhoneNumber = Docreas.UserPhoneNumber,
-                    UserProfileImage = Docreas.UserProfileImage,
-                    UserPassword = doctor.UserPassword,
-                    tblRole = Docreas.tblRole,
-                    UserIsActive = Docreas.UserIsActive.Value,
-                    UserVerified = Docreas.UserVerified.Value,
-                    UserOTP = null,
-                    UserIsArchive = Docreas.UserIsArchive.Value,
-                    UserUpdatedBy = Docreas.UserID,
-                    UserUpdatedOn = Docreas.UserUpdatedOn.Value,
-                    UserCreatedBy = Docreas.UserCreatedBy.Value,
-                    UserCreatedOn = Docreas.UserCreatedOn.Value,
-                    Gender = doctor.Gender == "1" ? "Male" : "Female",
-                    D_IsProfileCompleted = true,
-                    UserUpdatePhoneNumber = Session["PhoneNumber"].ToString(),
-                    UserUpdateEmail = Session["Email"].ToString(),
-                    DoctorAboutMe = doctor.DoctorAboutMe,
-                    DoctorAwardsAndAchievements = doctor.DoctorAwardsAndAchievements,
-                    DoctorResponseTime = doctor.DoctorResponseTime,
-                    DoctorSpecialization = doctor.DoctorSpecialization,
-                    DoctorWorkPhoneNumber = doctor.DoctorWorkPhoneNumber,
-                    DoctorYearsOfExperience = doctor.DoctorYearsOfExperience,
-                    AreaID = Docreas.tblAddress.AddressZone.Value,
-                    CityID = Docreas.tblAddress.AddressCity.Value,
-                    StateID = Docreas.tblAddress.AddressState.Value,
-                    CompleteAddress = Docreas.tblAddress.AddressComplete,
-                };
-                if (validateDoctor != null)
-                {
-                    var reas = DoctorsRepoObj.UpdateDoctor(validateDoctor);
+                    var reas = DoctorsRepoObj.UpdateDoctor(doctor);
                     if (reas == 1)
                     {
                         TempData["SuccessMsg"] = "Your profile is completed successfully!";

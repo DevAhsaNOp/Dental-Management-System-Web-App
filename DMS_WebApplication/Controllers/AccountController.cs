@@ -69,6 +69,26 @@ namespace DMS_WebApplication.Controllers
         {
             return Json(CheckPhoneNumberExist(UserPhoneNumber), JsonRequestBehavior.AllowGet);
         }
+        
+        public JsonResult IsUpdateEmailExist(string UserUpdateEmail)
+        {
+            string UserCurrentEmail;
+            if (Session["UserEditEmail"] != null)
+                UserCurrentEmail = Session["UserEditEmail"].ToString();
+            else
+                UserCurrentEmail = Session["Email"].ToString();
+            return Json(CheckUpdateEmailExist(UserUpdateEmail,UserCurrentEmail), JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult IsUpdatePhoneNumberExist(string UserUpdatePhoneNumber)
+        {
+            string UserCurrentPhone;
+            if (Session["UserEditPhoneNumber"] != null)
+                UserCurrentPhone = Session["UserEditPhoneNumber"].ToString();
+            else
+                UserCurrentPhone = Session["PhoneNumber"].ToString();
+            return Json(CheckUpdatePhoneNumberExist(UserUpdatePhoneNumber, UserCurrentPhone), JsonRequestBehavior.AllowGet);
+        }
 
         [AcceptVerbs(HttpVerbs.Get)]
         public ActionResult SignUp()
@@ -239,6 +259,49 @@ namespace DMS_WebApplication.Controllers
                 if (!string.IsNullOrEmpty(PhoneNumber) && PhoneNumber.Length > 5)
                 {
                     var reas = UserRepoObj.IsPhoneNumberExist(PhoneNumber);
+                    if (reas)
+                        return false;
+                    else
+                        return true;
+                }
+                else
+                    return false;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        
+        public bool CheckUpdateEmailExist(string Email, string CurrentEmail)
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(Email) && Email.Length > 5 && !string.IsNullOrEmpty(CurrentEmail) && CurrentEmail.Length > 5)
+                {
+                    var reas = UserRepoObj.IsUpdateEmailExist(Email, CurrentEmail);
+                    if (reas)
+                        return false;
+                    else
+                        return true;
+                }
+                else
+                    return false;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        [AcceptVerbs(HttpVerbs.Get)]
+        public bool CheckUpdatePhoneNumberExist(string PhoneNumber, string CurrentPhoneNumber)
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(PhoneNumber) && PhoneNumber.Length > 5 && !string.IsNullOrEmpty(CurrentPhoneNumber) && CurrentPhoneNumber.Length > 5)
+                {
+                    var reas = UserRepoObj.IsUpdatePhoneNumberExist(PhoneNumber, CurrentPhoneNumber);
                     if (reas)
                         return false;
                     else

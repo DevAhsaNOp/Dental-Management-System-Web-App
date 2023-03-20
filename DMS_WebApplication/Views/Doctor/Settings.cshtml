@@ -5,8 +5,50 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<script src="~/assets/js/page/auth-register.js"></script>
+@if (User.Identity.IsAuthenticated)
+{
+    <script src="~/assets/js/page/auth-register.js"></script>
+    <link type="text/css" rel="stylesheet" href="~/assets/css/image-uploader.min.css">
+    <script type="text/javascript" src="~/assets/js/image-uploader.min.js"></script>
+    <script>
+        function loadProfile(event) {
+            var files = event.target.files;
+            for (var i = 0; i < files.length; i++) {
+                $("#dynamicImage").attr("src", URL.createObjectURL(event.target.files[i]));
+            }
+        }
+    </script>
+    <style>
+        .select2-container {
+            width: 100% !important;
+        }
 
+        .custom-file-upload {
+            background-color: #7a88f1;
+            border-radius: 25px;
+            border: 1px solid #7a8aff;
+            display: inline-block;
+            padding: 6px 12px;
+            cursor: pointer;
+            text-align: center;
+            width: 8rem;
+            color: #fff !important;
+            margin-top: 3px;
+        }
+
+        .dynamicImage {
+            height: 150px !important;
+            width: 150px !important;
+            margin: 10px !important;
+            border: 2px solid #ededed !important;
+        }
+
+        #dynamicImage {
+            background: #f8f8f8;
+            border: 1px solid #ededed;
+            border-radius: 2px;
+        }
+    </style>
 
     <div class="row">
         <div class="col-12 col-sm-12 col-md-10 col-lg-10 col-xl-10">
@@ -34,8 +76,19 @@
                             </div>
                         </div>
                     }
-                    @using (Html.BeginForm("Settings", "Doctor", FormMethod.Post))
+                    @using (Html.BeginForm("Settings", "Doctor", FormMethod.Post, new { enctype = "multipart/form-data" }))
                     {
+                        <div class="form-group" style=" display: flex; flex-direction: column-reverse; align-items: center;">
+                            <label for="choose-file" class="custom-file-upload" id="choose-file-label">
+                                Change Avatar
+                            </label>
+                            <input name="file" type="file" id="choose-file" required="required"
+                                   accept="image/png,image/jpg,image/jpeg" onchange="loadProfile(event)" style="display: none !important;" />
+                            @if (Session["UserImage"] != null)
+                            {
+                                <img id="dynamicImage" src="@Url.Content(Session["UserImage"].ToString())" alt="Profile Image" width="120" height="120" style="border-radius: 50%;" />
+                            }
+                        </div>
                         <div class="row">
                             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
                                 <label>First Name</label>
@@ -46,6 +99,18 @@
                                 <label>Last Name</label>
                                 @Html.ValidationMessageFor(model => model.UserLastName, "", new { @class = "text-danger" })
                                 @Html.EditorFor(model => model.UserLastName, new { htmlAttributes = new { placeholder = "Enter your last name", @class = "form-control" } })
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
+                                <label>Phone Number</label>
+                                @Html.ValidationMessageFor(model => model.UserUpdatePhoneNumber, "", new { @class = "text-danger" })
+                                @Html.EditorFor(model => model.UserUpdatePhoneNumber, new { htmlAttributes = new { placeholder = "Enter your phone number", @class = "form-control" } })
+                            </div>
+                            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
+                                <label>Email Address</label>
+                                @Html.ValidationMessageFor(model => model.UserUpdateEmail, "", new { @class = "text-danger" })
+                                @Html.EditorFor(model => model.UserUpdateEmail, new { htmlAttributes = new { placeholder = "Enter your email address", @class = "form-control" } })
                             </div>
                         </div>
                         <div class="row">
@@ -113,10 +178,19 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <input type="submit" class="btn btn-primary btn-lg btn-block" value="Save" >
+                            <input type="submit" class="btn btn-primary btn-lg btn-block" value="Save">
                         </div>
                     }
                 </div>
             </div>
         </div>
     </div>
+    <script>
+        $(document).ready(function () {
+            $('#choose-file').change(function () {
+                var file = $('#choose-file')[0].files[0].name;
+                $('#choose-file-label').text(file);
+            });
+        });
+    </script>
+}

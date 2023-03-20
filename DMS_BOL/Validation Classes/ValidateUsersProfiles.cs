@@ -31,6 +31,7 @@ namespace DMS_BOL.Validation_Classes
 
         [Display(Name = "Phone Number")]
         [RegularExpression(@"03[0-9]{2}(?!1234567)(?!1111111)(?!7654321)[0-9]{7}", ErrorMessage = "Invalid Phone Number")]
+        [Remote("IsUpdatePhoneNumberExist", "Account", ErrorMessage = "Phone Number is already registered!")]
         public string UserUpdatePhoneNumber { get; set; }
         
         [Display(Name ="User Address")]
@@ -51,6 +52,7 @@ namespace DMS_BOL.Validation_Classes
 
         [Display(Name = "Email Address")]
         [RegularExpression("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$", ErrorMessage = "Invalid Email Address")]
+        [Remote("IsUpdateEmailExist", "Account", ErrorMessage = "Email is already registered!")]
         public string UserUpdateEmail { get; set; }
 
         [Required(ErrorMessage = "*")]
