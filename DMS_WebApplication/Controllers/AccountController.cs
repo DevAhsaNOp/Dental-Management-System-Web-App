@@ -130,8 +130,15 @@ namespace DMS_WebApplication.Controllers
         [AcceptVerbs(HttpVerbs.Get)]
         public ActionResult SignIn()
         {
-            ValidateUsersLogin login = new ValidateUsersLogin();
-            return View(login);
+            if (User.Identity.IsAuthenticated) 
+            {
+                return RedirectToAction("Index","Account");
+            }
+            else
+            {
+                ValidateUsersLogin login = new ValidateUsersLogin();
+                return View(login);
+            }
         }
 
         [AcceptVerbs(HttpVerbs.Post)]

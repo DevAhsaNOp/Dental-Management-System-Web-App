@@ -1,11 +1,9 @@
 ﻿using DMS_BLL.Repositories;
 using DMS_BOL;
 using DMS_BOL.Validation_Classes;
-using DMS_DAL.DBLayer;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
