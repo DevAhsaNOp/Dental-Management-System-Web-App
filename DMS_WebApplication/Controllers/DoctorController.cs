@@ -11,6 +11,7 @@ using System.Drawing;
 using System.Web;
 using DMS_DAL.DBLayer;
 using System.IO;
+using System.Web.Security;
 
 namespace DMS_WebApplication.Controllers
 {
@@ -467,6 +468,9 @@ namespace DMS_WebApplication.Controllers
                     UserUpdatePhoneNumber = reas.D_PhoneNumber,
                     D_IsProfileCompleted = reas.D_IsProfileCompleted,
                 };
+                ViewBag.State = AddressRepoObj.GetAllStateDropdown();
+                ViewBag.City = AddressRepoObj.GetAllCityByStateDropdown(doctor.StateID);
+                ViewBag.Zone = AddressRepoObj.GetAllZoneByCityDropdown(doctor.CityID);
                 Session["DoctorID"] = doctor.UserID;
                 return View(doctor);
             }
@@ -495,28 +499,30 @@ namespace DMS_WebApplication.Controllers
                 doctor.UserID = int.Parse(Session["DoctorID"].ToString());
                 var Docreas = DoctorsRepoObj.GetUserDetailById(doctor.UserID);
 
-                doctor.tblAddress = Docreas.tblAddress;
-                doctor.UserID = Docreas.UserID;
-                doctor.UserEmail = doctor.UserUpdateEmail;
-                doctor.UserPhoneNumber = doctor.UserUpdatePhoneNumber;
-                doctor.UserProfileImage = doctor.UserProfileImage;
                 doctor.UserOTP = null;
-                doctor.UserUpdatedBy = Docreas.UserID;
-                doctor.Gender = doctor.Gender == "1" ? "Male" : "Female";
+                doctor.AreaID = doctor.AreaID;
+                doctor.CityID = doctor.CityID;
+                doctor.UserID = Docreas.UserID;
+                doctor.StateID = doctor.StateID;
                 doctor.D_IsProfileCompleted = true;
-                doctor.AreaID = Docreas.tblAddress.AddressZone.Value;
-                doctor.CityID = Docreas.tblAddress.AddressCity.Value;
-                doctor.StateID = Docreas.tblAddress.AddressState.Value;
-                doctor.CompleteAddress = Docreas.tblAddress.AddressComplete;
-                Session["PhoneNumber"] = doctor.UserUpdatePhoneNumber;
-                Session["Email"] = doctor.UserUpdateEmail;
+                doctor.UserUpdatedBy = Docreas.UserID;
+                doctor.tblAddress = Docreas.tblAddress;
+                doctor.UserEmail = doctor.UserUpdateEmail;
+                doctor.CompleteAddress = doctor.CompleteAddress;
+                doctor.UserProfileImage = doctor.UserProfileImage;
+                doctor.UserPhoneNumber = doctor.UserUpdatePhoneNumber;
+                doctor.Gender = doctor.Gender == "1" ? "Male" : "Female";
 
                 if (doctor != null)
                 {
                     var reas = DoctorsRepoObj.UpdateDoctor(doctor);
                     if (reas == 1)
                     {
+                        Session["Email"] = doctor.UserUpdateEmail;
+                        Session["UserImage"] = doctor.UserProfileImage;
+                        Session["PhoneNumber"] = doctor.UserUpdatePhoneNumber;
                         TempData["SuccessMsg"] = "Your profile is completed successfully!";
+                        FormsAuthentication.SetAuthCookie(doctor.UserUpdateEmail, false);
                     }
                     else if (reas == -1)
                     {

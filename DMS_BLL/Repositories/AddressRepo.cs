@@ -3,6 +3,7 @@ using DMS_BOL;
 using DMS_DAL.DBLayer;
 using System.Collections.Generic;
 using DMS_BOL.Validation_Classes;
+using System.Web.Mvc;
 
 namespace DMS_BLL.Repositories
 {
@@ -82,10 +83,32 @@ namespace DMS_BLL.Repositories
         {
             return dbObj.GetAllState();
         }
+        
+        public IEnumerable<SelectListItem> GetAllStateDropdown()
+        {
+            var AllStates = GetAllState();
+            var states = new List<SelectListItem>();
+            foreach (var item in AllStates)
+            {
+                states.Add(new SelectListItem() { Text = item.StateName, Value = item.StateID.ToString() });
+            }
+            return states;
+        }
 
         public IEnumerable<tblCity> GetAllCity()
         {
             return dbObj.GetAllCity();
+        }
+
+        public IEnumerable<SelectListItem> GetAllCityDropdown()
+        {
+            var AllCitys = GetAllCity();
+            var cities = new List<SelectListItem>();
+            foreach (var item in AllCitys)
+            {
+                cities.Add(new SelectListItem() { Text = item.CityName, Value = item.CityID.ToString() });
+            }
+            return cities;
         }
 
         public IEnumerable<tblZone> GetAllZone()
@@ -93,14 +116,47 @@ namespace DMS_BLL.Repositories
             return dbObj.GetAllZone();
         }
 
+        public IEnumerable<SelectListItem> GetAllZoneDropdown()
+        {
+            var AllZones = GetAllZone();
+            var zones = new List<SelectListItem>();
+            foreach (var item in AllZones)
+            {
+                zones.Add(new SelectListItem() { Text = item.ZoneName, Value = item.ZoneID.ToString() });
+            }
+            return zones;
+        }
+
         public IEnumerable<tblCity> GetCitiesByState(int StateId)
         {
             return dbObj.GetCitiesByState(StateId);
         }
 
+        public IEnumerable<SelectListItem> GetAllCityByStateDropdown(int StateId)
+        {
+            var AllCitys = GetCitiesByState(StateId);
+            var cities = new List<SelectListItem>();
+            foreach (var item in AllCitys)
+            {
+                cities.Add(new SelectListItem() { Text = item.CityName, Value = item.CityID.ToString() });
+            }
+            return cities;
+        }
+
         public IEnumerable<tblZone> GetZoneByCity(int CityId)
         {
             return dbObj.GetZoneByCity(CityId);
+        }
+
+        public IEnumerable<SelectListItem> GetAllZoneByCityDropdown(int CityId)
+        {
+            var AllZones = GetZoneByCity(CityId);
+            var zones = new List<SelectListItem>();
+            foreach (var item in AllZones)
+            {
+                zones.Add(new SelectListItem() { Text = item.ZoneName, Value = item.ZoneID.ToString() });
+            }
+            return zones;
         }
 
         public Tuple<decimal?, decimal?, string> GetZoneLatLong(int ZoneId)
