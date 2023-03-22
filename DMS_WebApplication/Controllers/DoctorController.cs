@@ -500,15 +500,11 @@ namespace DMS_WebApplication.Controllers
                 var Docreas = DoctorsRepoObj.GetUserDetailById(doctor.UserID);
 
                 doctor.UserOTP = null;
-                doctor.AreaID = doctor.AreaID;
-                doctor.CityID = doctor.CityID;
                 doctor.UserID = Docreas.UserID;
-                doctor.StateID = doctor.StateID;
                 doctor.D_IsProfileCompleted = true;
                 doctor.UserUpdatedBy = Docreas.UserID;
                 doctor.tblAddress = Docreas.tblAddress;
                 doctor.UserEmail = doctor.UserUpdateEmail;
-                doctor.CompleteAddress = doctor.CompleteAddress;
                 doctor.UserProfileImage = doctor.UserProfileImage;
                 doctor.UserPhoneNumber = doctor.UserUpdatePhoneNumber;
                 doctor.Gender = doctor.Gender == "1" ? "Male" : "Female";

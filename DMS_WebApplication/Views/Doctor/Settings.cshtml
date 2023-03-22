@@ -206,9 +206,12 @@
                         </div>
                         <div class="row">
                             <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
-                                <label>About Me</label>
-                                @Html.ValidationMessageFor(model => model.DoctorAboutMe, "", new { @class = "text-danger" })
-                                @Html.TextAreaFor(model => model.DoctorAboutMe, htmlAttributes: new { placeholder = "Enter your about me", @class = "form-control", @style = "height:150px !important" })
+                                <label class="d-flex justify-content-between align-items-center">
+                                    About Me
+                                    <span><span id="textWordCount">0</span>/800</span>
+                                </label>
+                                @Html.ValidationMessageFor(model => model.DoctorAboutMe, "", new { @class = "text-danger mb-2" })
+                                @Html.TextAreaFor(model => model.DoctorAboutMe, htmlAttributes: new { placeholder = "Enter your about me", @class = "form-control", @style = "height:150px !important;text-align: justify !important" })
                             </div>
                         </div>
                         <div class="form-group">
@@ -221,9 +224,25 @@
     </div>
     <script>
         $(document).ready(function () {
+
+            textCount();
+
+            function textCount() {
+                var currentString = $("#DoctorAboutMe").val();
+                $("#textWordCount").text(currentString.length);
+            }
+
             $('#choose-file').change(function () {
                 var file = $('#choose-file')[0].files[0].name;
                 $('#choose-file-label').text(file);
+            });
+
+            $("#DoctorAboutMe").on('input', function () {
+                var currentString = $("#DoctorAboutMe").val();
+                if (currentString.length >= 800) {
+                    $("#textWordCount").css('color', '#fc544b');
+                }
+                $("#textWordCount").text(currentString.length);
             });
 
             $("#StateID").change(function () {
