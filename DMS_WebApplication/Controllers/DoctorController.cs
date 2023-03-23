@@ -37,6 +37,28 @@ namespace DMS_WebApplication.Controllers
             OcdRepoObj = new DoctorOnlineConsultaionDetailsRepo();
         }
 
+        public static IEnumerable<KeyValuePair<string, string>> ObjectToKeyValuePairs(object obj)
+        {
+            var properties = obj.GetType().GetProperties();
+
+            foreach (var property in properties)
+            {
+                yield return new KeyValuePair<string, string>(property.Name, property.GetValue(obj)?.ToString());
+            }
+        }
+
+        #region **Complete Doctor Profile**
+
+        [AcceptVerbs(HttpVerbs.Get)]
+        public JsonResult GetTempData()
+        {
+            var reas = TempData["MsgP"];
+            if (reas != null)
+                return Json(reas, JsonRequestBehavior.AllowGet);
+            else
+                return Json(null, JsonRequestBehavior.AllowGet);
+        }
+
         [AcceptVerbs(HttpVerbs.Get)]
         [CustomAuthorize(Roles = "Admin, SuperAdmin, Doctor")]
         public ActionResult ProfileComplete()
@@ -60,25 +82,6 @@ namespace DMS_WebApplication.Controllers
             return View(doctor);
         }
 
-        public static IEnumerable<KeyValuePair<string, string>> ObjectToKeyValuePairs(object obj)
-        {
-            var properties = obj.GetType().GetProperties();
-
-            foreach (var property in properties)
-            {
-                yield return new KeyValuePair<string, string>(property.Name, property.GetValue(obj)?.ToString());
-            }
-        }
-
-        [AcceptVerbs(HttpVerbs.Get)]
-        public JsonResult GetTempData()
-        {
-            var reas = TempData["MsgP"];
-            if (reas != null)
-                return Json(reas, JsonRequestBehavior.AllowGet);
-            else
-                return Json(null, JsonRequestBehavior.AllowGet);
-        }
 
         [AcceptVerbs(HttpVerbs.Post)]
         [CustomAuthorize(Roles = "Admin, SuperAdmin, Doctor")]
@@ -137,6 +140,7 @@ namespace DMS_WebApplication.Controllers
                      * response.EnsureSuccessStatusCode();
                      * var ereas = await response.Content.ReadAsStringAsync();
                     */
+
                     if (Session["OFCDList"] != null)
                     {
                         var data = (List<ValidateDoctorOfflineConsultaionDetails>)Session["OFCDList"];
@@ -180,6 +184,7 @@ namespace DMS_WebApplication.Controllers
                             WexRepoObj.InsertDoctorWorkExperience(experience);
                         }
                     }
+
                     var reas = DoctorsRepoObj.UpdateDoctor(validateDoctor);
                     if (reas == 1)
                     {
@@ -216,6 +221,8 @@ namespace DMS_WebApplication.Controllers
             return RedirectToAction("Index", "Account");
         }
 
+        #endregion
+
         [AcceptVerbs(HttpVerbs.Get)]
         [CustomAuthorize(Roles = "Admin, SuperAdmin, Doctor")]
         public ActionResult Appointments()
@@ -229,6 +236,8 @@ namespace DMS_WebApplication.Controllers
         {
             return View();
         }
+
+        #region **Insert Experience**
 
         [AcceptVerbs(HttpVerbs.Post)]
         [CustomAuthorize(Roles = "Admin, SuperAdmin, Doctor")]
@@ -313,6 +322,10 @@ namespace DMS_WebApplication.Controllers
                 }
             }
         }
+
+        #endregion
+
+        #region **Insert Offline Consultation**
 
         [AcceptVerbs(HttpVerbs.Post)]
         [CustomAuthorize(Roles = "Admin, SuperAdmin, Doctor")]
@@ -444,7 +457,11 @@ namespace DMS_WebApplication.Controllers
                 }
             }
         }
-        
+
+        #endregion
+
+        #region **Insert Online Consultation**
+
         [AcceptVerbs(HttpVerbs.Post)]
         [CustomAuthorize(Roles = "Admin, SuperAdmin, Doctor")]
         public ActionResult InsertOnlineConsultation(ValidateDoctorOnlineConsultaionDetails Ocd)
@@ -558,6 +575,10 @@ namespace DMS_WebApplication.Controllers
             }
         }
 
+        #endregion
+
+        #region **View Doctor Profile**
+
         [AcceptVerbs(HttpVerbs.Get)]
         [CustomAuthorize(Roles = "Admin, SuperAdmin, Doctor")]
         public ActionResult DoctorProfile(int DoctorID)
@@ -577,6 +598,10 @@ namespace DMS_WebApplication.Controllers
             };
             return View(doctorProfile);
         }
+
+        #endregion
+
+        #region **Doctor Profile Setting**
 
         [AcceptVerbs(HttpVerbs.Get)]
         [CustomAuthorize(Roles = "Admin, SuperAdmin, Doctor")]
@@ -686,6 +711,8 @@ namespace DMS_WebApplication.Controllers
             }
             return RedirectToAction("Settings", new { DoctorID = int.Parse(Session["UserID"].ToString()) });
         }
+
+        #endregion
 
     }
 }
