@@ -10,5 +10,6 @@ namespace DMS_WebApplication.Models
         public IEnumerable<string> Services { get; set; }
         public IEnumerable<tblDoctorWorkExperience> Experience { get; set; }
         public IEnumerable<tblOfflineConsultaionDetail> OfflineConsultation { get; set; }
+        public IEnumerable<tblOnlineConsultaionDetail> OnlineConsultation { get; set; }
     }
 }

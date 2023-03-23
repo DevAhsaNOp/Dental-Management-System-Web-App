@@ -22,8 +22,9 @@ namespace DMS_WebApplication.Controllers
         private AddressRepo AddressRepoObj;
         private DoctorsRepo DoctorsRepoObj;
         private DoctorServicesRepo servicesRepoObj;
-        private DoctorOfflineConsultaionDetailsRepo OfcdRepoObj;
         private DoctorWorkExperienceRepo WexRepoObj;
+        private DoctorOfflineConsultaionDetailsRepo OfcdRepoObj;
+        private DoctorOnlineConsultaionDetailsRepo OcdRepoObj;
 
         public DoctorController()
         {
@@ -33,6 +34,7 @@ namespace DMS_WebApplication.Controllers
             servicesRepoObj = new DoctorServicesRepo();
             WexRepoObj = new DoctorWorkExperienceRepo();
             OfcdRepoObj = new DoctorOfflineConsultaionDetailsRepo();
+            OcdRepoObj = new DoctorOnlineConsultaionDetailsRepo();
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
@@ -66,6 +68,16 @@ namespace DMS_WebApplication.Controllers
             {
                 yield return new KeyValuePair<string, string>(property.Name, property.GetValue(obj)?.ToString());
             }
+        }
+
+        [AcceptVerbs(HttpVerbs.Get)]
+        public JsonResult GetTempData()
+        {
+            var reas = TempData["MsgP"];
+            if (reas != null)
+                return Json(reas, JsonRequestBehavior.AllowGet);
+            else
+                return Json(null, JsonRequestBehavior.AllowGet);
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
@@ -139,6 +151,20 @@ namespace DMS_WebApplication.Controllers
                             }
                         }
                     }
+                    if (Session["OCDList"] != null)
+                    {
+                        var data = (List<ValidateDoctorOnlineConsultaionDetails>)Session["OCDList"];
+                        if (data != null && data.Count > 0)
+                        {
+                            foreach (var item in data)
+                            {
+                                item.OCD_DoctorID = doctor.UserID;
+                                item.OCD_ID = 0;
+                                item.OCD_CreatedBy = doctor.UserID;
+                                OcdRepoObj.InsertOnlineConsultaionDetail(item);
+                            }
+                        }
+                    }
                     if (Session["ExperienceList"] != null)
                     {
                         var data = (List<ValidateDoctorHospitalInfo>)Session["ExperienceList"];
@@ -158,28 +184,28 @@ namespace DMS_WebApplication.Controllers
                     if (reas == 1)
                     {
                         TempData["SuccessMsg"] = "Your profile is completed successfully!";
-                        TempData["SuccessP"] = "1";
+                        TempData["MsgP"] = "1";
                     }
                     else if (reas == -1)
                     {
                         TempData["ErrorMsg"] = "Email already exists. Please ensure to enter not used email account again!";
-                        TempData["ErrorP"] = "0";
+                        TempData["MsgP"] = "5";
                     }
                     else if (reas == -2)
                     {
                         TempData["ErrorMsg"] = "Phone Number already exists. Please ensure to enter not used phone number again!";
-                        TempData["ErrorP"] = "2";
+                        TempData["MsgP"] = "2";
                     }
                     else
                     {
                         TempData["ErrorMsg"] = "Error on completing profile. Please try again later!";
-                        TempData["ErrorP"] = "3";
+                        TempData["MsgP"] = "3";
                     }
                 }
                 else
                 {
                     TempData["ErrorMsg"] = "Error on completing profile!";
-                    TempData["ErrorP"] = "4";
+                    TempData["MsgP"] = "4";
                     return RedirectToAction("ProfileComplete");
                 }
             }
@@ -410,11 +436,124 @@ namespace DMS_WebApplication.Controllers
                 else
                 {
                     var data = (List<ValidateDoctorOfflineConsultaionDetails>)Session["OFCDList"];
-                    var ExpItem = data.Where(x => x.OFCD_ID == OfcdID).FirstOrDefault();
-                    data.Remove(ExpItem);
+                    var OfcdItem = data.Where(x => x.OFCD_ID == OfcdID).FirstOrDefault();
+                    data.Remove(OfcdItem);
                     OFCDList = data;
                     Session["OFCDList"] = OFCDList;
                     return PartialView("_ShowOfflineConsultation", OFCDList);
+                }
+            }
+        }
+        
+        [AcceptVerbs(HttpVerbs.Post)]
+        [CustomAuthorize(Roles = "Admin, SuperAdmin, Doctor")]
+        public ActionResult InsertOnlineConsultation(ValidateDoctorOnlineConsultaionDetails Ocd)
+        {
+            var reas = Session["OCDList"];
+            var OCDList = new List<ValidateDoctorOnlineConsultaionDetails>();
+            if (reas == null)
+            {
+                OCDList.Add(new ValidateDoctorOnlineConsultaionDetails()
+                {
+                   OCD_ID = Ocd.OCD_ID <= 0 ? 1 : Ocd.OCD_ID,
+                   OCD_MondayEndTime = Ocd.OCD_MondayEndTime == null ? null : Ocd.OCD_MondayEndTime,
+                   OCD_MondayStartTime = Ocd.OCD_MondayStartTime == null ? null : Ocd.OCD_MondayStartTime,
+                   OCD_TuesdayEndTime = Ocd.OCD_TuesdayEndTime == null ? null : Ocd.OCD_TuesdayEndTime,
+                   OCD_TuesdayStartTime = Ocd.OCD_TuesdayStartTime == null ? null : Ocd.OCD_TuesdayStartTime,
+                   OCD_WednesdayEndTime = Ocd.OCD_WednesdayEndTime == null ? null : Ocd.OCD_WednesdayEndTime,
+                   OCD_WednesdayStartTime = Ocd.OCD_WednesdayStartTime == null ? null : Ocd.OCD_WednesdayStartTime,
+                   OCD_ThursdayEndTime = Ocd.OCD_ThursdayEndTime == null ? null : Ocd.OCD_ThursdayEndTime,
+                   OCD_ThursdayStartTime = Ocd.OCD_ThursdayStartTime == null ? null : Ocd.OCD_ThursdayStartTime,
+                   OCD_FridayEndTime = Ocd.OCD_FridayEndTime == null ? null : Ocd.OCD_FridayEndTime,
+                   OCD_FridayStartTime = Ocd.OCD_FridayStartTime == null ? null : Ocd.OCD_FridayStartTime,
+                   OCD_SaturdayEndTime = Ocd.OCD_SaturdayEndTime == null ? null : Ocd.OCD_SaturdayEndTime,
+                   OCD_SaturdayStartTime = Ocd.OCD_SaturdayStartTime == null ? null : Ocd.OCD_SaturdayStartTime,
+                   OCD_SundayEndTime = Ocd.OCD_SundayEndTime == null ? null : Ocd.OCD_SundayEndTime,
+                   OCD_SundayStartTime = Ocd.OCD_SundayStartTime == null ? null : Ocd.OCD_SundayStartTime,
+                   OCD_Charges = Ocd.OCD_Charges                   
+                });
+            }
+            else
+            {
+                var data = (List<ValidateDoctorOnlineConsultaionDetails>)Session["OCDList"];
+                if (data == null || data.Count <= 0)
+                {
+                    OCDList.Add(new ValidateDoctorOnlineConsultaionDetails()
+                    {
+                       OCD_ID = Ocd.OCD_ID <= 0 ? 1 : Ocd.OCD_ID,
+                       OCD_MondayEndTime = Ocd.OCD_MondayEndTime == null ? null : Ocd.OCD_MondayEndTime,
+                       OCD_MondayStartTime = Ocd.OCD_MondayStartTime == null ? null : Ocd.OCD_MondayStartTime,
+                       OCD_TuesdayEndTime = Ocd.OCD_TuesdayEndTime == null ? null : Ocd.OCD_TuesdayEndTime,
+                       OCD_TuesdayStartTime = Ocd.OCD_TuesdayStartTime == null ? null : Ocd.OCD_TuesdayStartTime,
+                       OCD_WednesdayEndTime = Ocd.OCD_WednesdayEndTime == null ? null : Ocd.OCD_WednesdayEndTime,
+                       OCD_WednesdayStartTime = Ocd.OCD_WednesdayStartTime == null ? null : Ocd.OCD_WednesdayStartTime,
+                       OCD_ThursdayEndTime = Ocd.OCD_ThursdayEndTime == null ? null : Ocd.OCD_ThursdayEndTime,
+                       OCD_ThursdayStartTime = Ocd.OCD_ThursdayStartTime == null ? null : Ocd.OCD_ThursdayStartTime,
+                       OCD_FridayEndTime = Ocd.OCD_FridayEndTime == null ? null : Ocd.OCD_FridayEndTime,
+                       OCD_FridayStartTime = Ocd.OCD_FridayStartTime == null ? null : Ocd.OCD_FridayStartTime,
+                       OCD_SaturdayEndTime = Ocd.OCD_SaturdayEndTime == null ? null : Ocd.OCD_SaturdayEndTime,
+                       OCD_SaturdayStartTime = Ocd.OCD_SaturdayStartTime == null ? null : Ocd.OCD_SaturdayStartTime,
+                       OCD_SundayEndTime = Ocd.OCD_SundayEndTime == null ? null : Ocd.OCD_SundayEndTime,
+                       OCD_SundayStartTime = Ocd.OCD_SundayStartTime == null ? null : Ocd.OCD_SundayStartTime,
+                       OCD_Charges = Ocd.OCD_Charges
+                    });
+                }
+                else
+                {
+                    var ID = data.Max(x => x.OCD_ID) + 1;
+                    OCDList = data;
+                    OCDList.Add(new ValidateDoctorOnlineConsultaionDetails()
+                    {
+                       OCD_ID = ID,
+                       OCD_MondayEndTime = Ocd.OCD_MondayEndTime == null ? null : Ocd.OCD_MondayEndTime,
+                       OCD_MondayStartTime = Ocd.OCD_MondayStartTime == null ? null : Ocd.OCD_MondayStartTime,
+                       OCD_TuesdayEndTime = Ocd.OCD_TuesdayEndTime == null ? null : Ocd.OCD_TuesdayEndTime,
+                       OCD_TuesdayStartTime = Ocd.OCD_TuesdayStartTime == null ? null : Ocd.OCD_TuesdayStartTime,
+                       OCD_WednesdayEndTime = Ocd.OCD_WednesdayEndTime == null ? null : Ocd.OCD_WednesdayEndTime,
+                       OCD_WednesdayStartTime = Ocd.OCD_WednesdayStartTime == null ? null : Ocd.OCD_WednesdayStartTime,
+                       OCD_ThursdayEndTime = Ocd.OCD_ThursdayEndTime == null ? null : Ocd.OCD_ThursdayEndTime,
+                       OCD_ThursdayStartTime = Ocd.OCD_ThursdayStartTime == null ? null : Ocd.OCD_ThursdayStartTime,
+                       OCD_FridayEndTime = Ocd.OCD_FridayEndTime == null ? null : Ocd.OCD_FridayEndTime,
+                       OCD_FridayStartTime = Ocd.OCD_FridayStartTime == null ? null : Ocd.OCD_FridayStartTime,
+                       OCD_SaturdayEndTime = Ocd.OCD_SaturdayEndTime == null ? null : Ocd.OCD_SaturdayEndTime,
+                       OCD_SaturdayStartTime = Ocd.OCD_SaturdayStartTime == null ? null : Ocd.OCD_SaturdayStartTime,
+                       OCD_SundayEndTime = Ocd.OCD_SundayEndTime == null ? null : Ocd.OCD_SundayEndTime,
+                       OCD_SundayStartTime = Ocd.OCD_SundayStartTime == null ? null : Ocd.OCD_SundayStartTime,
+                       OCD_Charges = Ocd.OCD_Charges
+                    });
+                }
+            }
+            Session["OCDList"] = OCDList;
+            return PartialView("_ShowOnlineConsultation", OCDList);
+        }
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        [CustomAuthorize(Roles = "Admin, SuperAdmin, Doctor")]
+        public ActionResult DeleteOnlineConsultation(int OcdID)
+        {
+            var reas = Session["OCDList"];
+            var OCDList = new List<ValidateDoctorOnlineConsultaionDetails>();
+            if (OcdID <= 0)
+            {
+                var data = (List<ValidateDoctorOnlineConsultaionDetails>)Session["OCDList"];
+                OCDList = data;
+                Session["OCDList"] = OCDList;
+                return PartialView("_ShowOnlineConsultation", OCDList);
+            }
+            else
+            {
+                if (reas == null)
+                {
+                    return PartialView("_ShowOnlineConsultation", OCDList);
+                }
+                else
+                {
+                    var data = (List<ValidateDoctorOnlineConsultaionDetails>)Session["OCDList"];
+                    var OcdItem = data.Where(x => x.OCD_ID == OcdID).FirstOrDefault();
+                    data.Remove(OcdItem);
+                    OCDList = data;
+                    Session["OCDList"] = OCDList;
+                    return PartialView("_ShowOnlineConsultation", OCDList);
                 }
             }
         }
@@ -425,14 +564,16 @@ namespace DMS_WebApplication.Controllers
         {
             tblDoctor reas = DoctorsRepoObj.GetDoctorByID(DoctorID);
             IEnumerable<tblOfflineConsultaionDetail> ofcdDetails = OfcdRepoObj.GetDoctorAllOfflineConsultaionDetailsByID(DoctorID);
+            IEnumerable<tblOnlineConsultaionDetail> ocdDetails = OcdRepoObj.GetDoctorAllOnlineConsultaionDetailsByID(DoctorID);
             IEnumerable<tblDoctorWorkExperience> WexDetails = WexRepoObj.GetDoctorAllWorkExperiencesByID(DoctorID);
             IEnumerable<string> serviceDetails = servicesRepoObj.GetAllDoctorServicesByID(DoctorID);
             DoctorProfileView doctorProfile = new DoctorProfileView()
             {
-                Experience = WexDetails,
-                OfflineConsultation = ofcdDetails,
                 Profile = reas,
-                Services = serviceDetails
+                Experience = WexDetails,
+                Services = serviceDetails,
+                OnlineConsultation = ocdDetails,
+                OfflineConsultation = ofcdDetails,
             };
             return View(doctorProfile);
         }

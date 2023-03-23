@@ -1,0 +1,95 @@
+﻿@model IEnumerable<DMS_BOL.tblOnlineConsultaionDetail>
+
+@{
+    var i = 1;
+
+    foreach (var item in Model)
+    {
+        <div class="d-flex flex-row align-items-start mb-3">
+            <p class="font-weight-bold font-15 mr-2">
+                @i.
+            </p>
+            <div class="w-100">
+                <p class="d-none mb-0 OCD_NO">1</p>
+                <div class="d-flex flex-row align-items-baseline justify-content-between">
+                    <p class="mb-2 font-17 font-weight-bold">Online Consultation Timing: </p>
+                </div>
+                <p class="mb-0 font-weight-600" style="line-height: 18px !important; text-align:justify !important;">
+                    @if (@item.OCD_MondayStartTime == null || @item.OCD_MondayEndTime == null)
+                    {
+
+                    }
+                    else
+                    {
+                        <span>
+                            Monday: (@item.OCD_MondayStartTime - @item.OCD_MondayEndTime),
+                        </span>
+                    }
+                    @if (@item.OCD_TuesdayStartTime == null || @item.OCD_TuesdayEndTime == null)
+                    {
+
+                    }
+                    else
+                    {
+                        <span>
+                            Tuesday: (@item.OCD_TuesdayStartTime - @item.OCD_TuesdayEndTime),
+                        </span>
+                    }
+                    @if (@item.OCD_WednesdayStartTime == null || @item.OCD_WednesdayEndTime == null)
+                    {
+
+                    }
+                    else
+                    {
+                        <span>
+                            Wednesday: (@item.OCD_WednesdayStartTime - @item.OCD_WednesdayEndTime),
+                        </span>
+                    }
+                    @if (@item.OCD_ThursdayStartTime == null || @item.OCD_ThursdayEndTime == null)
+                    {
+
+                    }
+                    else
+                    {
+                        <span>
+                            Thursday: (@item.OCD_ThursdayStartTime - @item.OCD_ThursdayEndTime),
+                        </span>
+                    }
+                    @if (@item.OCD_FridayStartTime == null || @item.OCD_FridayEndTime == null)
+                    {
+
+                    }
+                    else
+                    {
+                        <span>
+                            Friday: (@item.OCD_FridayStartTime - @item.OCD_FridayEndTime),
+                        </span>
+                    }
+                    @if (@item.OCD_SaturdayStartTime == null || @item.OCD_SaturdayEndTime == null)
+                    {
+
+                    }
+                    else
+                    {
+                        <span>
+                            Saturday: (@item.OCD_SaturdayStartTime - @item.OCD_SaturdayEndTime),
+                        </span>
+                    }
+                    @if (@item.OCD_SundayStartTime == null || @item.OCD_SundayEndTime == null)
+                    {
+
+                    }
+                    else
+                    {
+                        <span>
+                            Sunday: (@item.OCD_SundayStartTime - @item.OCD_SundayEndTime),
+                        </span>
+                    }
+                </p>
+                <p class="mb-0 font-weight-600" style="line-height: 18px !important; text-align:justify !important;">Consultation Charges: @item.OCD_Charges</p>
+            </div>
+        </div>
+        i++;
+    }
+}
+
