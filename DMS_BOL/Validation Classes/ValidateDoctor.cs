@@ -25,7 +25,7 @@ namespace DMS_BOL.Validation_Classes
 
         [Required(ErrorMessage = "*")]
         [Display(Name = "About Me")]
-        [StringLength(800, MinimumLength = 500, ErrorMessage = "Character length should be in between 500-800")]
+        [StringLength(1000, MinimumLength = 500, ErrorMessage = "Character length should be in between 500-800")]
         public string DoctorAboutMe { get; set; }
 
         [Required(ErrorMessage = "Minimum One day Should Be Added")]

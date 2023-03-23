@@ -237,7 +237,7 @@ namespace DMS_WebApplication.Controllers
             return View();
         }
 
-        #region **Insert Experience**
+        #region **Manage Experience**
 
         [AcceptVerbs(HttpVerbs.Post)]
         [CustomAuthorize(Roles = "Admin, SuperAdmin, Doctor")]
@@ -323,9 +323,32 @@ namespace DMS_WebApplication.Controllers
             }
         }
 
+        public void GetExperienceInfo(int DoctorID)
+        {
+            Session["ExperienceList"] = null;
+            var ExperienceList = new List<ValidateDoctorHospitalInfo>();
+            var ExpInfo = WexRepoObj.GetDoctorAllWorkExperiencesByID(DoctorID);
+            if (ExpInfo != null && ExpInfo.Count() > 0)
+            {
+                foreach (var item in ExpInfo)
+                {
+                    ExperienceList.Add(new ValidateDoctorHospitalInfo()
+                    {
+                        HospitalID = item.WEX_ID,
+                        WEX_ToDate = item.WEX_ToDate,
+                        WEX_FromDate = item.WEX_FromDate,
+                        WEX_Designation = item.WEX_Designation,
+                        WEX_HospitalName = item.WEX_HospitalName,
+                        WEX_IsWorking = item.WEX_IsWorking.Value,
+                    });
+                }
+            }
+            Session["ExperienceList"] = ExperienceList;
+        }
+
         #endregion
 
-        #region **Insert Offline Consultation**
+        #region **Manage Offline Consultation**
 
         [AcceptVerbs(HttpVerbs.Post)]
         [CustomAuthorize(Roles = "Admin, SuperAdmin, Doctor")]
@@ -458,9 +481,49 @@ namespace DMS_WebApplication.Controllers
             }
         }
 
+        public void GetOfflineConsultation(int DoctorID)
+        {
+            Session["OFCDList"] = null;
+            var OFCDInfo = OfcdRepoObj.GetDoctorAllOfflineConsultaionDetailsByID(DoctorID);
+            var OFCDList = new List<ValidateDoctorOfflineConsultaionDetails>();
+
+            if (OFCDInfo != null && OFCDInfo.Count() > 0)
+            {
+                foreach (var item in OFCDInfo)
+                {
+                    OFCDList.Add(new ValidateDoctorOfflineConsultaionDetails()
+                    {
+                        OFCD_ID = item.OFCD_ID,
+                        OFCD_HospitalName = item.OFCD_HospitalName,
+                        OFCD_HospitalPhoneNumber = item.OFCD_HospitalPhoneNumber,
+                        OFCD_MondayEndTime = item.OFCD_MondayEndTime == null ? null : item.OFCD_MondayEndTime,
+                        OFCD_MondayStartTime = item.OFCD_MondayStartTime == null ? null : item.OFCD_MondayStartTime,
+                        OFCD_TuesdayEndTime = item.OFCD_TuesdayEndTime == null ? null : item.OFCD_TuesdayEndTime,
+                        OFCD_TuesdayStartTime = item.OFCD_TuesdayStartTime == null ? null : item.OFCD_TuesdayStartTime,
+                        OFCD_WednesdayEndTime = item.OFCD_WednesdayEndTime == null ? null : item.OFCD_WednesdayEndTime,
+                        OFCD_WednesdayStartTime = item.OFCD_WednesdayStartTime == null ? null : item.OFCD_WednesdayStartTime,
+                        OFCD_ThursdayEndTime = item.OFCD_ThursdayEndTime == null ? null : item.OFCD_ThursdayEndTime,
+                        OFCD_ThursdayStartTime = item.OFCD_ThursdayStartTime == null ? null : item.OFCD_ThursdayStartTime,
+                        OFCD_FridayEndTime = item.OFCD_FridayEndTime == null ? null : item.OFCD_FridayEndTime,
+                        OFCD_FridayStartTime = item.OFCD_FridayStartTime == null ? null : item.OFCD_FridayStartTime,
+                        OFCD_SaturdayEndTime = item.OFCD_SaturdayEndTime == null ? null : item.OFCD_SaturdayEndTime,
+                        OFCD_SaturdayStartTime = item.OFCD_SaturdayStartTime == null ? null : item.OFCD_SaturdayStartTime,
+                        OFCD_SundayEndTime = item.OFCD_SundayEndTime == null ? null : item.OFCD_SundayEndTime,
+                        OFCD_SundayStartTime = item.OFCD_SundayStartTime == null ? null : item.OFCD_SundayStartTime,
+                        OFCD_Charges = item.OFCD_Charges,
+                        State = item.tblAddress.tblState.StateName,
+                        City = item.tblAddress.tblCity.CityName,
+                        Area = item.tblAddress.tblZone.ZoneName,
+                        CompleteAddress = item.tblAddress.AddressComplete
+                    });
+                }
+            }
+            Session["OFCDList"] = OFCDList;
+        }
+
         #endregion
 
-        #region **Insert Online Consultation**
+        #region **Manage Online Consultation**
 
         [AcceptVerbs(HttpVerbs.Post)]
         [CustomAuthorize(Roles = "Admin, SuperAdmin, Doctor")]
@@ -575,6 +638,40 @@ namespace DMS_WebApplication.Controllers
             }
         }
 
+        public void GetOnlineConsultation(int DoctorID)
+        {
+            Session["OCDList"] = null;
+            var OCDInfo = OcdRepoObj.GetDoctorAllOnlineConsultaionDetailsByID(DoctorID);
+            var OCDList = new List<ValidateDoctorOnlineConsultaionDetails>();
+
+            if (OCDInfo != null && OCDInfo.Count() > 0)
+            {
+                foreach (var item in OCDInfo)
+                {
+                    OCDList.Add(new ValidateDoctorOnlineConsultaionDetails()
+                    {
+                       OCD_ID = item.OCD_ID,
+                       OCD_MondayEndTime = item.OCD_MondayEndTime == null ? null : item.OCD_MondayEndTime,
+                       OCD_MondayStartTime = item.OCD_MondayStartTime == null ? null : item.OCD_MondayStartTime,
+                       OCD_TuesdayEndTime = item.OCD_TuesdayEndTime == null ? null : item.OCD_TuesdayEndTime,
+                       OCD_TuesdayStartTime = item.OCD_TuesdayStartTime == null ? null : item.OCD_TuesdayStartTime,
+                       OCD_WednesdayEndTime = item.OCD_WednesdayEndTime == null ? null : item.OCD_WednesdayEndTime,
+                       OCD_WednesdayStartTime = item.OCD_WednesdayStartTime == null ? null : item.OCD_WednesdayStartTime,
+                       OCD_ThursdayEndTime = item.OCD_ThursdayEndTime == null ? null : item.OCD_ThursdayEndTime,
+                       OCD_ThursdayStartTime = item.OCD_ThursdayStartTime == null ? null : item.OCD_ThursdayStartTime,
+                       OCD_FridayEndTime = item.OCD_FridayEndTime == null ? null : item.OCD_FridayEndTime,
+                       OCD_FridayStartTime = item.OCD_FridayStartTime == null ? null : item.OCD_FridayStartTime,
+                       OCD_SaturdayEndTime = item.OCD_SaturdayEndTime == null ? null : item.OCD_SaturdayEndTime,
+                       OCD_SaturdayStartTime = item.OCD_SaturdayStartTime == null ? null : item.OCD_SaturdayStartTime,
+                       OCD_SundayEndTime = item.OCD_SundayEndTime == null ? null : item.OCD_SundayEndTime,
+                       OCD_SundayStartTime = item.OCD_SundayStartTime == null ? null : item.OCD_SundayStartTime,
+                       OCD_Charges = item.OCD_Charges                        
+                    });
+                }
+            }
+            Session["OCDList"] = OCDList;
+        }
+
         #endregion
 
         #region **View Doctor Profile**
@@ -611,6 +708,9 @@ namespace DMS_WebApplication.Controllers
             {
                 tblDoctor reas = DoctorsRepoObj.GetDoctorByID(DoctorID);
                 var reas1 = DoctorsRepoObj.GetUserDetailById(DoctorID);
+                GetExperienceInfo(reas.D_ID);
+                GetOfflineConsultation(reas.D_ID);
+                GetOnlineConsultation(reas.D_ID);
                 ValidateDoctor doctor = new ValidateDoctor()
                 {
                     AreaID = reas.tblAddress.AddressZone.Value,

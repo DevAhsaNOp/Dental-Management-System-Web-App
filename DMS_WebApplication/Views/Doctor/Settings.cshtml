@@ -9,6 +9,8 @@
 {
     <link type="text/css" rel="stylesheet" href="~/assets/css/image-uploader.min.css">
     <script type="text/javascript" src="~/assets/js/image-uploader.min.js"></script>
+    <link rel="stylesheet" href="~/assets/bundles/pretty-checkbox/pretty-checkbox.min.css">
+    <script src="~/assets/bundles/sweetalert/sweetalert.min.js"></script>
     <script>
         function loadProfile(event) {
             var files = event.target.files;
@@ -35,6 +37,14 @@
             margin-top: 3px;
         }
 
+        .pretty.p-switch .state:before {
+            border: 1px solid #28a745;
+        }
+
+        .pretty.p-switch .state label:after {
+            background-color: #28a745 !important;
+        }
+
         .loader {
             position: fixed;
             left: 0px;
@@ -58,36 +68,19 @@
             border: 1px solid #ededed;
             border-radius: 2px;
         }
-    </style>
 
+        #labelExp {
+            color: #28a745;
+            font-weight: 700;
+        }
+    </style>
+    <div id="loader" class="loader"></div>
     <div class="row">
         <div class="col-12 col-sm-12 col-md-10 col-lg-10 col-xl-10">
-            <div class="card card-primary">
-                <div class="card-body">
-                    @if (TempData["ErrorMsg"] != null)
-                    {
-                        <div class="alert alert-danger alert-dismissible show fade">
-                            <div class="alert-body">
-                                <button class="close" data-dismiss="alert">
-                                    <span>×</span>
-                                </button>
-                                @Html.Raw(TempData["ErrorMsg"])
-                            </div>
-                        </div>
-                    }
-                    @if (TempData["SuccessMsg"] != null)
-                    {
-                        <div class="alert alert-success alert-dismissible show fade">
-                            <div class="alert-body">
-                                <button class="close" data-dismiss="alert">
-                                    <span>×</span>
-                                </button>
-                                @Html.Raw(TempData["SuccessMsg"])
-                            </div>
-                        </div>
-                    }
-                    @using (Html.BeginForm("Settings", "Doctor", FormMethod.Post, new { enctype = "multipart/form-data" }))
-                    {
+            @using (Ajax.BeginForm("Settings", "Doctor", new AjaxOptions() { HttpMethod = "POST", LoadingElementId = "loader", OnBegin = "CheckValidation", OnSuccess = "fnSuccessP" }, htmlAttributes: new { @id = "formS", @enctype = "multipart/form-data" }))
+            {
+                <div class="card card-primary">
+                    <div class="card-body">
                         <div class="form-group" style=" display: flex; flex-direction: column-reverse; align-items: center;">
                             <label for="choose-file" class="custom-file-upload" id="choose-file-label">
                                 Change Avatar
@@ -162,22 +155,22 @@
                                 @Html.ValidationMessageFor(model => model.StateID, "", new { @class = "text-danger" })
                                 @Html.DropDownListFor(model => model.StateID, (IEnumerable<SelectListItem>)ViewBag.State, htmlAttributes: new { @class = "form-control select2" })
                             </div>
-                            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6" id="CityD">
+                            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6" id="CityDS">
                                 <label>City</label>
                                 @Html.ValidationMessageFor(model => model.CityID, "", new { @class = "text-danger" })
                                 @Html.DropDownListFor(model => model.CityID, (IEnumerable<SelectListItem>)ViewBag.City, htmlAttributes: new { @class = "form-control select2" })
                             </div>
                         </div>
                         <div class="row">
-                            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6" id="AreaD">
+                            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6" id="AreaDS">
                                 <label>Area</label>
                                 @Html.ValidationMessageFor(model => model.AreaID, "", new { @class = "text-danger" })
                                 @Html.DropDownListFor(model => model.AreaID, (IEnumerable<SelectListItem>)ViewBag.Zone, htmlAttributes: new { @class = "form-control select2" })
                             </div>
-                            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6" id="AddressD">
+                            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6" id="AddressDS">
                                 <label>Complete Address</label>
                                 @Html.ValidationMessageFor(model => model.CompleteAddress, "", new { @class = "text-danger" })
-                                @Html.EditorFor(model => model.CompleteAddress, new { htmlAttributes = new { placeholder = "Enter your complete address", @class = "form-control" } })
+                                @Html.EditorFor(model => model.CompleteAddress, new { htmlAttributes = new { placeholder = "Enter your complete address", @class = "form-control", @id= "CompleteAddressS" } })
                             </div>
                         </div>
                         <div class="row">
@@ -208,22 +201,117 @@
                             <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
                                 <label class="d-flex justify-content-between align-items-center">
                                     About Me
-                                    <span><span id="textWordCount">0</span>/800</span>
+                                    <span><span id="textWordCount">0</span>/1000</span>
                                 </label>
                                 @Html.ValidationMessageFor(model => model.DoctorAboutMe, "", new { @class = "text-danger mb-2" })
                                 @Html.TextAreaFor(model => model.DoctorAboutMe, htmlAttributes: new { placeholder = "Enter your about me", @class = "form-control", @style = "height:150px !important;text-align: justify !important" })
                             </div>
                         </div>
-                        <div class="form-group">
-                            <input type="submit" class="btn btn-primary btn-lg btn-block" value="Save">
-                        </div>
-                    }
+                    </div>
                 </div>
+            }
+            <div class="card">
+                <div class="card-header d-flex align-items-center justify-content-between">
+                    <a class="card-link">
+                        <strong class="card-heading">Experience Information </strong>
+                    </a>
+                    <div class="pretty p-switch p-fill">
+                        <input type="checkbox" id="chkDoesExp" onchange="chkDoesExp()">
+                        <div class="state p-danger">
+                            <label id="labelExp">It Apply On Me</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div>
+                        <div id="ExpDiv">
+                            @Html.Partial("_ShowExperience", Session["ExperienceList"])
+                        </div>
+                        <button type="button" class="btn btn-primary" id="btnExp" onclick="ExpOpen()">
+                            Add Experience
+                        </button>
+                        @using (Ajax.BeginForm("InsertExp", "Doctor", new AjaxOptions() { HttpMethod = "POST", UpdateTargetId = "ExpDiv", LoadingElementId = "loader", OnSuccess = "ExpSuccess" }, htmlAttributes: new { @id = "Expform" }))
+                        {
+                            var hospitalInfo = new DMS_BOL.Validation_Classes.ValidateDoctorHospitalInfo();
+                            @Html.Partial("_AddExperience", hospitalInfo);
+                            <div class="form-group">
+                                <input type="button" class="btn btn-danger m-t-15 waves-effect" value="Cancel" onclick="btnCancelExp()" tabindex="35" />
+                                <input type="submit" class="btn btn-primary m-t-15 waves-effect" value="Submit" tabindex="12" />
+                            </div>
+                        }
+
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header d-flex align-items-center justify-content-between">
+                    <a class="card-link">
+                        <strong class="card-heading">Offline Consultation Information </strong>
+                    </a>
+                    <div class="pretty p-switch p-fill">
+                        <input type="checkbox" id="chkDoes1" onchange="chkDoes()">
+                        <div class="state p-danger">
+                            <label id="labelDoes1">It Apply On Me</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div>
+                        <div id="OFCDDiv">
+                            @Html.Partial("_ShowOfflineConsultation", Session["OFCDList"])
+                        </div>
+                        <button type="button" class="btn btn-primary" id="btnOFCD" onclick="OFCDOpen()">
+                            Add Offline Consultation
+                        </button>
+                        @using (Ajax.BeginForm("InsertOfflineConsultation", "Doctor", new AjaxOptions() { HttpMethod = "POST", UpdateTargetId = "OFCDDiv", LoadingElementId = "loader", OnSuccess = "OFCDSuccess", OnBegin = "OFCDDayCheck" }, htmlAttributes: new { @id = "OFCDform" }))
+                        {
+                            var hospitalInfo = new DMS_BOL.Validation_Classes.ValidateDoctorOfflineConsultaionDetails();
+                            @Html.Partial("_AddOfflineConsultation", hospitalInfo);
+                            <div>
+                                <input type="button" class="btn btn-danger m-t-15 waves-effect" value="Cancel" onclick="btnCancel()" tabindex="35" />
+                                <input type="submit" class="btn btn-primary m-t-15 waves-effect Isdisabled" value="Submit" tabindex="36" />
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header d-flex align-items-center justify-content-between">
+                    <a class="card-link">
+                        <strong class="card-heading">Online Consultation Information </strong>
+                    </a>
+                </div>
+                <div class="card-body">
+                    <div>
+                        <div id="OCDDiv">
+                            @Html.Partial("_ShowOnlineConsultation", Session["OCDList"])
+                        </div>
+                        <button type="button" class="btn btn-primary" id="btnOCD" onclick="OCDOpen()">
+                            Add Online Consultation
+                        </button>
+                        @using (Ajax.BeginForm("InsertOnlineConsultation", "Doctor", new AjaxOptions() { HttpMethod = "POST", UpdateTargetId = "OCDDiv", LoadingElementId = "loader", OnSuccess = "OCDSuccess", OnBegin = "OCDDayCheck" }, htmlAttributes: new { @id = "OCDform" }))
+                        {
+                            var hospitalInfo = new DMS_BOL.Validation_Classes.ValidateDoctorOnlineConsultaionDetails();
+                            @Html.Partial("_AddOnlineConsultation", hospitalInfo);
+                            <div>
+                                <input type="button" class="btn btn-danger m-t-15 waves-effect" value="Cancel" onclick="btnOCDCancel()" tabindex="37" />
+                                <input type="submit" class="btn btn-primary m-t-15 waves-effect OCDIsdisabled" value="Submit" tabindex="38" />
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <button form="formS" class="btn btn-primary btn-lg btn-block" type="submit">Save</button>
             </div>
         </div>
     </div>
     <script>
         $(document).ready(function () {
+
+            $("#OFCDform").hide();
+            $("#OCDform").hide();
+            $("#Expform").hide();
 
             textCount();
 
@@ -239,7 +327,7 @@
 
             $("#DoctorAboutMe").on('input', function () {
                 var currentString = $("#DoctorAboutMe").val();
-                if (currentString.length >= 800) {
+                if (currentString.length >= 1000) {
                     $("#textWordCount").css('color', '#fc544b');
                 }
                 $("#textWordCount").text(currentString.length);
@@ -255,10 +343,10 @@
                     success: function (response) {
                         $("#CityID").empty();
                         $("#AreaID").empty();
-                        $('#AreaD').hide();
-                        $('#AddressD').hide();
+                        $('#AreaDS').hide();
+                        $('#AddressDS').hide();
                         $("#CityID").append(response);
-                        $('#CityD').show();
+                        $('#CityDS').show();
                         $(".loader").hide();
                     }
                 })
@@ -274,7 +362,7 @@
                     success: function (response) {
                         $("#AreaID").empty();
                         $("#AreaID").append(response);
-                        $('#AreaD').show();
+                        $('#AreaDS').show();
                         $(".loader").hide();
                     }
                 })
@@ -284,10 +372,324 @@
                 var AreaId = $(this).val();
                 $(".loader").show();
                 if (AreaId > 0) {
-                    $('#AddressD').show();
+                    $('#AddressDS').show();
                     $(".loader").hide();
                 }
             });
         });
+
+        function OFCDOpen() {
+            $("#OFCDform").show();
+            $("#btnOFCD").hide();
+        }
+
+        function ExpOpen() {
+            $("#Expform").trigger("reset");
+            $("#Expform").show();
+            $("#btnExp").hide();
+        }
+
+        function OCDOpen() {
+            $("#OCDform").show();
+            $("#btnOCD").hide();
+        }
+
+        function btnCancel() {
+            $("#OFCDform").hide();
+            $("#btnOFCD").show();
+        }
+
+        function btnOCDCancel() {
+            $("#OCDform").hide();
+            $("#btnOCD").show();
+        }
+
+        function btnCancelExp() {
+            $("#Expform").hide();
+            $("#btnExp").show();
+        }
+
+        function fnSuccessP() {
+            $("#loader").show();
+            $.ajax({
+                type: "GET",
+                url: "@Url.Action("GetTempData", "Doctor")",
+                contentType: "application/json; charset=utf-8",
+                success: function (response) {
+                    $("#loader").hide();
+                    var Eval = response;
+                    alert('Your profile is completed successfully!');
+                    if (Eval == 1) {
+                        swal('Hurray', 'Your profile is completed successfully!', 'success');
+                        window.location.href = '/Account/Index';
+                    }
+                    else if (Eval == 5) {
+                        swal('Error Occured', 'Email already exists. Please ensure to enter not used email account again!', 'error');
+                    }
+                    else if (Eval == 2) {
+                        swal('Error Occured', 'Phone Number already exists. Please ensure to enter not used phone number again!', 'error');
+                    }
+                    else if (Eval == 3) {
+                        swal('Error Occured', 'Error on completing profile. Please try again later!', 'error');
+                    }
+                    else if (Eval == 4) {
+                        swal('Error Occured', 'Error on completing profile!', 'error');
+                    }
+                }
+            });
+        }
+
+        function chkDoesExp() {
+            var remember = document.getElementById("chkDoesExp");
+            if (remember.checked) {
+                document.getElementById("labelExp").innerText = "Not Apply On Me";
+                document.getElementById("labelExp").style.color = "#d9534f";
+                $("#ExpDiv").hide();
+                $("#btnExp").prop('disabled', true);
+            } else {
+                document.getElementById("labelExp").innerText = "It Apply On Me";
+                document.getElementById("labelExp").style.color = "#28a745";
+                $("#ExpDiv").show();
+                $("#btnExp").prop('disabled', false);
+            }
+        }
+
+        function ExpCheck() {
+            var IsAvalailble = false;
+            var remember = document.getElementById("chkDoesExp");
+            if (!remember.checked) {
+                if (document.getElementsByClassName("EXP_NO").length > 0) {
+                    IsAvalailble = true;
+                    if (!IsAvalailble) {
+                        swal('Error Occured', 'Please add your experience or unchecked \'It Apply On Me\' if you don\'t have any experience!', 'error');
+                        return false;
+                    } else {
+                        return true;
+                    }
+                }
+                else {
+                    swal('Error Occured', 'Please add your experience or unchecked \'It Apply On Me\' if you don\'t have any experience!', 'error');
+                    return false;
+                }
+            } else {
+                return true;
+            }
+        }
+
+        function OFCDCheck() {
+            var IsAvalailble = false;
+            var remember = document.getElementById("chkDoes1");
+            if (!remember.checked) {
+                if (document.getElementsByClassName("OFCD_NO").length > 0) {
+                    IsAvalailble = true;
+                    if (!IsAvalailble) {
+                        swal('Error Occured', 'Please add places for offline consultation or unchecked \'It Apply On Me\' if you don\'t do offline consultation!', 'error');
+                        return false;
+                    } else {
+                        return true;
+                    }
+                }
+                else {
+                    swal('Error Occured', 'Please add places for offline consultation or unchecked \'It Apply On Me\' if you don\'t do offline consultation!', 'error');
+                    return false;
+                }
+            } else {
+                return true;
+            }
+        }
+
+        function OCDCheck() {
+            if (document.getElementsByClassName("OCD_NO").length <= 0) {
+                swal('Error Occured', 'Please add places for online consultation or unchecked \'It Apply On Me\' if you don\'t do online consultation!', 'error');
+                return false;
+            } else {
+                return true;
+            }
+        }
+
+        function CheckValidation() {
+            var expCheck = ExpCheck();
+            var ofcdCheck = OFCDCheck();
+            var ocdCheck = OCDCheck();
+            if (!expCheck || !ofcdCheck || !ocdCheck) {
+                return false;
+            }
+        }
+
+        function OFCDDayCheck() {
+            var IsAvalailble = false;
+            for (var i = 1; i <= 7; i++) {
+                var remember = document.getElementById("checkbox" + i);
+                if (!remember.checked) {
+                    IsAvalailble = true;
+                }
+            }
+            if (!IsAvalailble) {
+                swal('Error Occured', 'Please select minimum one day for consultation!', 'error');
+                return false;
+            }
+        }
+
+        function OCDDayCheck() {
+            var IsAvalailble = false;
+            for (var i = 1; i <= 7; i++) {
+                var remember = document.getElementById("OCDcheckbox" + i);
+                if (!remember.checked) {
+                    IsAvalailble = true;
+                }
+            }
+            if (!IsAvalailble) {
+                swal('Error Occured', 'Please select minimum one day for consultation!', 'error');
+                return false;
+            }
+        }
+
+        function ExpSuccess() {
+            $("#Expform").trigger("reset");
+            $("#Expform").hide();
+            $("#btnExp").show();
+        }
+
+        function OFCDSuccess() {
+            $("#OFCDform").trigger("reset");
+            $("#OFCDform").hide();
+            $("#btnOFCD").show();
+            $('#City').empty();
+            $('#Area').empty();
+            $('#CompleteAddress').empty();
+            $('#CityDS').hide();
+            $('#AreaDS').hide();
+            $('#AddressDS').hide();
+            var inputs = document.getElementsByClassName("Isdisabled");
+            for (var i = 0; i < inputs.length; i++) {
+                inputs[i].disabled = false;
+            }
+
+            for (var i = 1; i <= 7; i++) {
+                document.getElementById("label" + i).innerText = "Available";
+                document.getElementsByClassName("time" + i)[0].disabled = false;
+                document.getElementsByClassName("time" + i)[1].disabled = false;
+                document.getElementById("label" + i).style.color = "#28a745";
+            }
+        }
+
+        function OCDSuccess() {
+            $("#OCDform").trigger("reset");
+            $("#OCDform").hide();
+            var inputs = document.getElementsByClassName("OCDIsdisabled");
+            for (var i = 0; i < inputs.length; i++) {
+                inputs[i].disabled = false;
+            }
+            for (var i = 1; i <= 7; i++) {
+                document.getElementById("OCDlabel" + i).innerText = "Available";
+                document.getElementsByClassName("OCDtime" + i)[0].disabled = false;
+                document.getElementsByClassName("OCDtime" + i)[1].disabled = false;
+                document.getElementById("OCDlabel" + i).style.color = "#28a745";
+            }
+        }
+
+        function validate() {
+            var remember = document.getElementById('WEX_IsWorking');
+            if (remember.checked) {
+                document.getElementById("ToDateID").style.display = "none";
+            } else {
+                document.getElementById("ToDateID").style.display = "block";
+            }
+        }
+
+        function deleteExp(expID) {
+            swal({
+                title: 'Are you sure?',
+                text: 'Once deleted, you will not be able to recover this Experience detail!',
+                icon: 'warning',
+                buttons: true,
+                dangerMode: true,
+            })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        $("#loader").show();
+                        $.ajax({
+                            type: "POST",
+                            url: "@Url.Action("DeleteExp", "Doctor")",
+                            data: JSON.stringify({ ExpID: expID }),
+                            contentType: "application/json; charset=utf-8",
+                            success: function (response) {
+                                $("#loader").hide();
+                                $("#ExpDiv").empty();
+                                $("#ExpDiv").append(response);
+                                swal('Poof! Your Experience detail has been deleted!', {
+                                    icon: 'success',
+                                });
+                            }
+                        });
+                    } else {
+                        swal('Your experience details is safe!');
+                    }
+                });
+        }
+
+        function deleteOfcd(ofcdID) {
+            swal({
+                title: 'Are you sure?',
+                text: 'Once deleted, you will not be able to recover this Offline Consultation detail!',
+                icon: 'warning',
+                buttons: true,
+                dangerMode: true,
+            })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        $("#loader").show();
+                        $.ajax({
+                            type: "POST",
+                            url: "@Url.Action("DeleteOfflineConsultation", "Doctor")",
+                            data: JSON.stringify({ OfcdID: ofcdID }),
+                            contentType: "application/json; charset=utf-8",
+                            success: function (response) {
+                                $("#loader").hide();
+                                $("#OFCDDiv").empty();
+                                $("#OFCDDiv").append(response);
+                                swal('Poof! Your Offline Consultation detail has been deleted!', {
+                                    icon: 'success',
+                                });
+                            }
+                        });
+                    } else {
+                        swal('Your offline consultation details is safe!');
+                    }
+                });
+        }
+
+        function deleteOcd(ocdID) {
+            swal({
+                title: 'Are you sure?',
+                text: 'Once deleted, you will not be able to recover this Online Consultation detail!',
+                icon: 'warning',
+                buttons: true,
+                dangerMode: true,
+            })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        $("#loader").show();
+                        $.ajax({
+                            type: "POST",
+                            url: "@Url.Action("DeleteOnlineConsultation", "Doctor")",
+                            data: JSON.stringify({ OcdID: ocdID }),
+                            contentType: "application/json; charset=utf-8",
+                            success: function (response) {
+                                $("#loader").hide();
+                                $("#OCDDiv").empty();
+                                $("#btnOCD").show();
+                                $("#OCDDiv").append(response);
+                                swal('Poof! Your Online Consultation detail has been deleted!', {
+                                    icon: 'success',
+                                });
+                            }
+                        });
+                    } else {
+                        swal('Your online consultation details is safe!');
+                    }
+                });
+        }
+
     </script>
 }
