@@ -64,7 +64,7 @@ namespace DMS_DAL.DBLayer
 
         public IEnumerable<tblOfflineConsultaionDetail> GetDoctorAllOfflineConsultaionDetailsByID(int modelId)
         {
-            var reas = _context.tblOfflineConsultaionDetails.Where(x => x.OFCD_DoctorID == modelId).ToList();
+            var reas = _context.tblOfflineConsultaionDetails.Where(x => x.OFCD_DoctorID == modelId && x.OFCD_IsActive == true).ToList();
             foreach (var item in reas)
             {
                 item.tblAddress = _context.tblAddresses.Find(item.OFCD_HospitalAddressID);
@@ -75,11 +75,11 @@ namespace DMS_DAL.DBLayer
             return reas;
         }
 
-        public bool InActiveOfflineConsultaionDetails(tblOfflineConsultaionDetail model)
+        public bool InActiveOfflineConsultaionDetails(int OfcdID)
         {
             try
             {
-                model = GetOfflineConsultaionDetailsByID(model.OFCD_ID);
+                var model = GetOfflineConsultaionDetailsByID(OfcdID);
                 model.OFCD_IsActive = false;
                 model.OFCD_UpdatedOn = DateTime.Now;
                 model.OFCD_IsArchive = true;
@@ -95,11 +95,11 @@ namespace DMS_DAL.DBLayer
             }
         }
 
-        public bool ReActiveOfflineConsultaionDetails(tblOfflineConsultaionDetail model)
+        public bool ReActiveOfflineConsultaionDetails(int OfcdID)
         {
             try
             {
-                model = GetOfflineConsultaionDetailsByID(model.OFCD_ID);
+                var model = GetOfflineConsultaionDetailsByID(OfcdID);
                 model.OFCD_IsActive = true;
                 model.OFCD_UpdatedOn = DateTime.Now;
                 model.OFCD_IsArchive = false;

@@ -5,95 +5,98 @@
 
     foreach (var item in Model)
     {
-        <div class="d-flex flex-row align-items-start mb-3">
-            <p class="font-weight-bold font-15 mr-2">
-                @i.
-            </p>
-            <div class="w-100">
-                <p class="d-none mb-0 OFCD_NO">1</p>
-                <div class="d-flex flex-row align-items-baseline justify-content-between">
-                    <p class="mb-2 font-17 font-weight-bold">Hospital Name: @item.OFCD_HospitalName</p>
-                    <div>
-                        <a class="fas fa-trash" href="javascript:void(0)" onclick="deleteOfcd(@item.OFCD_ID)" style="font-size: 15px !important; text-decoration: none !important;" title="Delete"></a>
-                    </div>
-                </div>
-                <p class="mb-0 font-weight-600" style="line-height: 18px !important; text-align:justify !important;">Hospital Contact Number: @item.OFCD_HospitalPhoneNumber</p>
-                <p class="mb-0 font-weight-600" style="line-height: 18px !important; text-align:justify !important;">Address: @item.State, @item.City, @item.Area</p>
-                <p class="mb-0 font-weight-600" style="line-height: 18px !important; text-align:justify !important;">
-                    @if (@item.OFCD_MondayStartTime == null || @item.OFCD_MondayEndTime == null)
-                    {
-
-                    }
-                    else
-                    {
-                        <span>
-                            Monday: (@item.OFCD_MondayStartTime - @item.OFCD_MondayEndTime),
-                        </span>
-                    }
-                    @if (@item.OFCD_TuesdayStartTime == null || @item.OFCD_TuesdayEndTime == null)
-                    {
-
-                    }
-                    else
-                    {
-                        <span>
-                            Tuesday: (@item.OFCD_TuesdayStartTime - @item.OFCD_TuesdayEndTime),
-                        </span>
-                    }
-                    @if (@item.OFCD_WednesdayStartTime == null || @item.OFCD_WednesdayEndTime == null)
-                    {
-
-                    }
-                    else
-                    {
-                        <span>
-                            Wednesday: (@item.OFCD_WednesdayStartTime - @item.OFCD_WednesdayEndTime),
-                        </span>
-                    }
-                    @if (@item.OFCD_ThursdayStartTime == null || @item.OFCD_ThursdayEndTime == null)
-                    {
-
-                    }
-                    else
-                    {
-                        <span>
-                            Thursday: (@item.OFCD_ThursdayStartTime - @item.OFCD_ThursdayEndTime),
-                        </span>
-                    }
-                    @if (@item.OFCD_FridayStartTime == null || @item.OFCD_FridayEndTime == null)
-                    {
-
-                    }
-                    else
-                    {
-                        <span>
-                            Friday: (@item.OFCD_FridayStartTime - @item.OFCD_FridayEndTime),
-                        </span>
-                    }
-                    @if (@item.OFCD_SaturdayStartTime == null || @item.OFCD_SaturdayEndTime == null)
-                    {
-
-                    }
-                    else
-                    {
-                        <span>
-                            Saturday: (@item.OFCD_SaturdayStartTime - @item.OFCD_SaturdayEndTime),
-                        </span>
-                    }
-                    @if (@item.OFCD_SundayStartTime == null || @item.OFCD_SundayEndTime == null)
-                    {
-
-                    }
-                    else
-                    {
-                        <span>
-                            Sunday: (@item.OFCD_SundayStartTime - @item.OFCD_SundayEndTime),
-                        </span>
-                    }
+        if (item.OFCD_IsActive.Value)
+        {
+            <div class="d-flex flex-row align-items-start mb-3">
+                <p class="font-weight-bold font-15 mr-2">
+                    @i.
                 </p>
-                <p class="mb-0 font-weight-600" style="line-height: 18px !important; text-align:justify !important;">Consultation Charges: @item.OFCD_Charges</p>
+                <div class="w-100">
+                    <p class="d-none mb-0 OFCD_NO">1</p>
+                    <div class="d-flex flex-row align-items-baseline justify-content-between">
+                        <p class="mb-2 font-17 font-weight-bold">Hospital Name: @item.OFCD_HospitalName</p>
+                        <div>
+                            <a class="fas fa-trash" href="javascript:void(0)" onclick="deleteOfcd(@item.OFCD_ID)" style="font-size: 15px !important; text-decoration: none !important;" title="Delete"></a>
+                        </div>
+                    </div>
+                    <p class="mb-0 font-weight-600" style="line-height: 18px !important; text-align:justify !important;">Hospital Contact Number: @item.OFCD_HospitalPhoneNumber</p>
+                    <p class="mb-0 font-weight-600" style="line-height: 18px !important; text-align:justify !important;">Address: @item.State, @item.City, @item.Area</p>
+                    <p class="mb-0 font-weight-600" style="line-height: 18px !important; text-align:justify !important;">
+                        @if (@item.OFCD_MondayStartTime == null || @item.OFCD_MondayEndTime == null)
+                        {
+
+                        }
+                        else
+                        {
+                            <span>
+                                Monday: (@item.OFCD_MondayStartTime - @item.OFCD_MondayEndTime),
+                            </span>
+                        }
+                        @if (@item.OFCD_TuesdayStartTime == null || @item.OFCD_TuesdayEndTime == null)
+                        {
+
+                        }
+                        else
+                        {
+                            <span>
+                                Tuesday: (@item.OFCD_TuesdayStartTime - @item.OFCD_TuesdayEndTime),
+                            </span>
+                        }
+                        @if (@item.OFCD_WednesdayStartTime == null || @item.OFCD_WednesdayEndTime == null)
+                        {
+
+                        }
+                        else
+                        {
+                            <span>
+                                Wednesday: (@item.OFCD_WednesdayStartTime - @item.OFCD_WednesdayEndTime),
+                            </span>
+                        }
+                        @if (@item.OFCD_ThursdayStartTime == null || @item.OFCD_ThursdayEndTime == null)
+                        {
+
+                        }
+                        else
+                        {
+                            <span>
+                                Thursday: (@item.OFCD_ThursdayStartTime - @item.OFCD_ThursdayEndTime),
+                            </span>
+                        }
+                        @if (@item.OFCD_FridayStartTime == null || @item.OFCD_FridayEndTime == null)
+                        {
+
+                        }
+                        else
+                        {
+                            <span>
+                                Friday: (@item.OFCD_FridayStartTime - @item.OFCD_FridayEndTime),
+                            </span>
+                        }
+                        @if (@item.OFCD_SaturdayStartTime == null || @item.OFCD_SaturdayEndTime == null)
+                        {
+
+                        }
+                        else
+                        {
+                            <span>
+                                Saturday: (@item.OFCD_SaturdayStartTime - @item.OFCD_SaturdayEndTime),
+                            </span>
+                        }
+                        @if (@item.OFCD_SundayStartTime == null || @item.OFCD_SundayEndTime == null)
+                        {
+
+                        }
+                        else
+                        {
+                            <span>
+                                Sunday: (@item.OFCD_SundayStartTime - @item.OFCD_SundayEndTime),
+                            </span>
+                        }
+                    </p>
+                    <p class="mb-0 font-weight-600" style="line-height: 18px !important; text-align:justify !important;">Consultation Charges: @item.OFCD_Charges</p>
+                </div>
             </div>
-        </div>
-        i++;
+            i++;
+        }
     }
 }

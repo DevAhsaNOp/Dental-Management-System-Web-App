@@ -99,6 +99,21 @@ namespace DMS_DAL.DBLayer
         {
             return _context.tblZones.ToList();
         }
+        
+        public tblState GetStateById(int stateID)
+        {
+            return _context.tblStates.Find(stateID);
+        }
+
+        public tblCity GetCityById(int cityID)
+        {
+            return _context.tblCities.Find(cityID);
+        }
+
+        public tblZone GetZoneById(int zoneID)
+        {
+            return _context.tblZones.Find(zoneID);
+        }
 
         public Tuple<decimal?, decimal?, string> GetZoneLatLong(int ZoneId)
         {

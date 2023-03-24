@@ -42,8 +42,8 @@ namespace DMS_DAL.DBLayer
             try
             {
                 model.WEX_IsActive = true;
-                model.WEX_CreatedOn = GetDoctorWorkExperiencesByID(model.WEX_ID).WEX_CreatedOn;
-                model.WEX_CreatedBy = GetDoctorWorkExperiencesByID(model.WEX_ID).WEX_CreatedBy;
+                model.WEX_CreatedOn = GetDoctorWorkExperienceByID(model.WEX_ID).WEX_CreatedOn;
+                model.WEX_CreatedBy = GetDoctorWorkExperienceByID(model.WEX_ID).WEX_CreatedBy;
                 model.WEX_UpdatedOn = DateTime.Now;
                 model.WEX_IsArchive = false;
                 _context.Entry(model).State = EntityState.Modified;
@@ -60,19 +60,19 @@ namespace DMS_DAL.DBLayer
 
         public IEnumerable<tblDoctorWorkExperience> GetDoctorAllWorkExperiencesByID(int modelId)
         {
-            return _context.tblDoctorWorkExperiences.Where(x => x.WEX_DoctorID == modelId).ToList();
+            return _context.tblDoctorWorkExperiences.Where(x => x.WEX_DoctorID == modelId && x.WEX_IsActive == true).ToList();
         }
 
-        public tblDoctorWorkExperience GetDoctorWorkExperiencesByID(int modelId)
+        public tblDoctorWorkExperience GetDoctorWorkExperienceByID(int modelId)
         {
             return _context.tblDoctorWorkExperiences.Find(modelId);
         }
 
-        public bool InActiveDoctorWorkExperiences(tblDoctorWorkExperience model)
+        public bool InActiveDoctorWorkExperience(int ExpID)
         {
             try
             {
-                model = GetDoctorWorkExperiencesByID(model.WEX_ID);
+                var model = GetDoctorWorkExperienceByID(ExpID);
                 model.WEX_IsActive = false;
                 model.WEX_UpdatedOn = DateTime.Now;
                 model.WEX_IsArchive = true;
@@ -88,11 +88,11 @@ namespace DMS_DAL.DBLayer
             }
         }
 
-        public bool ReActiveDoctorWorkExperiences(tblDoctorWorkExperience model)
+        public bool ReActiveDoctorWorkExperience(int ExpID)
         {
             try
             {
-                model = GetDoctorWorkExperiencesByID(model.WEX_ID);
+                var model = GetDoctorWorkExperienceByID(ExpID);
                 model.WEX_IsActive = true;
                 model.WEX_UpdatedOn = DateTime.Now;
                 model.WEX_IsArchive = false;

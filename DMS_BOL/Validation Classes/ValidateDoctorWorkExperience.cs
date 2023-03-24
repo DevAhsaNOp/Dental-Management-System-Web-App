@@ -64,5 +64,7 @@ namespace DMS_BOL.Validation_Classes
         [Required(ErrorMessage = "*")]
         [Display(Name = "End of Working Date")]
         public DateTime? WEX_ToDate { get; set; }
+
+        public bool IsActive { get; set; }
     }
 }

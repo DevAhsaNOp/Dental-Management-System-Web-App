@@ -4,6 +4,7 @@ using DMS_DAL.DBLayer;
 using System.Collections.Generic;
 using DMS_BOL.Validation_Classes;
 using System.Web.Mvc;
+using System.Runtime.Remoting.Contexts;
 
 namespace DMS_BLL.Repositories
 {
@@ -35,6 +36,21 @@ namespace DMS_BLL.Repositories
             {
                 throw ex;
             }
+        }
+
+        public tblState GetStateById(int stateID)
+        {
+            return dbObj.GetStateById(stateID);
+        }
+
+        public tblCity GetCityById(int cityID)
+        {
+            return dbObj.GetCityById(cityID);
+        }
+
+        public tblZone GetZoneById(int zoneID)
+        {
+            return dbObj.GetZoneById(zoneID);
         }
 
         public int UpdateAddress(tblAddress model)

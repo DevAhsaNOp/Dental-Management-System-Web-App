@@ -139,18 +139,13 @@ namespace DMS_BLL.Repositories
             return null;
         }
 
-        public bool InActiveOfflineConsultaionDetail(ValidateDoctorOfflineConsultaionDetails model)
+        public bool InActiveOfflineConsultaionDetail(int OfcdID)
         {
             try
             {
-                if (model != null)
+                if (OfcdID > 0)
                 {
-                    tblOfflineConsultaionDetail doctorService = new tblOfflineConsultaionDetail()
-                    {
-                        OFCD_ID = model.OFCD_ID,
-                        OFCD_UpdatedBy = model.OFCD_UpdatedBy,
-                    };
-                    var reas = ofcdRepo.InActiveOfflineConsultaionDetails(doctorService);
+                    var reas = ofcdRepo.InActiveOfflineConsultaionDetails(OfcdID);
                     if (reas)
                         return true;
                     return false;
@@ -163,18 +158,13 @@ namespace DMS_BLL.Repositories
             }
         }
 
-        public bool ReActiveOfflineConsultaionDetail(ValidateDoctorOfflineConsultaionDetails model)
+        public bool ReActiveOfflineConsultaionDetail(int OfcdID)
         {
             try
             {
-                if (model != null)
+                if (OfcdID > 0)
                 {
-                    tblOfflineConsultaionDetail doctorService = new tblOfflineConsultaionDetail()
-                    {
-                        OFCD_ID = model.OFCD_ID,
-                        OFCD_UpdatedBy = model.OFCD_UpdatedBy,
-                    };
-                    var reas = ofcdRepo.ReActiveOfflineConsultaionDetails(doctorService);
+                    var reas = ofcdRepo.ReActiveOfflineConsultaionDetails(OfcdID);
                     if (reas)
                         return true;
                     return false;

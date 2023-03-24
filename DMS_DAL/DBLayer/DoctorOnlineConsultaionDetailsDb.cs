@@ -64,14 +64,14 @@ namespace DMS_DAL.DBLayer
         
         public IEnumerable<tblOnlineConsultaionDetail> GetDoctorAllOnlineConsultaionDetailsByID(int modelId)
         {
-            return _context.tblOnlineConsultaionDetails.Where(x => x.OCD_DoctorID == modelId).ToList();
+            return _context.tblOnlineConsultaionDetails.Where(x => x.OCD_DoctorID == modelId && x.OCD_IsActive == true).ToList();
         }
 
-        public bool InActiveOnlineConsultaionDetails(tblOnlineConsultaionDetail model)
+        public bool InActiveOnlineConsultaionDetails(int OcdID)
         {
             try
             {
-                model = GetOnlineConsultaionDetailsByID(model.OCD_ID);
+                var model = GetOnlineConsultaionDetailsByID(OcdID);
                 model.OCD_IsActive = false;
                 model.OCD_UpdatedOn = DateTime.Now;
                 model.OCD_IsArchive = true;
@@ -87,11 +87,11 @@ namespace DMS_DAL.DBLayer
             }
         }
 
-        public bool ReActiveOnlineConsultaionDetails(tblOnlineConsultaionDetail model)
+        public bool ReActiveOnlineConsultaionDetails(int OcdID)
         {
             try
             {
-                model = GetOnlineConsultaionDetailsByID(model.OCD_ID);
+                var model = GetOnlineConsultaionDetailsByID(OcdID);
                 model.OCD_IsActive = true;
                 model.OCD_UpdatedOn = DateTime.Now;
                 model.OCD_IsArchive = false;

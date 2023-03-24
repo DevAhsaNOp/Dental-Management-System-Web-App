@@ -83,7 +83,7 @@ namespace DMS_BLL.Repositories
         public tblDoctorWorkExperience GetDoctorWorkExperienceByID(int modelId)
         {
             if (modelId > 0)
-                return wexRepo.GetDoctorWorkExperiencesByID(modelId);
+                return wexRepo.GetDoctorWorkExperienceByID(modelId);
             return null;
         }
         
@@ -94,18 +94,13 @@ namespace DMS_BLL.Repositories
             return null;
         }
 
-        public bool InActiveDoctorWorkExperience(ValidateDoctorWorkExperience model)
+        public bool InActiveDoctorWorkExperience(int ExpID)
         {
             try
             {
-                if (model != null)
+                if (ExpID > 0)
                 {
-                    tblDoctorWorkExperience doctorService = new tblDoctorWorkExperience()
-                    {
-                        WEX_ID = model.WEX_ID,
-                        WEX_UpdatedBy = model.WEX_UpdatedBy,
-                    };
-                    var reas = wexRepo.InActiveDoctorWorkExperiences(doctorService);
+                    var reas = wexRepo.InActiveDoctorWorkExperience(ExpID);
                     if (reas)
                         return true;
                     return false;
@@ -118,18 +113,13 @@ namespace DMS_BLL.Repositories
             }
         }
 
-        public bool ReActiveDoctorWorkExperience(ValidateDoctorWorkExperience model)
+        public bool ReActiveDoctorWorkExperience(int ExpID)
         {
             try
             {
-                if (model != null)
+                if (ExpID > 0)
                 {
-                    tblDoctorWorkExperience doctorService = new tblDoctorWorkExperience()
-                    {
-                        WEX_ID = model.WEX_ID,
-                        WEX_UpdatedBy = model.WEX_UpdatedBy,                        
-                    };
-                    var reas = wexRepo.ReActiveDoctorWorkExperiences(doctorService);
+                    var reas = wexRepo.ReActiveDoctorWorkExperience(ExpID);
                     if (reas)
                         return true;
                     return false;

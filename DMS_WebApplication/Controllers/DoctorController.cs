@@ -255,6 +255,7 @@ namespace DMS_WebApplication.Controllers
                     WEX_HospitalName = doctor.WEX_HospitalName,
                     WEX_IsWorking = doctor.WEX_IsWorking,
                     WEX_ToDate = doctor.WEX_ToDate,
+                    IsActive = true,
                 });
             }
             else
@@ -270,6 +271,7 @@ namespace DMS_WebApplication.Controllers
                         WEX_HospitalName = doctor.WEX_HospitalName,
                         WEX_IsWorking = doctor.WEX_IsWorking,
                         WEX_ToDate = doctor.WEX_ToDate,
+                        IsActive = true,
                     });
                 }
                 else
@@ -284,6 +286,7 @@ namespace DMS_WebApplication.Controllers
                         WEX_HospitalName = doctor.WEX_HospitalName,
                         WEX_IsWorking = doctor.WEX_IsWorking,
                         WEX_ToDate = doctor.WEX_ToDate,
+                        IsActive = true,
                     });
                 }
 
@@ -315,7 +318,7 @@ namespace DMS_WebApplication.Controllers
                 {
                     var data = (List<ValidateDoctorHospitalInfo>)Session["ExperienceList"];
                     var ExpItem = data.Where(x => x.HospitalID == ExpID).FirstOrDefault();
-                    data.Remove(ExpItem);
+                    ExpItem.IsActive = false;
                     ExperienceList = data;
                     Session["ExperienceList"] = ExperienceList;
                     return PartialView("_ShowExperience", ExperienceList);
@@ -340,10 +343,63 @@ namespace DMS_WebApplication.Controllers
                         WEX_Designation = item.WEX_Designation,
                         WEX_HospitalName = item.WEX_HospitalName,
                         WEX_IsWorking = item.WEX_IsWorking.Value,
+                        IsActive = item.WEX_IsActive.Value,
                     });
                 }
             }
             Session["ExperienceList"] = ExperienceList;
+        }
+        
+        public List<ValidateDoctorHospitalInfo> GetHospitalExperienceInfo(int DoctorID)
+        {
+            var ExperienceList = new List<ValidateDoctorHospitalInfo>();
+            var ExpInfo = WexRepoObj.GetDoctorAllWorkExperiencesByID(DoctorID);
+            if (ExpInfo != null && ExpInfo.Count() > 0)
+            {
+                foreach (var item in ExpInfo)
+                {
+                    ExperienceList.Add(new ValidateDoctorHospitalInfo()
+                    {
+                        HospitalID = item.WEX_ID,
+                        WEX_ToDate = item.WEX_ToDate,
+                        WEX_FromDate = item.WEX_FromDate,
+                        WEX_Designation = item.WEX_Designation,
+                        WEX_HospitalName = item.WEX_HospitalName,
+                        WEX_IsWorking = item.WEX_IsWorking.Value,
+                        IsActive = item.WEX_IsActive.Value,
+                    });
+                }
+            }
+            return ExperienceList;
+        }
+
+        public bool DeleteDoctorExp(List<ValidateDoctorHospitalInfo> hospitalInfo)
+        {
+            try
+            {
+                if (hospitalInfo != null && hospitalInfo.Count > 0)
+                {
+                    int NoOfReas = 0;
+                    foreach (var item in hospitalInfo)
+                    {
+                        bool reas = WexRepoObj.InActiveDoctorWorkExperience(item.HospitalID);
+                        if (reas)
+                            NoOfReas++;
+                        else
+                            NoOfReas += 0;
+                    }
+                    if (NoOfReas == hospitalInfo.Count)
+                        return true;
+                    else
+                        return false;
+                }
+                else
+                    return false;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         #endregion
@@ -381,7 +437,11 @@ namespace DMS_WebApplication.Controllers
                     StateID = int.Parse(ofcd.State),
                     CityID = int.Parse(ofcd.City),
                     AreaID = int.Parse(ofcd.Area),
-                    CompleteAddress = ofcd.CompleteAddress
+                    State = AddressRepoObj.GetStateById(int.Parse(ofcd.State)).StateName,
+                    City = AddressRepoObj.GetCityById(int.Parse(ofcd.City)).CityName,
+                    Area = AddressRepoObj.GetZoneById(int.Parse(ofcd.Area)).ZoneName,
+                    CompleteAddress = ofcd.CompleteAddress,
+                    OFCD_IsActive = true
                 });
             }
             else
@@ -412,7 +472,11 @@ namespace DMS_WebApplication.Controllers
                         StateID = int.Parse(ofcd.State),
                         CityID = int.Parse(ofcd.City),
                         AreaID = int.Parse(ofcd.Area),
-                        CompleteAddress = ofcd.CompleteAddress
+                        State = AddressRepoObj.GetStateById(int.Parse(ofcd.State)).StateName,
+                        City = AddressRepoObj.GetCityById(int.Parse(ofcd.City)).CityName,
+                        Area = AddressRepoObj.GetZoneById(int.Parse(ofcd.Area)).ZoneName,
+                        CompleteAddress = ofcd.CompleteAddress,
+                        OFCD_IsActive = true
                     });
                 }
                 else
@@ -442,7 +506,11 @@ namespace DMS_WebApplication.Controllers
                         StateID = int.Parse(ofcd.State),
                         CityID = int.Parse(ofcd.City),
                         AreaID = int.Parse(ofcd.Area),
-                        CompleteAddress = ofcd.CompleteAddress
+                        State = AddressRepoObj.GetStateById(int.Parse(ofcd.State)).StateName,
+                        City = AddressRepoObj.GetCityById(int.Parse(ofcd.City)).CityName,
+                        Area = AddressRepoObj.GetZoneById(int.Parse(ofcd.Area)).ZoneName,
+                        CompleteAddress = ofcd.CompleteAddress,
+                        OFCD_IsActive = true
                     });
                 }
             }
@@ -473,7 +541,7 @@ namespace DMS_WebApplication.Controllers
                 {
                     var data = (List<ValidateDoctorOfflineConsultaionDetails>)Session["OFCDList"];
                     var OfcdItem = data.Where(x => x.OFCD_ID == OfcdID).FirstOrDefault();
-                    data.Remove(OfcdItem);
+                    OfcdItem.OFCD_IsActive = false;
                     OFCDList = data;
                     Session["OFCDList"] = OFCDList;
                     return PartialView("_ShowOfflineConsultation", OFCDList);
@@ -514,11 +582,41 @@ namespace DMS_WebApplication.Controllers
                         State = item.tblAddress.tblState.StateName,
                         City = item.tblAddress.tblCity.CityName,
                         Area = item.tblAddress.tblZone.ZoneName,
-                        CompleteAddress = item.tblAddress.AddressComplete
+                        CompleteAddress = item.tblAddress.AddressComplete,
+                        OFCD_IsActive = item.OFCD_IsActive,
                     });
                 }
             }
             Session["OFCDList"] = OFCDList;
+        }
+
+        public bool DeleteDoctorOFCD(List<ValidateDoctorOfflineConsultaionDetails> OFCDLst)
+        {
+            try
+            {
+                if (OFCDLst != null && OFCDLst.Count > 0)
+                {
+                    int NoOfReas = 0;
+                    foreach (var item in OFCDLst)
+                    {
+                        bool reas = OfcdRepoObj.InActiveOfflineConsultaionDetail(item.OFCD_ID);
+                        if (reas)
+                            NoOfReas++;
+                        else
+                            NoOfReas += 0;
+                    }
+                    if (NoOfReas == OFCDLst.Count)
+                        return true;
+                    else
+                        return false;
+                }
+                else
+                    return false;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         #endregion
@@ -550,7 +648,8 @@ namespace DMS_WebApplication.Controllers
                    OCD_SaturdayStartTime = Ocd.OCD_SaturdayStartTime == null ? null : Ocd.OCD_SaturdayStartTime,
                    OCD_SundayEndTime = Ocd.OCD_SundayEndTime == null ? null : Ocd.OCD_SundayEndTime,
                    OCD_SundayStartTime = Ocd.OCD_SundayStartTime == null ? null : Ocd.OCD_SundayStartTime,
-                   OCD_Charges = Ocd.OCD_Charges                   
+                   OCD_Charges = Ocd.OCD_Charges,
+                   OCD_IsActive = true,
                 });
             }
             else
@@ -575,7 +674,8 @@ namespace DMS_WebApplication.Controllers
                        OCD_SaturdayStartTime = Ocd.OCD_SaturdayStartTime == null ? null : Ocd.OCD_SaturdayStartTime,
                        OCD_SundayEndTime = Ocd.OCD_SundayEndTime == null ? null : Ocd.OCD_SundayEndTime,
                        OCD_SundayStartTime = Ocd.OCD_SundayStartTime == null ? null : Ocd.OCD_SundayStartTime,
-                       OCD_Charges = Ocd.OCD_Charges
+                       OCD_Charges = Ocd.OCD_Charges,
+                       OCD_IsActive = true,
                     });
                 }
                 else
@@ -599,7 +699,8 @@ namespace DMS_WebApplication.Controllers
                        OCD_SaturdayStartTime = Ocd.OCD_SaturdayStartTime == null ? null : Ocd.OCD_SaturdayStartTime,
                        OCD_SundayEndTime = Ocd.OCD_SundayEndTime == null ? null : Ocd.OCD_SundayEndTime,
                        OCD_SundayStartTime = Ocd.OCD_SundayStartTime == null ? null : Ocd.OCD_SundayStartTime,
-                       OCD_Charges = Ocd.OCD_Charges
+                       OCD_Charges = Ocd.OCD_Charges,
+                       OCD_IsActive = true,
                     });
                 }
             }
@@ -630,7 +731,7 @@ namespace DMS_WebApplication.Controllers
                 {
                     var data = (List<ValidateDoctorOnlineConsultaionDetails>)Session["OCDList"];
                     var OcdItem = data.Where(x => x.OCD_ID == OcdID).FirstOrDefault();
-                    data.Remove(OcdItem);
+                    OcdItem.OCD_IsActive = false;
                     OCDList = data;
                     Session["OCDList"] = OCDList;
                     return PartialView("_ShowOnlineConsultation", OCDList);
@@ -665,11 +766,41 @@ namespace DMS_WebApplication.Controllers
                        OCD_SaturdayStartTime = item.OCD_SaturdayStartTime == null ? null : item.OCD_SaturdayStartTime,
                        OCD_SundayEndTime = item.OCD_SundayEndTime == null ? null : item.OCD_SundayEndTime,
                        OCD_SundayStartTime = item.OCD_SundayStartTime == null ? null : item.OCD_SundayStartTime,
-                       OCD_Charges = item.OCD_Charges                        
+                       OCD_Charges = item.OCD_Charges,
+                       OCD_IsActive = item.OCD_IsActive,
                     });
                 }
             }
             Session["OCDList"] = OCDList;
+        }
+
+        public bool DeleteDoctorOCD(List<ValidateDoctorOnlineConsultaionDetails> OCDLst)
+        {
+            try
+            {
+                if (OCDLst != null && OCDLst.Count > 0)
+                {
+                    int NoOfReas = 0;
+                    foreach (var item in OCDLst)
+                    {
+                        bool reas = OcdRepoObj.InActiveOnlineConsultaionDetail(item.OCD_ID);
+                        if (reas)
+                            NoOfReas++;
+                        else
+                            NoOfReas += 0;
+                    }
+                    if (NoOfReas == OCDLst.Count)
+                        return true;
+                    else
+                        return false;
+                }
+                else
+                    return false;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         #endregion
@@ -774,7 +905,57 @@ namespace DMS_WebApplication.Controllers
                 doctor.UserProfileImage = doctor.UserProfileImage;
                 doctor.UserPhoneNumber = doctor.UserUpdatePhoneNumber;
                 doctor.Gender = doctor.Gender == "1" ? "Male" : "Female";
-
+                var ExpList = Session["ExperienceList"];
+                var OFCDList = Session["OFCDList"];
+                var OCDList = Session["OCDList"];
+                if (ExpList != null)
+                {
+                    var data = (List<ValidateDoctorHospitalInfo>)Session["ExperienceList"];
+                    var originalData = GetHospitalExperienceInfo(doctor.UserID);
+                    var dataForDelete = data.Where(x => x.IsActive == false).ToList();
+                    var allData = data.Where(x => x.IsActive == true).ToList();
+                    var dataForUpdate = new List<ValidateDoctorHospitalInfo>();
+                    foreach (var item in originalData)
+                    {
+                        var Ischeck = allData.Where(x => x.HospitalID == item.HospitalID).FirstOrDefault();
+                        if (Ischeck != null)
+                        {
+                            allData.Remove(Ischeck);
+                            dataForUpdate.Add(Ischeck);
+                        }
+                    }
+                    var dataForInsert = allData;
+                    if (dataForDelete.Count > 0 && dataForDelete != null)
+                    {
+                        var itemToDelete = new List<ValidateDoctorHospitalInfo>();
+                        foreach (var item in dataForDelete)
+                        {
+                            var CheckDataIsExist = WexRepoObj.GetDoctorWorkExperienceByID(item.HospitalID);
+                            if (CheckDataIsExist != null)
+                            {
+                                itemToDelete.Add(item);
+                            }
+                        }
+                        if (itemToDelete.Count > 0 && itemToDelete != null)
+                        {
+                            DeleteDoctorExp(itemToDelete);
+                        }
+                    }
+                }
+                if (OFCDList != null)
+                {
+                    var data = (List<ValidateDoctorOfflineConsultaionDetails>)Session["OFCDList"];
+                    var dataReas = data.Where(x => x.OFCD_IsActive == false).ToList();
+                    if (dataReas.Count > 0 && dataReas != null)
+                        DeleteDoctorOFCD(dataReas);
+                }
+                if (OCDList != null)
+                {
+                    var data = (List<ValidateDoctorOnlineConsultaionDetails>)Session["OCDList"];
+                    var dataReas = data.Where(x => x.OCD_IsActive == false).ToList();
+                    if (dataReas.Count > 0 && dataReas != null)
+                        DeleteDoctorOCD(dataReas);
+                }
                 if (doctor != null)
                 {
                     var reas = DoctorsRepoObj.UpdateDoctor(doctor);

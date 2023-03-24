@@ -105,18 +105,13 @@ namespace DMS_BLL.Repositories
             return null;
         }
 
-        public bool InActiveOnlineConsultaionDetail(ValidateDoctorOnlineConsultaionDetails model)
+        public bool InActiveOnlineConsultaionDetail(int OcdID)
         {
             try
             {
-                if (model != null)
+                if (OcdID > 0)
                 {
-                    tblOnlineConsultaionDetail doctorService = new tblOnlineConsultaionDetail()
-                    {
-                        OCD_ID = model.OCD_ID,
-                        OCD_UpdatedBy = model.OCD_UpdatedBy,                        
-                    };
-                    var reas = ocdRepo.InActiveOnlineConsultaionDetails(doctorService);
+                    var reas = ocdRepo.InActiveOnlineConsultaionDetails(OcdID);
                     if (reas)
                         return true;
                     return false;
@@ -129,18 +124,13 @@ namespace DMS_BLL.Repositories
             }
         }
 
-        public bool ReActiveOnlineConsultaionDetail(ValidateDoctorOnlineConsultaionDetails model)
+        public bool ReActiveOnlineConsultaionDetail(int OcdID)
         {
             try
             {
-                if (model != null)
+                if (OcdID > 0)
                 {
-                    tblOnlineConsultaionDetail doctorService = new tblOnlineConsultaionDetail()
-                    {
-                        OCD_ID = model.OCD_ID,
-                        OCD_UpdatedBy = model.OCD_UpdatedBy,
-                    };
-                    var reas = ocdRepo.ReActiveOnlineConsultaionDetails(doctorService);
+                    var reas = ocdRepo.ReActiveOnlineConsultaionDetails(OcdID);
                     if (reas)
                         return true;
                     return false;
