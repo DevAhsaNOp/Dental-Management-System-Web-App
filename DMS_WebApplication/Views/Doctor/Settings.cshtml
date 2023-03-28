@@ -239,7 +239,11 @@
                                 <input type="submit" class="btn btn-primary m-t-15 waves-effect" value="Submit" tabindex="12" />
                             </div>
                         }
-
+                        @using (Ajax.BeginForm("UpdateExp", "Doctor", new AjaxOptions() { HttpMethod = "POST", UpdateTargetId = "ExpDiv", LoadingElementId = "loader", OnSuccess = "ExpUSuccess" }, htmlAttributes: new { @id = "ExpUform" }))
+                        {
+                            <div id="ExpUpdate">
+                            </div>
+                        }
                     </div>
                 </div>
             </div>
@@ -272,6 +276,15 @@
                                 <input type="submit" class="btn btn-primary m-t-15 waves-effect Isdisabled" value="Submit" tabindex="36" />
                             </div>
                         }
+                        @using (Ajax.BeginForm("UpdateOfcd", "Doctor", new AjaxOptions() { HttpMethod = "POST", UpdateTargetId = "OFCDDiv", LoadingElementId = "loader", OnBegin="validateD", OnSuccess = "OfcdUSuccess" }, htmlAttributes: new { @id = "OfcdUform" }))
+                        {
+                            <div id="OfcdUpdate">
+                            </div>
+                            <div class="form-group">
+                                <input type="button" class="btn btn-danger m-t-15 waves-effect" value="Cancel" onclick="btnCancelOfcdU()" tabindex="35" />
+                                <input type="submit" class="btn btn-primary m-t-15 waves-effect" value="Submit" tabindex="12" />
+                            </div>
+                        }
                     </div>
                 </div>
             </div>
@@ -298,6 +311,15 @@
                                 <input type="submit" class="btn btn-primary m-t-15 waves-effect OCDIsdisabled" value="Submit" tabindex="38" />
                             </div>
                         }
+                        @using (Ajax.BeginForm("UpdateOcd", "Doctor", new AjaxOptions() { HttpMethod = "POST", UpdateTargetId = "OCDDiv", LoadingElementId = "loader", OnSuccess = "OcdUSuccess" }, htmlAttributes: new { @id = "OcdUform" }))
+                        {
+                            <div id="OcdUpdate">
+                            </div>
+                            <div class="form-group">
+                                <input type="button" class="btn btn-danger m-t-15 waves-effect" value="Cancel" onclick="btnCancelOcdU()" tabindex="35" />
+                                <input type="submit" class="btn btn-primary m-t-15 waves-effect" value="Submit" tabindex="12" />
+                            </div>
+                        }
                     </div>
                 </div>
             </div>
@@ -312,7 +334,13 @@
             $("#OFCDform").hide();
             $("#OCDform").hide();
             $("#Expform").hide();
-
+            $("#ExpUform").hide();
+            $("#ExpUpdate").hide();
+            $("#OfcdUform").hide();
+            $("#OfcdUpdate").hide();
+            $("#OcdUform").hide();
+            $("#OcdUpdate").hide();
+            hideOnlineConsultationButton();
             textCount();
 
             function textCount() {
@@ -378,6 +406,24 @@
             });
         });
 
+        function validateD() {
+            var stateID = $("#StateU").val();
+            var cityID = $("#CityU").val();
+            var areaID = $("#AreaU").val();
+            if (stateID <= 0) {
+                swal('Error Occured', 'Must select a state', 'error');
+                return false;
+            }
+            if (cityID <= 0 || cityID == null) {
+                swal('Error Occured', 'Must select a city', 'error');
+                return false;
+            }
+            if (areaID <= 0 || areaID == null) {
+                swal('Error Occured', 'Must select a area', 'error');
+                return false;
+            }
+        }
+
         function OFCDOpen() {
             $("#OFCDform").show();
             $("#btnOFCD").hide();
@@ -409,19 +455,37 @@
             $("#btnExp").show();
         }
 
+        function btnCancelExpU() {
+            $("#ExpUpdate").empty();
+            $("#ExpUpdate").hide();
+            $("#btnExp").show();
+        }
+
+        function btnCancelOfcdU() {
+            $("#OfcdUpdate").empty();
+            $("#OfcdUpdate").hide();
+            $("#btnOFCD").show();
+        }
+
+        function btnCancelOcdU() {
+            $("#OcdUpdate").empty();
+            $("#OcdUpdate").hide();
+            $("#btnOCD").show();
+        }
+
         function fnSuccessP() {
             $("#loader").show();
             $.ajax({
                 type: "GET",
-                url: "@Url.Action("GetTempData", "Doctor")",
+                url: "@Url.Action("GetTempDataS", "Doctor")",
                 contentType: "application/json; charset=utf-8",
                 success: function (response) {
                     $("#loader").hide();
                     var Eval = response;
-                    alert('Your profile is completed successfully!');
+                    //alert('Your profile is completed successfully!');
                     if (Eval == 1) {
                         swal('Hurray', 'Your profile is completed successfully!', 'success');
-                        window.location.href = '/Account/Index';
+                        window.location.href = '/Doctor/Settings?DoctorID='+@Session["UserID"].ToString();
                     }
                     else if (Eval == 5) {
                         swal('Error Occured', 'Email already exists. Please ensure to enter not used email account again!', 'error');
@@ -430,10 +494,10 @@
                         swal('Error Occured', 'Phone Number already exists. Please ensure to enter not used phone number again!', 'error');
                     }
                     else if (Eval == 3) {
-                        swal('Error Occured', 'Error on completing profile. Please try again later!', 'error');
+                        swal('Error Occured', 'Error on updating profile. Please try again later!', 'error');
                     }
                     else if (Eval == 4) {
-                        swal('Error Occured', 'Error on completing profile!', 'error');
+                        swal('Error Occured', 'Error on updating profile!', 'error');
                     }
                 }
             });
@@ -550,6 +614,14 @@
             $("#btnExp").show();
         }
 
+        function ExpUSuccess() {
+            $("#ExpUform").trigger("reset");
+            $("#ExpUform").hide();
+            $("#ExpUpdate").empty();
+            $("#ExpUpdate").hide();
+            $("#btnExp").show();
+        }
+
         function OFCDSuccess() {
             $("#OFCDform").trigger("reset");
             $("#OFCDform").hide();
@@ -573,9 +645,32 @@
             }
         }
 
+        function OfcdUSuccess() {
+            $("#OfcdUform").trigger("reset");
+            $("#OfcdUform").hide();
+            $("#OfcdUpdate").empty();
+            $("#OfcdUpdate").hide();
+            $("#btnOFCD").show();
+            $('#City').empty();
+            $('#Area').empty();
+            $('#CompleteAddress').empty();
+            $('#CityDS').hide();
+            $('#AreaDS').hide();
+            $('#AddressDS').hide();
+        }
+
+        function OcdUSuccess() {
+            $("#OcdUform").trigger("reset");
+            $("#OcdUform").hide();
+            $("#OcdUpdate").empty();
+            $("#OcdUpdate").hide();
+            hideOnlineConsultationButton();
+        }
+
         function OCDSuccess() {
             $("#OCDform").trigger("reset");
             $("#OCDform").hide();
+            hideOnlineConsultationButton();
             var inputs = document.getElementsByClassName("OCDIsdisabled");
             for (var i = 0; i < inputs.length; i++) {
                 inputs[i].disabled = false;
@@ -628,6 +723,25 @@
                 });
         }
 
+        function updateExp(expID) {
+            $("#loader").show();
+            $.ajax({
+                type: "GET",
+                url: "/Doctor/GetDoctorExperienceInfo?ExpID="+expID,
+                contentType: "application/json; charset=utf-8",
+                success: function (response) {
+                    if (response != null) {
+                        $("#loader").hide();
+                        $("#btnExp").hide();
+                        $("#ExpUpdate").empty();
+                        $("#ExpUform").show();
+                        $("#ExpUpdate").show();
+                        $("#ExpUpdate").append(response);
+                    }
+                }
+            });
+        }
+
         function deleteOfcd(ofcdID) {
             swal({
                 title: 'Are you sure?',
@@ -659,6 +773,25 @@
                 });
         }
 
+        function updateOfcd(OfcdID) {
+            $("#loader").show();
+            $.ajax({
+                type: "GET",
+                url: "/Doctor/GetDoctorOfflineConsultationInfo?OfcdID=" + OfcdID,
+                contentType: "application/json; charset=utf-8",
+                success: function (response) {
+                    if (response != null) {
+                        $("#loader").hide();
+                        $("#btnOFCD").hide();
+                        $("#OfcdUpdate").empty();
+                        $("#OfcdUform").show();
+                        $("#OfcdUpdate").show();
+                        $("#OfcdUpdate").append(response);
+                    }
+                }
+            });
+        }
+
         function deleteOcd(ocdID) {
             swal({
                 title: 'Are you sure?',
@@ -678,8 +811,8 @@
                             success: function (response) {
                                 $("#loader").hide();
                                 $("#OCDDiv").empty();
-                                $("#btnOCD").show();
                                 $("#OCDDiv").append(response);
+                                hideOnlineConsultationButton();
                                 swal('Poof! Your Online Consultation detail has been deleted!', {
                                     icon: 'success',
                                 });
@@ -689,6 +822,33 @@
                         swal('Your online consultation details is safe!');
                     }
                 });
+        }
+
+        function updateOcd(OcdID) {
+            $("#loader").show();
+            $.ajax({
+                type: "GET",
+                url: "/Doctor/GetDoctorOnlineConsultationInfo?OcdID=" + OcdID,
+                contentType: "application/json; charset=utf-8",
+                success: function (response) {
+                    if (response != null) {
+                        $("#loader").hide();
+                        $("#btnOCD").hide();
+                        $("#OcdUpdate").empty();
+                        $("#OcdUform").show();
+                        $("#OcdUpdate").show();
+                        $("#OcdUpdate").append(response);
+                    }
+                }
+            });
+        }
+
+        function hideOnlineConsultationButton() {
+            if (document.getElementsByClassName("OCD_NO").length >= 1) {
+                $("#btnOCD").hide();
+            } else {
+                $("#btnOCD").show();
+            }
         }
 
     </script>

@@ -1,0 +1,51 @@
+﻿@model DMS_BOL.Validation_Classes.ValidateDoctorHospitalInfoForUPdate
+
+@Html.HiddenFor(model => model.HospitalID)
+<div class="form-group">
+    <label>Hospital Name <span class="text-danger">*</span></label>
+    @*@Html.ValidationMessageFor(model => model.WEX_HospitalName, "", new { @class = "text-danger" })*@
+    @Html.EditorFor(model => model.WEX_HospitalName, new { htmlAttributes = new { placeholder = "Enter your hospital name", @class = "form-control", @tabindex = "7", @id = "HName", pattern = "[a-zA-Z ]+", @required = "required", oninvalid = "this.setCustomValidity('Hospital name should contains alphabets!')", onchange = "this.setCustomValidity('')" } })
+</div>
+<div class="form-group">
+    <label>Designation <span class="text-danger">*</span></label>
+    @*@Html.ValidationMessageFor(model => model.WEX_Designation, "", new { @class = "text-danger" })*@
+    @Html.EditorFor(model => model.WEX_Designation, new { htmlAttributes = new { placeholder = "Enter your designation", @class = "form-control", @tabindex = "8", @id = "HDesg", pattern = "[a-zA-Z ]+", @required = "required", oninvalid = "this.setCustomValidity('Designation should contains alphabets!')", onchange = "this.setCustomValidity('')" } })
+</div>
+<div class="form-group" style="margin-bottom: 10px !important;">
+    @Html.CheckBoxFor(model => model.WEX_IsWorking, htmlAttributes: new { @tabindex = "9", @onchange = "validateH()", @id = "HIsWork" })
+    <label>I'm Currently Working Here <span class="text-danger">*</span></label>
+    @*@Html.ValidationMessageFor(model => model.WEX_IsWorking, "", new { @class = "text-danger" })*@
+</div>
+<div class="form-group">
+    <label>From Date <span class="text-danger">*</span></label>
+    @*@Html.ValidationMessageFor(model => model.WEX_FromDateU, "", new { @class = "text-danger" })*@
+    @Html.EditorFor(model => model.WEX_FromDateU, new { htmlAttributes = new { @class = "form-control", @type = "month", @tabindex = "10", @id = "HFDate", @required = "required" } })
+</div>
+<div class="form-group" id="TDateID">
+    <label>To Date <span class="text-danger">*</span></label>
+    @*@Html.ValidationMessageFor(model => model.WEX_ToDateU, "", new { @class = "text-danger" })*@
+    @Html.EditorFor(model => model.WEX_ToDateU, new { htmlAttributes = new { @class = "form-control", @type = "month", @tabindex = "11", @id = "HTDate", @required = "required" } })
+</div>
+<div class="form-group">
+    <input type="button" class="btn btn-danger m-t-15 waves-effect" value="Cancel" onclick="btnCancelExpU()" tabindex="35" />
+    <input type="submit" class="btn btn-primary m-t-15 waves-effect" value="Submit" tabindex="12" />
+</div>
+@if (Model.WEX_IsWorking)
+{
+    <script>
+        document.getElementById("TDateID").style.display = "none";
+        document.getElementById("HTDate").disabled = true;
+    </script>
+}
+<script>
+    function validateH() {
+        var remember = document.getElementById('HIsWork');
+        if (remember.checked) {
+            document.getElementById("TDateID").style.display = "none";
+            document.getElementById("HTDate").disabled = true;
+        } else {
+            document.getElementById("TDateID").style.display = "block";
+            document.getElementById("HTDate").disabled = false;
+        }
+    }
+</script>

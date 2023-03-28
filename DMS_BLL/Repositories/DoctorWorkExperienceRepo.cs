@@ -57,8 +57,8 @@ namespace DMS_BLL.Repositories
                     bool reas = false;
                     foreach (var HospitalInfo in model.HospitalInfos)
                     {
-                        var modelServices = GetDoctorWorkExperienceByID(model.WEX_ID);
-                        modelServices.WEX_ID = model.WEX_ID;
+                        var modelServices = GetDoctorWorkExperienceByID(HospitalInfo.HospitalID);
+                        modelServices.WEX_ID = HospitalInfo.HospitalID;
                         modelServices.WEX_DoctorID = model.WEX_DoctorID;
                         modelServices.WEX_HospitalName = HospitalInfo.WEX_HospitalName;
                         modelServices.WEX_Designation = HospitalInfo.WEX_Designation;
