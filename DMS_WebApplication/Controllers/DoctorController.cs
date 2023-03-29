@@ -184,6 +184,16 @@ namespace DMS_WebApplication.Controllers
                             WexRepoObj.InsertDoctorWorkExperience(experience);
                         }
                     }
+                    if (doctor.Service.Count > 0 && doctor.Service != null)
+                    {
+                        var service = new ValidateDoctorServices()
+                        {
+                            DS_DoctorID = doctor.UserID,
+                            DS_ServicesID = doctor.Service,
+                            DS_CreatedBy = doctor.UserID,
+                        };
+                        servicesRepoObj.InsertDoctorServices(service);
+                    }
 
                     var reas = DoctorsRepoObj.UpdateDoctor(validateDoctor);
                     if (reas == 1)
@@ -1392,6 +1402,7 @@ namespace DMS_WebApplication.Controllers
                         Session["PhoneNumber"] = doctor.UserUpdatePhoneNumber;
                         TempData["SuccessMsg"] = "Your profile is completed successfully!";
                         TempData["MsgPS"] = "1";
+                        Session["SettingsPage"] = false;
                         FormsAuthentication.SetAuthCookie(doctor.UserUpdateEmail, false);
                     }
                     else if (reas == -1)

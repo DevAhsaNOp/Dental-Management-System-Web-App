@@ -1138,6 +1138,7 @@
     <Content Include="Views\Shared\_UpdateExperience.cshtml" />
     <Content Include="Views\Shared\_UpdateOfflineConsultation.cshtml" />
     <Content Include="Views\Shared\_UpdateOnlineConsultation.cshtml" />
+    <Content Include="Views\Patient\PatientView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

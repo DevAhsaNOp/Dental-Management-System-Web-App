@@ -1,0 +1,129 @@
+﻿@model DMS_BOL.Validation_Classes.ValidatePatient
+@{
+    ViewBag.Title = "DMS - View Patient";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@if (User.Identity.IsAuthenticated)
+{
+    <style>
+        #dynamicImage {
+            background: #f8f8f8;
+            border: 1px solid #ededed;
+            border-radius: 2px;
+        }
+
+        .loader {
+            position: fixed;
+            left: 0px;
+            top: 0px;
+            width: 100%;
+            height: 100%;
+            z-index: 9999;
+            background: url(../../assets/img/loading.gif) 50% 50% no-repeat #f9f9f9;
+            opacity: 0.5;
+        }
+
+        .card .card-body {
+            padding-top: 10px !important;
+            padding-bottom: 10px !important;
+        }
+
+        .form-group {
+            margin-bottom: 15px !important;
+        }
+
+        .theme-white .card.card-primary {
+            border-top: 8px solid #6777ef;
+        }
+    </style>
+    <div class="row">
+        <div class="col-12 col-sm-12 col-md-10 col-lg-10 col-xl-10">
+            <div class="card card-primary">
+                <div class="card-header">
+                    <h4>View Patient</h4>
+                </div>
+                <div class="card-body">
+                    @if (TempData["ErrorMsg"] != null)
+                    {
+                        <div class="alert alert-danger alert-dismissible show fade">
+                            <div class="alert-body">
+                                <button class="close" data-dismiss="alert">
+                                    <span>×</span>
+                                </button>
+                                @Html.Raw(TempData["ErrorMsg"])
+                            </div>
+                        </div>
+                    }
+                    @if (TempData["SuccessMsg"] != null)
+                    {
+                        <div class="alert alert-success alert-dismissible show fade">
+                            <div class="alert-body">
+                                <button class="close" data-dismiss="alert">
+                                    <span>×</span>
+                                </button>
+                                @Html.Raw(TempData["SuccessMsg"])
+                            </div>
+                        </div>
+                    }
+                    <div class="form-group" style=" display: flex; flex-direction: column-reverse; align-items: center;">
+                        <img id="dynamicImage" src="@Url.Content(Model.UserProfileImage)" alt="Profile Image" width="150" height="150" style="border-radius: 50%;" />
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
+                            <label>First Name</label>
+                            @Html.EditorFor(model => model.UserFirstName, new { htmlAttributes = new { @class = "form-control font-weight-bold", @disabled = "disabled" } })
+                        </div>
+                        <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
+                            <label>Last Name</label>
+                            @Html.EditorFor(model => model.UserLastName, new { htmlAttributes = new { @class = "form-control font-weight-bold", @disabled = "disabled" } })
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
+                            <label>Phone Number</label>
+                            @Html.EditorFor(model => model.UserPhoneNumber, new { htmlAttributes = new { @class = "form-control font-weight-bold", @disabled = "disabled" } })
+                        </div>
+                        <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
+                            <label>Email Address</label>
+                            @Html.EditorFor(model => model.UserEmail, new { htmlAttributes = new { @class = "form-control font-weight-bold", @disabled = "disabled" } })
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
+                            <label>State</label>
+                            @Html.EditorFor(model => model.State, new { htmlAttributes = new { @class = "form-control font-weight-bold", @disabled = "disabled" } })
+                        </div>
+                        <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6" id="CityD">
+                            <label>City</label>
+                            @Html.EditorFor(model => model.City, new { htmlAttributes = new { @class = "form-control font-weight-bold", @disabled = "disabled" } })
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6" id="AreaD">
+                            <label>Area</label>
+                            @Html.EditorFor(model => model.Area, new { htmlAttributes = new { @class = "form-control font-weight-bold", @disabled = "disabled" } })
+                        </div>
+                        <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6" id="AddressD">
+                            <label>Complete Address</label>
+                            @Html.EditorFor(model => model.CompleteAddress, new { htmlAttributes = new { @class = "form-control font-weight-bold", @disabled = "disabled" } })
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
+                            <label>Gender</label>
+                            @Html.EditorFor(model => model.Gender, new { htmlAttributes = new { @class = "form-control font-weight-bold", @disabled = "disabled" } })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+    document.getElementById('appointmentS').classList.remove('active')
+    document.getElementById('dashboardS').classList.remove('active')
+    document.getElementById('paymentS').classList.remove('active')
+    document.getElementById('messageS').classList.remove('active')
+    document.getElementById('patientS').classList.add('active')
+    </script>
+}

@@ -115,7 +115,7 @@ namespace DMS_DAL.DBLayer
 
         public tblPatient GetPatientByID(int modelId)
         {
-            return _context.tblPatients.Find(modelId);
+            return _context.tblPatients.Where(x => x.P_ID == modelId).FirstOrDefault();
         }
         
         public IEnumerable<tblPatient> GetAllPatient()

@@ -111,7 +111,7 @@ namespace DMS_BOL.Validation_Classes
         
         [Required(ErrorMessage = "*")]
         [Display(Name = "Service")]
-        public List<int> Service { get; set; }
+        public List<int?> Service { get; set; }
 
         [Required(ErrorMessage = "*")]
         [Display(Name = "City")]

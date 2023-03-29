@@ -19,7 +19,9 @@ namespace DMS_WebApplication.Controllers
             UserRepoObj = new UsersRepo();
             AddressRepoObj = new AddressRepo();
         }
-        
+
+        #region **Add Patients**
+
         [AcceptVerbs(HttpVerbs.Get)]
         [CustomAuthorize(Roles = "Admin, SuperAdmin, Doctor")]
         public ActionResult AddPatient()
@@ -79,6 +81,10 @@ namespace DMS_WebApplication.Controllers
             return RedirectToAction("AddPatient");
         }
 
+        #endregion
+
+        #region **View All Patients**
+
         [AcceptVerbs(HttpVerbs.Get)]
         [CustomAuthorize(Roles = "Admin, SuperAdmin, Doctor")]
         public ActionResult Patients()
@@ -86,5 +92,41 @@ namespace DMS_WebApplication.Controllers
             IEnumerable<tblPatient> patient = UserRepoObj.GetAllPatient();
             return View(patient);
         }
+
+        #endregion
+
+        #region **View Patient**
+
+        [AcceptVerbs(HttpVerbs.Get)]
+        [CustomAuthorize(Roles = "Admin, SuperAdmin, Doctor")]
+        public ActionResult PatientView(int PatientID)
+        {
+            var reas = UserRepoObj.GetPatientByID(PatientID);
+            if (reas != null)
+            {
+                var addressInfo = AddressRepoObj.GetAddressById(reas.P_AddressID.Value);
+                var patientInfo = new ValidatePatient()
+                {
+                    UserID = reas.P_ID,
+                    UserFirstName = reas.P_FirstName,
+                    UserLastName = reas.P_LastName,
+                    UserPhoneNumber = reas.P_PhoneNumber,
+                    UserEmail = reas.P_Email,
+                    Gender = reas.P_Gender,
+                    UserAddressID = reas.P_AddressID.Value,
+                    UserRoleID = reas.P_RoleID.Value,
+                    UserProfileImage = reas.P_ProfileImage,
+                    State = addressInfo.State,
+                    City = addressInfo.City,
+                    Area = addressInfo.Area,
+                    CompleteAddress = addressInfo.CompleteAddress,                    
+                };
+                return View(patientInfo);
+            }
+            else
+                return RedirectToAction("Index","Account");
+        }
+
+        #endregion
     }
 }
