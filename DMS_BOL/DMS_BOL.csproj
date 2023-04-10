@@ -99,6 +99,9 @@
     <Compile Include="tblAppointment.cs">
       <DependentUpon>DMSModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="tblAppointmentDetail.cs">
+      <DependentUpon>DMSModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="tblCity.cs">
       <DependentUpon>DMSModel.tt</DependentUpon>
     </Compile>
@@ -136,6 +139,9 @@
       <DependentUpon>DMSModel.tt</DependentUpon>
     </Compile>
     <Compile Include="tblPatient.cs">
+      <DependentUpon>DMSModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tblPatientTest.cs">
       <DependentUpon>DMSModel.tt</DependentUpon>
     </Compile>
     <Compile Include="tblRole.cs">
