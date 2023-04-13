@@ -1,0 +1,189 @@
+﻿@model DMS_BOL.Validation_Classes.ValidatePatientTest
+@{
+    ViewBag.Title = "PatientTest";
+}
+
+@if (User.Identity.IsAuthenticated)
+{
+    <style>
+        .dynamicImage {
+            height: 150px !important;
+            width: 150px !important;
+            margin: 10px !important;
+            border: 2px solid #ededed !important;
+        }
+
+        #dynamicImage {
+            background: #f8f8f8;
+            border: 1px solid #ededed;
+            border-radius: 2px;
+        }
+
+        .loader {
+            position: fixed;
+            left: 0px;
+            top: 0px;
+            width: 100%;
+            height: 100%;
+            z-index: 9999;
+            background: url(../../assets/img/loading.gif) 50% 50% no-repeat #f9f9f9;
+            opacity: 0.5;
+        }
+
+        input[type="text"], label {
+            font-weight: 700 !important;
+        }
+    </style>
+    <div class="row">
+        <div class="col-12 col-sm-12 col-md-10 col-lg-10 col-xl-10">
+            <div class="card card-primary">
+                <div class="card-header">
+                    <h4>Patient Teeth Test Details</h4>
+                </div>
+                <div class="card-body">
+                    @if (TempData["ErrorMsg"] != null)
+                    {
+                        <div class="alert alert-danger alert-dismissible show fade">
+                            <div class="alert-body">
+                                <button class="close" data-dismiss="alert">
+                                    <span>×</span>
+                                </button>
+                                @Html.Raw(TempData["ErrorMsg"])
+                            </div>
+                        </div>
+                    }
+                    @if (TempData["SuccessMsg"] != null)
+                    {
+                        <div class="alert alert-success alert-dismissible show fade">
+                            <div class="alert-body">
+                                <button class="close" data-dismiss="alert">
+                                    <span>×</span>
+                                </button>
+                                @Html.Raw(TempData["SuccessMsg"])
+                            </div>
+                        </div>
+                    }
+                    @using (Html.BeginForm("PatientTest", "Patient", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                    {
+                        <div class="form-group d-none" id="prImage" style="display: flex; flex-direction: column-reverse; align-items: center;">
+                            <img id="dynamicImage" alt="Patient Profile Image" width="120" height="120" style="border-radius: 50%;" />
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
+                                <label>Select Patient</label>
+                                @Html.ValidationMessageFor(model => model.PT_PatientID, "", new { @class = "text-danger" })
+                                @Html.DropDownListFor(model => model.PT_PatientID, (IEnumerable<SelectListItem>)ViewBag.patient, "---Select Patient---", htmlAttributes: new { @class = "form-control select2" })
+                            </div>
+                            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
+                                <label>Patient Name</label>
+                                <input type="text" name="PatientName" id="PatientName" class="form-control" disabled readonly />
+                            </div>
+                            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
+                                <label>Patient Contact Number</label>
+                                <input type="text" name="PatientContact" id="PatientContact" class="form-control" disabled readonly />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
+                                <label>Patient Email</label>
+                                <input type="text" name="PatientEmail" id="PatientEmail" class="form-control" disabled readonly />
+                            </div>
+                            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
+                                <label>Patient Gender</label>
+                                <input type="text" name="PatientGender" id="PatientGender" class="form-control" disabled readonly />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
+                                <label>Patient Address</label>
+                                <input type="text" name="PatientAddress" id="PatientAddress" class="form-control" disabled readonly />
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <h4 class="text-left"><b>Upload Patient Teeth Photos</b></h4>
+                            <div class="row">
+                                <div class="col-12">
+                                    @Html.ValidationMessageFor(model => model.ImagesCount, "", new { @class = "text-danger" })
+                                    @Html.EditorFor(model => model.ImagesCount, new { htmlAttributes = new { @readonly = "readonly", @style = "border: none !important;padding: 0;color: white;outline: none;" } })
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="input-images-1" style="padding-top: .5rem;"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" class="btn btn-primary btn-lg btn-block" id="pUpload" value="Test Patient">
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $('.input-images-1').imageUploader();
+        $('#pUpload').on("click", function () {
+            ImagesValidate();
+        });
+
+        function ImagesValidate() {
+            var a = $(".uploaded")[0].children.length;
+            $("#ImagesCount").val(a);
+            if (a < 5) {
+                var element = document.getElementsByClassName("image-uploader");
+                for (item of element) {
+                    item.style.border = "2px solid #f16060";
+                }
+            }
+        }
+
+        setInterval(function myfunction() {
+            var IsClassPresent = $("body").find('.uploaded').length;
+            if (IsClassPresent > 0) {
+                var a = 0;
+                var vale = ($(".uploaded")[1] == undefined) ? 0 : $(".uploaded")[1].children.length;
+                a = $(".uploaded")[0].children.length + vale;
+                if (a >= 5) {
+                    var element = document.getElementsByClassName("image-uploader");
+                    for (item of element) {
+                        item.style.border = "1px solid #ededed";
+                    }
+                }
+            }
+        }, 1);
+
+        $("#PT_PatientID").on("change", function () {
+            var PatientID = $('#PT_PatientID').val();
+            if (PatientID > 0) {
+                $(".loader").show();
+                $.ajax({
+                    type: "get",
+                    url: "/Patient/GetPatientByID?PatientId=" + PatientID,
+                    contentType: "html",
+                    success: function (response) {
+                        if (response != null) {
+                            $("#PatientName").val(response.UserFirstName + " " + response.UserLastName);
+                            $("#PatientContact").val(response.UserPhoneNumber);
+                            $("#PatientEmail").val(response.UserEmail);
+                            $("#PatientGender").val(response.Gender);
+                            $("#PatientAddress").val(response.CompleteAddress);
+                            if (response.UserProfileImage != null) {
+                                $("#prImage").removeClass("d-none");
+                                $("#dynamicImage").attr("src", location.origin + response.UserProfileImage);
+                            }
+                            else {
+                                $("#prImage").addClass("d-none");
+                            }
+                        }
+                        $(".loader").hide();
+                    }
+                })
+            }
+        });
+    </script>
+}

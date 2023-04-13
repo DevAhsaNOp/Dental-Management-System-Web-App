@@ -167,6 +167,7 @@
     <Compile Include="Validation Classes\ValidateDoctorWorkExperience.cs" />
     <Compile Include="Validation Classes\ValidateDoctorServices.cs" />
     <Compile Include="Validation Classes\ValidatePatient.cs" />
+    <Compile Include="Validation Classes\ValidatePatientTest.cs" />
     <Compile Include="Validation Classes\ValidateSuperAdmin.cs" />
     <Compile Include="Validation Classes\ValidateUsersIA.cs" />
     <Compile Include="Validation Classes\ValidateUsersLogin.cs" />

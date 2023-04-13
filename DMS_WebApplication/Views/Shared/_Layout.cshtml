@@ -18,6 +18,9 @@
     <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
     <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
     <link rel='shortcut icon' type='image/x-icon' href='~/assets/img/favicon.ico' />
+    <!-- Image Uploader -->
+    <link type="text/css" rel="stylesheet" href="~/assets/dist/image-uploader.min.css">
+    <script type="text/javascript" src="~/assets/dist/image-uploader.min.js"></script>
 </head>
 
 <body>
@@ -267,13 +270,16 @@
                         <li class="dropdown" id="patientS">
                             <a href="@Url.Action("Patients","Patient")" class="nav-link toggled"><img src="~/assets/img/sidebar/customer-24.png" alt="patients" /><span class="ml-2">Patients</span></a>
                         </li>
+                        <li class="dropdown" id="patientTS">
+                            <a href="@Url.Action("PatientTest","Patient")" class="nav-link toggled"><img src="~/assets/img/sidebar/teeth-24.png" alt="patients" /><span class="ml-2">Patient Teeth Test</span></a>
+                        </li>
                         <li class="dropdown" id="messageS">
                             <a href="@Url.Action("Messages","Doctor")" class="nav-link toggled"><img src="~/assets/img/sidebar/chat-24.png" alt="messages" /><span class="ml-2">Messages</span></a>
                         </li>
                         <li class="dropdown" id="paymentS">
                             <a href="index.html" class="nav-link toggled"><img src="~/assets/img/sidebar/payment-24.png" alt="payments" /><span class="ml-2">Payments</span></a>
                         </li>
-                        <li class="dropdown">
+                        <li class="dropdown" id="SettingS">
                             <a href="@Url.Action("Settings","Doctor", new { DoctorID = int.Parse(Session["UserID"].ToString()) } )" class="nav-link toggled"><img src="~/assets/img/sidebar/slider-24.png" alt="settings" /><span class="ml-2">Settings</span></a>
                         </li>
                     </ul>

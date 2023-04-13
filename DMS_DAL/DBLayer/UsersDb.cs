@@ -114,10 +114,15 @@ namespace DMS_DAL.DBLayer
 
 
         public tblPatient GetPatientByID(int modelId)
-        {
-            return _context.tblPatients.Where(x => x.P_ID == modelId).FirstOrDefault();
+        {          
+            var reas = _context.tblPatients.Where(x => x.P_ID == modelId).FirstOrDefault();
+            reas.tblAddress = _context.tblAddresses.Find(reas.P_AddressID);
+            reas.tblAddress.tblCity = _context.tblCities.Find(reas.tblAddress.AddressCity);
+            reas.tblAddress.tblState = _context.tblStates.Find(reas.tblAddress.AddressState);
+            reas.tblAddress.tblZone = _context.tblZones.Find(reas.tblAddress.AddressZone);
+            return reas;
         }
-        
+
         public IEnumerable<tblPatient> GetAllPatient()
         {
             var reas = _context.tblPatients.ToList();
