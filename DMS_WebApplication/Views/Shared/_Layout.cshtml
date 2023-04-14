@@ -236,24 +236,18 @@
                             @if (User.IsInRole("Admin") || User.IsInRole("SuperAdmin"))
                             {
                                 <div class="dropdown-title">@Session["Username"]</div>
-                            }
-                            else if (User.IsInRole("Doctor"))
-                            {
-                                <div class="dropdown-title">Dr. @Session["Username"]</div>
-                            }
-                            <a href="@Url.Action("DoctorProfile","Doctor",new { DoctorID = int.Parse(Session["UserID"].ToString()) })" class="dropdown-item has-icon">
-                                <i class="far fa-user"></i> Profile
-                            </a>
-                            @if (User.IsInRole("Doctor"))
-                            {
-                                <a href="@Url.Action("Settings","Doctor", new { DoctorID = int.Parse(Session["UserID"].ToString()) } )" class="dropdown-item has-icon">
+                                <a href="@Url.Action("Settings","Admin", new { UserID = int.Parse(Session["UserID"].ToString()) } )" class="dropdown-item has-icon">
                                     <i class="fas fa-cog"></i>
                                     Settings
                                 </a>
                             }
-                            else if (User.IsInRole("Admin") || User.IsInRole("SuperAdmin"))
+                            else if (User.IsInRole("Doctor"))
                             {
-                                <a href="@Url.Action("Settings","Admin", new { UserID = int.Parse(Session["UserID"].ToString()) } )" class="dropdown-item has-icon">
+                                <div class="dropdown-title">Dr. @Session["Username"]</div>
+                                <a href="@Url.Action("DoctorProfile","Doctor",new { DoctorID = int.Parse(Session["UserID"].ToString()) })" class="dropdown-item has-icon">
+                                    <i class="far fa-user"></i> Profile
+                                </a>
+                                <a href="@Url.Action("Settings","Doctor", new { DoctorID = int.Parse(Session["UserID"].ToString()) } )" class="dropdown-item has-icon">
                                     <i class="fas fa-cog"></i>
                                     Settings
                                 </a>
