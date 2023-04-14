@@ -16,12 +16,16 @@
                     <div class="d-flex flex-row align-items-baseline justify-content-between">
                         <p class="ExpDesignation mb-2 font-17 font-weight-bold">@item.WEX_Designation</p>
                         <div>
-                            @if (Boolean.Parse(Session["SettingsPage"].ToString()) == true)
-                            {
-                                <a class="fas fa-pen mr-3" href="javascript:void(0)" onclick="updateExp(@item.HospitalID)" style="font-size: 15px !important; text-decoration: none !important;" title="Edit"></a>
-                            }
-                            <a class="fas fa-trash" href="javascript:void(0)" onclick="deleteExp(@item.HospitalID)" style="font-size: 15px !important; text-decoration: none !important;" title="Delete"></a>
-                        </div>
+                            @if (Session["SettingsPage"] != null)
+                    {
+                                if (Boolean.Parse(Session["SettingsPage"].ToString()) == true)
+                                {
+                                    <a class="fas fa-pen mr-3" href="javascript:void(0)" onclick="updateExp(@item.HospitalID)" style="font-size: 15px !important; text-decoration: none !important;" title="Edit"></a>
+                                }
+
+                    }
+                                <a class="fas fa-trash" href="javascript:void(0)" onclick="deleteExp(@item.HospitalID)" style="font-size: 15px !important; text-decoration: none !important;" title="Delete"></a>
+                            </div>
                     </div>
                     <p class="ExpHospital mb-0 font-weight-600" style="line-height: 18px !important; text-align:justify !important;">@item.WEX_HospitalName</p>
                     @if (item.WEX_IsWorking)

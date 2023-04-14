@@ -16,12 +16,15 @@
                     <div class="d-flex flex-row align-items-baseline justify-content-between">
                         <p class="mb-2 font-17 font-weight-bold">Online Consultation Details: </p>
                         <div>
-                            @if (Boolean.Parse(Session["SettingsPage"].ToString()) == true)
-                            {
-                                <a class="fas fa-pen mr-3" href="javascript:void(0)" onclick="updateOcd(@item.OCD_ID)" style="font-size: 15px !important; text-decoration: none !important;" title="Edit"></a>
-                            }
-                            <a class="fas fa-trash" href="javascript:void(0)" onclick="deleteOcd(@item.OCD_ID)" style="font-size: 15px !important; text-decoration: none !important;" title="Delete"></a>
-                        </div>
+                            @if (Session["SettingsPage"] != null)
+                    {
+                                if (Boolean.Parse(Session["SettingsPage"].ToString()) == true)
+                                {
+                                    <a class="fas fa-pen mr-3" href="javascript:void(0)" onclick="updateOcd(@item.OCD_ID)" style="font-size: 15px !important; text-decoration: none !important;" title="Edit"></a>
+                                }
+                    }
+                                <a class="fas fa-trash" href="javascript:void(0)" onclick="deleteOcd(@item.OCD_ID)" style="font-size: 15px !important; text-decoration: none !important;" title="Delete"></a>
+                            </div>
                     </div>
                     <p class="mb-0 font-weight-600" style="line-height: 18px !important; text-align:justify !important;">
                         @if (@item.OCD_MondayStartTime == null || @item.OCD_MondayEndTime == null)

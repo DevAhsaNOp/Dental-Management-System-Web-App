@@ -16,9 +16,12 @@
                     <div class="d-flex flex-row align-items-baseline justify-content-between">
                         <p class="mb-2 font-17 font-weight-bold">Hospital Name: @item.OFCD_HospitalName</p>
                         <div>
-                            @if (Boolean.Parse(Session["SettingsPage"].ToString()) == true)
+                            @if (Session["SettingsPage"] != null)
                             {
-                                <a class="fas fa-pen mr-3" href="javascript:void(0)" onclick="updateOfcd(@item.OFCD_ID)" style="font-size: 15px !important; text-decoration: none !important;" title="Edit"></a>
+                                if (Boolean.Parse(Session["SettingsPage"].ToString()) == true)
+                                {
+                                    <a class="fas fa-pen mr-3" href="javascript:void(0)" onclick="updateOfcd(@item.OFCD_ID)" style="font-size: 15px !important; text-decoration: none !important;" title="Edit"></a>
+                                }
                             }
                             <a class="fas fa-trash" href="javascript:void(0)" onclick="deleteOfcd(@item.OFCD_ID)" style="font-size: 15px !important; text-decoration: none !important;" title="Delete"></a>
                         </div>

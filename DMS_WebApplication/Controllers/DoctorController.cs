@@ -109,7 +109,6 @@ namespace DMS_WebApplication.Controllers
                         UserOTP = null,
                         UserIsArchive = Docreas.UserIsArchive.Value,
                         UserUpdatedBy = int.Parse(Session["UserID"].ToString()),
-                        UserUpdatedOn = Docreas.UserUpdatedOn.Value,
                         UserCreatedBy = Docreas.UserCreatedBy.Value,
                         UserCreatedOn = Docreas.UserCreatedOn.Value,
                         Gender = "Male",

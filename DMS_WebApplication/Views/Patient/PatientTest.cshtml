@@ -126,17 +126,6 @@
         </div>
     </div>
     <script>
-        document.getElementById('appointmentS').classList.remove('active')
-        document.getElementById('dashboardS').classList.remove('active')
-        document.getElementById('paymentS').classList.remove('active')
-        document.getElementById('messageS').classList.remove('active')
-        document.getElementById('patientS').classList.remove('active')
-        document.getElementById('patientTS').classList.add('active')
-        document.getElementById('viewDoctorS').classList.remove('active')
-        document.getElementById('detailDoctorS').classList.remove('active')
-        document.getElementById('editDoctorS').classList.remove('active')
-        document.getElementById('addDoctorS').classList.remove('active')
-
         $('.input-images-1').imageUploader();
         $('#pUpload').on("click", function () {
             ImagesValidate();
@@ -196,5 +185,15 @@
                 })
             }
         });
+        document.getElementById('appointmentS').classList.remove('active');
+        document.getElementById('dashboardS').classList.remove('active');
+        document.getElementById('paymentS').classList.remove('active');
+        document.getElementById('messageS').classList.remove('active');
+        document.getElementById('patientS').classList.remove('active');
+        document.getElementById('patientTS').classList.add('active');
+        document.getElementById('viewDoctorS').classList.remove('active');
+        document.getElementById('detailDoctorS').classList.remove('active');
+        document.getElementById('editDoctorS').classList.remove('active');
+        document.getElementById('addDoctorS').classList.remove('active');
     </script>
 }
