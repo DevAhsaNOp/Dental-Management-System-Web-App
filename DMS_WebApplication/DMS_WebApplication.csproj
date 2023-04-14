@@ -138,6 +138,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\DoctorController.cs" />
     <Compile Include="Controllers\PatientController.cs" />
     <Compile Include="CustomAuthorize.cs" />
@@ -1231,9 +1232,19 @@
     <Content Include="Views\Shared\_UpdateOnlineConsultation.cshtml" />
     <Content Include="Views\Patient\PatientView.cshtml" />
     <Content Include="Views\Patient\PatientTest.cshtml" />
+    <Content Include="Views\Admin\Doctors.cshtml" />
+    <Content Include="Views\Admin\AddDoctor.cshtml" />
+    <Content Include="Views\Admin\EditDoctor.cshtml" />
+    <Content Include="Views\Admin\DoctorDetails.cshtml" />
+    <Content Include="Views\Admin\EditPatient.cshtml" />
+    <Content Include="Views\Admin\AddPatient.cshtml" />
+    <Content Include="Views\Admin\Patients.cshtml" />
+    <Content Include="Views\Admin\PatientDetails.cshtml" />
+    <Content Include="Views\Admin\Settings.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="uploads\AdminsProfileImage\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />

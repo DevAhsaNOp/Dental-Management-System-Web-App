@@ -233,16 +233,31 @@
                                  class="user-img-radious-style"> <span class="d-sm-none d-lg-inline-block"></span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right pullDown">
-                            <div class="dropdown-title">Dr. @Session["Username"]</div>
+                            @if (User.IsInRole("Admin") || User.IsInRole("SuperAdmin"))
+                            {
+                                <div class="dropdown-title">@Session["Username"]</div>
+                            }
+                            else if (User.IsInRole("Doctor"))
+                            {
+                                <div class="dropdown-title">Dr. @Session["Username"]</div>
+                            }
                             <a href="@Url.Action("DoctorProfile","Doctor",new { DoctorID = int.Parse(Session["UserID"].ToString()) })" class="dropdown-item has-icon">
                                 <i class="far fa-user"></i> Profile
-                            @*</a> <a href="timeline.html" class="dropdown-item has-icon">
-                                <i class="fas fa-bolt"></i>
-                                Activities*@
-                            </a> <a href="@Url.Action("Settings","Doctor", new { DoctorID = int.Parse(Session["UserID"].ToString()) } )" class="dropdown-item has-icon">
-                                <i class="fas fa-cog"></i>
-                                Settings
                             </a>
+                            @if (User.IsInRole("Doctor"))
+                            {
+                                <a href="@Url.Action("Settings","Doctor", new { DoctorID = int.Parse(Session["UserID"].ToString()) } )" class="dropdown-item has-icon">
+                                    <i class="fas fa-cog"></i>
+                                    Settings
+                                </a>
+                            }
+                            else if (User.IsInRole("Admin") || User.IsInRole("SuperAdmin"))
+                            {
+                                <a href="@Url.Action("Settings","Admin", new { UserID = int.Parse(Session["UserID"].ToString()) } )" class="dropdown-item has-icon">
+                                    <i class="fas fa-cog"></i>
+                                    Settings
+                                </a>
+                            }
                             <div class="dropdown-divider"></div>
                             <a href="@Url.Action("Logout","Account")" class="dropdown-item has-icon text-danger">
                                 <i class="fas fa-sign-out-alt"></i>
@@ -267,21 +282,54 @@
                         <li class="dropdown" id="appointmentS">
                             <a href="@Url.Action("Appointments","Doctor")" class="nav-link toggled"><img src="~/assets/img/sidebar/calendar-24.png" alt="calendar" /><span class="ml-2">Appointments</span></a>
                         </li>
-                        <li class="dropdown" id="patientS">
-                            <a href="@Url.Action("Patients","Patient")" class="nav-link toggled"><img src="~/assets/img/sidebar/customer-24.png" alt="patients" /><span class="ml-2">Patients</span></a>
-                        </li>
+                        @if (User.IsInRole("Doctor"))
+                        {
+                            <li class="dropdown" id="patientS">
+                                <a href="@Url.Action("Patients","Patient")" class="nav-link toggled"><img src="~/assets/img/sidebar/customer-24.png" alt="patients" /><span class="ml-2">Patients</span></a>
+                            </li>
+                        }
                         <li class="dropdown" id="patientTS">
                             <a href="@Url.Action("PatientTest","Patient")" class="nav-link toggled"><img src="~/assets/img/sidebar/teeth-24.png" alt="patients" /><span class="ml-2">Patient Teeth Test</span></a>
                         </li>
+                        @if (User.IsInRole("Admin") || User.IsInRole("SuperAdmin"))
+                        {
+                            <li class="dropdown active" id="manageD">
+                                <a href="javascript:void(0)" class="nav-link text-dark bg-white" id="manageDli"><i data-feather="layout"></i><span>Manage Doctors</span></a>
+                                <ul class="dropdown-menu">
+                                    <li id="viewDoctorS"><a class="nav-link" href="@Url.Action("Doctors","Admin")">View All Doctors</a></li>
+                                    <li id="addDoctorS"><a class="nav-link" href="@Url.Action("AddDoctor","Admin")">Add Doctor</a></li>
+                                    <li id="editDoctorS"><a class="nav-link" href="#">Edit Doctor</a></li>
+                                    <li id="detailDoctorS"><a class="nav-link" href="#">Doctor Details</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown active" id="manageP">
+                                <a href="javascript:void(0)" class="nav-link text-dark bg-white" id="managePli"><i data-feather="layout"></i><span>Manage Patients</span></a>
+                                <ul class="dropdown-menu">
+                                    <li id="viewPatientS"><a class="nav-link" href="@Url.Action("Patients","Admin")">View All Patients</a></li>
+                                    <li id="addPatientS"><a class="nav-link" href="@Url.Action("AddPatient","Admin")">Add Patient</a></li>
+                                    <li id="editPatientS"><a class="nav-link" href="#">Edit Patient</a></li>
+                                    <li id="detailPatientS"><a class="nav-link" href="#">Patient Details</a></li>
+                                </ul>
+                            </li>
+                        }
                         <li class="dropdown" id="messageS">
                             <a href="@Url.Action("Messages","Doctor")" class="nav-link toggled"><img src="~/assets/img/sidebar/chat-24.png" alt="messages" /><span class="ml-2">Messages</span></a>
                         </li>
                         <li class="dropdown" id="paymentS">
                             <a href="index.html" class="nav-link toggled"><img src="~/assets/img/sidebar/payment-24.png" alt="payments" /><span class="ml-2">Payments</span></a>
                         </li>
-                        <li class="dropdown" id="SettingS">
-                            <a href="@Url.Action("Settings","Doctor", new { DoctorID = int.Parse(Session["UserID"].ToString()) } )" class="nav-link toggled"><img src="~/assets/img/sidebar/slider-24.png" alt="settings" /><span class="ml-2">Settings</span></a>
-                        </li>
+                        @if (User.IsInRole("Admin") || User.IsInRole("SuperAdmin"))
+                        {
+                            <li class="dropdown" id="ASettingS">
+                                <a href="@Url.Action("Settings","Admin", new { UserID = int.Parse(Session["UserID"].ToString()) } )" class="nav-link toggled"><img src="~/assets/img/sidebar/slider-24.png" alt="settings" /><span class="ml-2">Settings</span></a>
+                            </li>
+                        }
+                        else if (User.IsInRole("Doctor"))
+                        {
+                            <li class="dropdown" id="SettingS">
+                                <a href="@Url.Action("Settings","Doctor", new { DoctorID = int.Parse(Session["UserID"].ToString()) } )" class="nav-link toggled"><img src="~/assets/img/sidebar/slider-24.png" alt="settings" /><span class="ml-2">Settings</span></a>
+                            </li>
+                        }
                     </ul>
                 </aside>
             </div>

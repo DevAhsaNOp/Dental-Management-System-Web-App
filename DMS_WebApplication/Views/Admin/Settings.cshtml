@@ -1,0 +1,259 @@
+﻿@model DMS_BOL.Validation_Classes.ValidateAdmin
+
+@{
+    ViewBag.Title = "DMS - Settings";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@if (User.Identity.IsAuthenticated)
+{
+    <link type="text/css" rel="stylesheet" href="~/assets/css/image-uploader.min.css">
+    <script type="text/javascript" src="~/assets/js/image-uploader.min.js"></script>
+    <link rel="stylesheet" href="~/assets/bundles/pretty-checkbox/pretty-checkbox.min.css">
+    <script src="~/assets/bundles/sweetalert/sweetalert.min.js"></script>
+    <script>
+        function loadProfile(event) {
+            var files = event.target.files;
+            for (var i = 0; i < files.length; i++) {
+                $("#dynamicImage").attr("src", URL.createObjectURL(event.target.files[i]));
+            }
+        }
+    </script>
+    <style>
+        .select2-container {
+            width: 100% !important;
+        }
+
+        .custom-file-upload {
+            background-color: #7a88f1;
+            border-radius: 25px;
+            border: 1px solid #7a8aff;
+            display: inline-block;
+            padding: 6px 12px;
+            cursor: pointer;
+            text-align: center;
+            width: 8rem;
+            color: #fff !important;
+            margin-top: 3px;
+        }
+
+        .pretty.p-switch .state:before {
+            border: 1px solid #28a745;
+        }
+
+        .pretty.p-switch .state label:after {
+            background-color: #28a745 !important;
+        }
+
+        .loader {
+            position: fixed;
+            left: 0px;
+            top: 0px;
+            width: 100%;
+            height: 100%;
+            z-index: 9999;
+            background: url(../../assets/img/loading.gif) 50% 50% no-repeat #f9f9f9;
+            opacity: 0.5;
+        }
+
+        .dynamicImage {
+            height: 150px !important;
+            width: 150px !important;
+            margin: 10px !important;
+            border: 2px solid #ededed !important;
+        }
+
+        #dynamicImage {
+            background: #f8f8f8;
+            border: 1px solid #ededed;
+            border-radius: 2px;
+        }
+
+        #labelExp {
+            color: #28a745;
+            font-weight: 700;
+        }
+    </style>
+    <div class="row">
+        <div class="col-12 col-sm-12 col-md-10 col-lg-10 col-xl-10">
+            @if (TempData["ErrorMsg"] != null)
+            {
+                <div class="alert alert-danger alert-dismissible show fade">
+                    <div class="alert-body">
+                        <button class="close" data-dismiss="alert">
+                            <span>×</span>
+                        </button>
+                        @Html.Raw(TempData["ErrorMsg"])
+                    </div>
+                </div>
+            }
+            @if (TempData["SuccessMsg"] != null)
+            {
+                <div class="alert alert-success alert-dismissible show fade">
+                    <div class="alert-body">
+                        <button class="close" data-dismiss="alert">
+                            <span>×</span>
+                        </button>
+                        @Html.Raw(TempData["SuccessMsg"])
+                    </div>
+                </div>
+            }
+            @using (Html.BeginForm("Settings", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                <div class="card card-primary">
+                    <div class="card-body">
+                        <div class="form-group" style=" display: flex; flex-direction: column-reverse; align-items: center;">
+                            <label for="choose-file" class="custom-file-upload" id="choose-file-label">
+                                Change Avatar
+                            </label>
+                            <input name="file" type="file" id="choose-file" required="required"
+                                   accept="image/png,image/jpg,image/jpeg" onchange="loadProfile(event)" style="display: none !important;" />
+                            @if (Session["AdminImage"] != null)
+                            {
+                                <img id="dynamicImage" src="@Url.Content(Session["AdminImage"].ToString())" alt="Profile Image" width="120" height="120" style="border-radius: 50%;" />
+                            }
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
+                                <label>First Name</label>
+                                @Html.ValidationMessageFor(model => model.UserFirstName, "", new { @class = "text-danger" })
+                                @Html.EditorFor(model => model.UserFirstName, new { htmlAttributes = new { placeholder = "Enter your first name", @class = "form-control" } })
+                            </div>
+                            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
+                                <label>Last Name</label>
+                                @Html.ValidationMessageFor(model => model.UserLastName, "", new { @class = "text-danger" })
+                                @Html.EditorFor(model => model.UserLastName, new { htmlAttributes = new { placeholder = "Enter your last name", @class = "form-control" } })
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
+                                <label>Phone Number</label>
+                                @Html.ValidationMessageFor(model => model.UserUpdatePhoneNumber, "", new { @class = "text-danger" })
+                                @Html.EditorFor(model => model.UserUpdatePhoneNumber, new { htmlAttributes = new { placeholder = "Enter your phone number", @class = "form-control" } })
+                            </div>
+                            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
+                                <label>Email Address</label>
+                                @Html.ValidationMessageFor(model => model.UserUpdateEmail, "", new { @class = "text-danger" })
+                                @Html.EditorFor(model => model.UserUpdateEmail, new { htmlAttributes = new { placeholder = "Enter your email address", @class = "form-control" } })
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
+                                <label>Password</label>
+                                @Html.ValidationMessageFor(model => model.UserPassword, "", new { @class = "text-danger" })
+                                @Html.EditorFor(model => model.UserPassword, new { htmlAttributes = new { placeholder = "Enter your secure password", @class = "form-control", @type = "password" } })
+                            </div>
+                            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
+                                <label>Confirm Password</label>
+                                @Html.ValidationMessageFor(model => model.ConfirmPassowrd, "", new { @class = "text-danger" })
+                                @Html.EditorFor(model => model.ConfirmPassowrd, new { htmlAttributes = new { placeholder = "Enter your secure password", @class = "form-control", @type = "password" } })
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
+                                <label>State</label>
+                                @Html.ValidationMessageFor(model => model.StateID, "", new { @class = "text-danger" })
+                                @Html.DropDownListFor(model => model.StateID, (IEnumerable<SelectListItem>)ViewBag.State, htmlAttributes: new { @class = "form-control select2" })
+                            </div>
+                            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6" id="CityDS">
+                                <label>City</label>
+                                @Html.ValidationMessageFor(model => model.CityID, "", new { @class = "text-danger" })
+                                @Html.DropDownListFor(model => model.CityID, (IEnumerable<SelectListItem>)ViewBag.City, htmlAttributes: new { @class = "form-control select2" })
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6" id="AreaDS">
+                                <label>Area</label>
+                                @Html.ValidationMessageFor(model => model.AreaID, "", new { @class = "text-danger" })
+                                @Html.DropDownListFor(model => model.AreaID, (IEnumerable<SelectListItem>)ViewBag.Zone, htmlAttributes: new { @class = "form-control select2" })
+                            </div>
+                            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6" id="AddressDS">
+                                <label>Complete Address</label>
+                                @Html.ValidationMessageFor(model => model.CompleteAddress, "", new { @class = "text-danger" })
+                                @Html.EditorFor(model => model.CompleteAddress, new { htmlAttributes = new { placeholder = "Enter your complete address", @class = "form-control", @id = "CompleteAddressS" } })
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
+                                <label>Gender</label>
+                                @Html.ValidationMessageFor(model => model.Gender, "", new { @class = "text-danger" })
+                                <div>
+                                    <div class="custom-control custom-radio d-inline-block pr-3">
+                                        @Html.RadioButtonFor(model => model.Gender, "1", htmlAttributes: new { @class = "custom-control-input", @id = "customRadio1" })
+                                        <label class="custom-control-label" for="customRadio1">Male</label>
+                                    </div>
+                                    <div class="custom-control custom-radio d-inline-block">
+                                        @Html.RadioButtonFor(model => model.Gender, "2", htmlAttributes: new { @class = "custom-control-input", @id = "customRadio2" })
+                                        <label class="custom-control-label" for="customRadio2">Female</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <div class="form-group">
+                        <button class="btn btn-primary btn-lg btn-block" type="submit">Save</button>
+                    </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+
+            document.getElementById('appointmentS').classList.remove('active')
+            document.getElementById('dashboardS').classList.remove('active')
+            document.getElementById('paymentS').classList.remove('active')
+            document.getElementById('messageS').classList.remove('active')
+            document.getElementById('patientS').classList.remove('active')
+            document.getElementById('manageD').classList.remove('active')
+            document.getElementById('detailDoctorS').classList.remove('active')
+            document.getElementById('editDoctorS').classList.remove('active')
+            document.getElementById('addDoctorS').classList.remove('active')
+            document.getElementById('ASettingS').classList.add('active')
+
+            $("#StateID").change(function () {
+                var StateId = $(this).val();
+                $(".loader").show();
+                $.ajax({
+                    type: "post",
+                    url: "/Account/GetCityList?StateId=" + StateId,
+                    contentType: "html",
+                    success: function (response) {
+                        $("#CityID").empty();
+                        $("#AreaID").empty();
+                        $('#AreaDS').hide();
+                        $('#AddressDS').hide();
+                        $("#CityID").append(response);
+                        $('#CityDS').show();
+                        $(".loader").hide();
+                    }
+                })
+            });
+
+            $("#CityID").change(function () {
+                var CityId = $(this).val();
+                $(".loader").show();
+                $.ajax({
+                    type: "post",
+                    url: "/Account/GetZoneList?CityId=" + CityId,
+                    contentType: "html",
+                    success: function (response) {
+                        $("#AreaID").empty();
+                        $("#AreaID").append(response);
+                        $('#AreaDS').show();
+                        $(".loader").hide();
+                    }
+                })
+            });
+
+            $("#AreaID").change(function () {
+                var AreaId = $(this).val();
+                $(".loader").show();
+                if (AreaId > 0) {
+                    $('#AddressDS').show();
+                    $(".loader").hide();
+                }
+            });
+        });
+    </script>
+}

@@ -202,5 +202,14 @@ namespace DMS_BLL.Repositories
             else
                 return null;
         }
+
+        public IEnumerable<tblDoctor> GetAllDoctors()
+        {
+            var reas = dbObj.GetAllDoctor();
+            if (reas != null && reas.Count() > 0)
+                return reas;
+            else
+                return null;
+        }
     }
 }

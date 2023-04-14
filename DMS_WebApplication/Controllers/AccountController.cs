@@ -58,7 +58,7 @@ namespace DMS_WebApplication.Controllers
             Response.Cache.SetExpires(DateTime.UtcNow.AddMinutes(-1));
             Response.Cache.SetCacheability(HttpCacheability.NoCache);
             Response.Cache.SetNoStore();
-            return View("SignIn");
+            return RedirectToAction("SignIn");
         }
         public JsonResult IsEmailExist(string UserEmail)
         {
@@ -179,6 +179,10 @@ namespace DMS_WebApplication.Controllers
                         Session["Username"] = reas.Name.ToString().Normalize().Trim();
                         Session["UserImage"] = reas.Image.ToString().Normalize().Trim();
                         Session["PhoneNumber"] = reas.PhoneNumber.ToString().Normalize().Trim();
+                        if (reas.IsProfileCompleted == true)
+                            return RedirectToAction("Index");
+                        else
+                            return RedirectToAction("ProfileComplete","Doctor");
                     }
                     else
                     {
@@ -196,7 +200,6 @@ namespace DMS_WebApplication.Controllers
             {
                 throw ex;
             }
-            return RedirectToAction("Index");
         }
 
         public string[] GetRoleByUsername(string username)

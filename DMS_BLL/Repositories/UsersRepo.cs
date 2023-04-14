@@ -186,7 +186,11 @@ namespace DMS_BLL.Repositories
         public ValidateUsersProfiles GetUserDetailById(int Id)
         {
             if (Id > 0)
-                return dbObj.GetUserDetailById(Id);
+            {
+                var reas = dbObj.GetUserDetailById(Id);
+                reas.UserPassword = EncDec.Decrypt(reas.UserPassword);
+                return reas;
+            }
             else
                 return null;
         }

@@ -1,0 +1,131 @@
+﻿@model IEnumerable<DMS_BOL.tblDoctor>
+
+@{
+    ViewBag.Title = "DMS - Doctors";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@if (User.Identity.IsAuthenticated)
+{
+    <link href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css">
+    <link rel="stylesheet" href="~/assets/bundles/datatables/DataTables-1.10.16/css/dataTables.bootstrap4.min.css">
+
+    <div class="section-body">
+        <div class="row mb-2">
+            <div class="col-12">
+                <h3>Your Doctors</h3>
+            </div>
+        </div>
+        @if (TempData["ErrorMsg"] != null)
+        {
+            <div class="alert alert-danger alert-dismissible show fade">
+                <div class="alert-body">
+                    <button class="close" data-dismiss="alert">
+                        <span>×</span>
+                    </button>
+                    @Html.Raw(TempData["ErrorMsg"])
+                </div>
+            </div>
+        }
+        @if (TempData["SuccessMsg"] != null)
+        {
+            <div class="alert alert-success alert-dismissible show fade">
+                <div class="alert-body">
+                    <button class="close" data-dismiss="alert">
+                        <span>×</span>
+                    </button>
+                    @Html.Raw(TempData["SuccessMsg"])
+                </div>
+            </div>
+        }
+        @if (Model != null && Model.Count() > 0)
+        {
+            <div class="row">
+                <div class="col-12">
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <a class="btn btn-lg btn-primary" href="@Url.Action("AddDoctor","Admin")">Add Doctor</a>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <h4>All Doctors</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-striped" id="table-1">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center">
+                                                #
+                                            </th>
+                                            <th>Doctor Name</th>
+                                            <th>Contact Number</th>
+                                            <th>Gender</th>
+                                            <th>Email</th>
+                                            <th>Address</th>
+                                            <th>Status</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @{
+                                            var i = 1;
+                                            foreach (var item in Model)
+                                            {
+                                                <tr>
+                                                    <td>
+                                                        @i
+                                                    </td>
+                                                    <td>
+                                                        <img alt="image" src="@Url.Content(item.D_ProfileImage)" width="35">
+                                                        @item.D_FirstName @item.D_LastName
+                                                    </td>
+                                                    <td>@item.D_PhoneNumber</td>
+                                                    <td>@item.D_Gender</td>
+                                                    <td>@item.D_Email</td>
+                                                    <td>@item.tblAddress.tblZone.ZoneName, @item.tblAddress.tblCity.CityName</td>
+                                                    @if (item.D_IsActive.Value)
+                                                    {
+                                                        <td><span class="badge badge-success">Active</span></td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td><span class="badge badge-danger">Inctive</span></td>
+                                                    }
+                                                    <td>
+                                                        <a href="@Url.Action("EditDoctor","Admin", new { DoctorID = item.D_ID})" class="btn btn-warning mr-2">Edit</a>
+                                                        <a href="@Url.Action("DoctorDetails","Admin", new { DoctorID = item.D_ID})" class="btn btn-primary">Detail</a>
+                                                    </td>
+                                                </tr>
+                                                i++;
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    <script>
+        document.getElementById('appointmentS').classList.remove('active')
+        document.getElementById('dashboardS').classList.remove('active')
+        document.getElementById('paymentS').classList.remove('active')
+        document.getElementById('messageS').classList.remove('active')
+        document.getElementById('patientS').classList.remove('active')
+        document.getElementById('manageD').classList.add('active')
+        document.getElementById('manageDli').classList.remove('text-dark')
+        document.getElementById('manageDli').classList.remove('bg-white')
+        document.getElementById('viewDoctorS').classList.add('active')
+        document.getElementById('detailDoctorS').classList.remove('active')
+        document.getElementById('editDoctorS').classList.remove('active')
+        document.getElementById('addDoctorS').classList.remove('active')
+        document.getElementById('ASettingS').classList.remove('active')
+
+    </script>
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
+    <script src="~/assets/bundles/datatables/DataTables-1.10.16/js/dataTables.bootstrap4.min.js"></script>
+    <script src="~/assets/js/page/datatables.js"></script>
+}

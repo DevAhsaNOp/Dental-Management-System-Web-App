@@ -41,7 +41,14 @@
     <div class="row mb-2">
         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <h3 style="color: #6777ef !important;">
-                Hello Dr. @Session["Username"]
+                @if (User.IsInRole("Admin") || User.IsInRole("SuperAdmin"))
+                {
+                    <span>Hello Admin @Session["Username"]</span>
+                }
+                else if (User.IsInRole("Doctor"))
+                {
+                    <span>Hello Dr. @Session["Username"]</span>
+                }
             </h3>
         </div>
     </div>
@@ -54,7 +61,7 @@
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pr-0 pt-3">
                                 <div class="card-content">
                                     <h5 class="font-15">New<br /> Appointments</h5>
-                                    <h2 class="mb-3 font-18">25</h2>
+                                    <h2 class="mb-3 font-18">5</h2>
                                     <p class="mb-0"><span class="col-green">10%</span> Increase</p>
                                 </div>
                             </div>
@@ -76,7 +83,7 @@
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pr-0 pt-3">
                                 <div class="card-content">
                                     <h5 class="font-15">Total<br /> Patients</h5>
-                                    <h2 class="mb-3 font-18">1,287</h2>
+                                    <h2 class="mb-3 font-18">7</h2>
                                     <p class="mb-0"><span class="col-orange">09%</span> Decrease</p>
                                 </div>
                             </div>
@@ -98,7 +105,7 @@
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pr-0 pt-3">
                                 <div class="card-content">
                                     <h5 class="font-15">Today<br /> Appointments</h5>
-                                    <h2 class="mb-3 font-18">28</h2>
+                                    <h2 class="mb-3 font-18">2</h2>
                                     <p class="mb-0">
                                         <span class="col-green">18%</span>
                                         Increase
@@ -234,7 +241,14 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <h4>Requested Appointments</h4>
+                    @if (User.IsInRole("Admin") || User.IsInRole("SuperAdmin"))
+                    {
+                        <h4>Today All Booked Appointments</h4>
+                    }
+                    else if (User.IsInRole("Doctor"))
+                    {
+                        <h4>Booked Appointments</h4>
+                    }
                     <div class="card-header-form">
                         <form>
                             <div class="input-group">
@@ -256,7 +270,7 @@
                                 <th>Purpose</th>
                                 <th>Type</th>
                                 <th>Paid Amount</th>
-                                <th>Action</th>
+                                @*<th>Action</th>*@
                             </tr>
                             <tr>
                                 <td style="padding-left:25px!important" class="font-weight-bold">1.</td>
@@ -270,7 +284,7 @@
                                         <li class="avatar avatar-sm"><span class="badge badge-primary mb-0" style="font-size:14px;z-index:-10000;">Akbar Ali</span></li>
                                     </ul>
                                 </td>
-                                <td>2023-03-20 AT 10:00 AM</td>
+                                <td>2023-04-14 AT 10:00 AM</td>
                                 <td>General</td>
                                 <td>
                                     <div class="badge badge-info">Old Patient</div>
@@ -278,7 +292,7 @@
                                 <td>
                                     <div class="badge badge-warning">Rs. 2500</div>
                                 </td>
-                                <td><a href="#" class="btn btn-outline-success mr-2">Accept</a><a href="#" class="btn btn-outline-danger">Reject</a></td>
+                                @*<td><a href="#" class="btn btn-outline-success mr-2">Accept</a><a href="#" class="btn btn-outline-danger">Reject</a></td>*@
                             </tr>
                             <tr>
                                 <td style="padding-left:25px!important" class="font-weight-bold">2.</td>
@@ -292,7 +306,7 @@
                                         <li class="avatar avatar-sm"><span class="badge badge-primary mb-0" style="font-size:14px;z-index:-10000;">Azhar Aleem</span></li>
                                     </ul>
                                 </td>
-                                <td>2023-03-20 AT 04:00 PM</td>
+                                <td>2023-04-14 AT 04:00 PM</td>
                                 <td>General</td>
                                 <td>
                                     <div class="badge badge-success">New Patient</div>
@@ -300,7 +314,7 @@
                                 <td>
                                     <div class="badge badge-warning">Rs. 3000</div>
                                 </td>
-                                <td><a href="#" class="btn btn-outline-success mr-2">Accept</a><a href="#" class="btn btn-outline-danger">Reject</a></td>
+                                @*<td><a href="#" class="btn btn-outline-success mr-2">Accept</a><a href="#" class="btn btn-outline-danger">Reject</a></td>*@
                             </tr>
                             <tr>
                                 <td style="padding-left:25px!important" class="font-weight-bold">3.</td>
@@ -314,7 +328,7 @@
                                         <li class="avatar avatar-sm"><span class="badge badge-primary mb-0" style="font-size:14px;z-index:-10000;">Sana Yameen</span></li>
                                     </ul>
                                 </td>
-                                <td>2023-03-17 AT 11:00 AM</td>
+                                <td>2023-04-17 AT 11:00 AM</td>
                                 <td>General</td>
                                 <td>
                                     <div class="badge badge-success">New Patient</div>
@@ -322,7 +336,7 @@
                                 <td>
                                     <div class="badge badge-warning">Rs. 2500</div>
                                 </td>
-                                <td><a href="#" class="btn btn-outline-success mr-2">Accept</a><a href="#" class="btn btn-outline-danger">Reject</a></td>
+                                @*<td><a href="#" class="btn btn-outline-success mr-2">Accept</a><a href="#" class="btn btn-outline-danger">Reject</a></td>*@
                             </tr>
                             <tr>
                                 <td style="padding-left:25px!important" class="font-weight-bold">4.</td>
@@ -336,7 +350,7 @@
                                         <li class="avatar avatar-sm"><span class="badge badge-primary mb-0" style="font-size:14px;z-index:-10000;">Kashaf Khan</span></li>
                                     </ul>
                                 </td>
-                                <td>2023-03-17 AT 1:40 AM</td>
+                                <td>2023-04-17 AT 1:40 AM</td>
                                 <td>General</td>
                                 <td>
                                     <div class="badge badge-info">Old Patient</div>
@@ -344,7 +358,7 @@
                                 <td>
                                     <div class="badge badge-warning">Rs. 2000</div>
                                 </td>
-                                <td><a href="#" class="btn btn-outline-success mr-2">Accept</a><a href="#" class="btn btn-outline-danger">Reject</a></td>
+                                @*<td><a href="#" class="btn btn-outline-success mr-2">Accept</a><a href="#" class="btn btn-outline-danger">Reject</a></td>*@
                             </tr>
                             <tr>
                                 <td style="padding-left:25px!important" class="font-weight-bold">5.</td>
@@ -358,7 +372,7 @@
                                         <li class="avatar avatar-sm"><span class="badge badge-primary mb-0" style="font-size:14px;z-index:-10000;">Kashif Umair</span></li>
                                     </ul>
                                 </td>
-                                <td>2023-03-17 AT 03:30 AM</td>
+                                <td>2023-04-17 AT 03:30 AM</td>
                                 <td>General</td>
                                 <td>
                                     <div class="badge badge-info">Old Patient</div>
@@ -366,7 +380,7 @@
                                 <td>
                                     <div class="badge badge-warning">Rs. 1500</div>
                                 </td>
-                                <td><a href="#" class="btn btn-outline-success mr-2">Accept</a><a href="#" class="btn btn-outline-danger">Reject</a></td>
+                                @*<td><a href="#" class="btn btn-outline-success mr-2">Accept</a><a href="#" class="btn btn-outline-danger">Reject</a></td>*@
                             </tr>
                         </table>
                     </div>

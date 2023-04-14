@@ -68,7 +68,10 @@
                                                 {
                                                     <td><span class="badge badge-danger">Inctive</span></td>
                                                 }
-                                                <td><a href="@Url.Action("PatientView","Patient", new { PatientID = item.P_ID})" class="btn btn-primary">Detail</a></td>
+                                                <td>
+                                                <a href="@Url.Action("EditPatient","Admin", new { PatientID = item.P_ID})" class="btn btn-warning">Edit</a>
+                                                <a href="@Url.Action("PatientDetails","Admin", new { PatientID = item.P_ID})" class="btn btn-primary">Detail</a>
+                                                </td>
                                             </tr>
                                             i++;
                                         }
@@ -86,7 +89,16 @@
         document.getElementById('dashboardS').classList.remove('active')
         document.getElementById('paymentS').classList.remove('active')
         document.getElementById('messageS').classList.remove('active')
-        document.getElementById('patientS').classList.add('active')
+        document.getElementById('patientS').classList.remove('active')
+        document.getElementById('manageP').classList.add('active')
+        document.getElementById('managePli').classList.remove('text-dark')
+        document.getElementById('managePli').classList.remove('bg-white')
+        document.getElementById('viewPatientS').classList.add('active')
+        document.getElementById('detailPatientS').classList.remove('active')
+        document.getElementById('editPatientS').classList.remove('active')
+        document.getElementById('addPatientS').classList.remove('active')
+        document.getElementById('ASettingS').classList.remove('active')
+
     </script>
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
     <script src="~/assets/bundles/datatables/DataTables-1.10.16/js/dataTables.bootstrap4.min.js"></script>

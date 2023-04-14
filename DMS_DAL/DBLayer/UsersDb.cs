@@ -226,7 +226,12 @@ namespace DMS_DAL.DBLayer
 
         public tblAdmin GetAdminByID(int modelId)
         {
-            return _context.tblAdmins.Find(modelId);
+            var reas = _context.tblAdmins.Where(x => x.A_ID == modelId).FirstOrDefault();
+            reas.tblAddress = _context.tblAddresses.Find(reas.A_AddressID);
+            reas.tblAddress.tblCity = _context.tblCities.Find(reas.tblAddress.AddressCity);
+            reas.tblAddress.tblState = _context.tblStates.Find(reas.tblAddress.AddressState);
+            reas.tblAddress.tblZone = _context.tblZones.Find(reas.tblAddress.AddressZone);
+            return reas;
         }
 
         public bool InActiveAdmin(tblAdmin model)
@@ -420,6 +425,19 @@ namespace DMS_DAL.DBLayer
             reas.tblAddress.tblZone = _context.tblZones.Find(reas.tblAddress.AddressZone);
             return reas;
         }
+        
+        public IEnumerable<tblDoctor> GetAllDoctor()
+        {
+            var reas = _context.tblDoctors.ToList();
+            foreach (var item in reas)
+            {
+                item.tblAddress = _context.tblAddresses.Find(item.D_AddressID);
+                item.tblAddress.tblCity = _context.tblCities.Find(item.tblAddress.AddressCity);
+                item.tblAddress.tblState = _context.tblStates.Find(item.tblAddress.AddressState);
+                item.tblAddress.tblZone = _context.tblZones.Find(item.tblAddress.AddressZone);
+            }
+            return reas;
+        }
 
         public bool InActiveDoctor(tblDoctor model)
         {
@@ -547,7 +565,7 @@ namespace DMS_DAL.DBLayer
             var superAdmin = _context.tblSuperAdmins.Where(x => x.SA_Email == emailtext).Select(s => new UserViewDetail()
             {
                 ID = s.SA_ID,
-                Name = s.SA_FirstName +" "+ s.SA_LastName,
+                Name = s.SA_FirstName,
                 Email = s.SA_Email,
                 Image = s.SA_ProfileImage,
                 Password = s.SA_Password,
@@ -562,7 +580,7 @@ namespace DMS_DAL.DBLayer
             var admin = _context.tblAdmins.Where(x => x.A_Email == emailtext).Select(s => new UserViewDetail()
             {
                 ID = s.A_ID,
-                Name = s.A_FirstName +" "+ s.A_LastName,
+                Name = s.A_FirstName,
                 Email = s.A_Email,
                 Image = s.A_ProfileImage,
                 Password = s.A_Password,

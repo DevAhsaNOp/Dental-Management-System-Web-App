@@ -1,0 +1,228 @@
+﻿@model DMS_WebApplication.Models.DoctorProfileView
+@{
+    ViewBag.Title = "DMS - Doctor Profile";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@if (User.Identity.IsAuthenticated)
+{
+    <div class="section-body">
+        <div class="row mt-sm-4">
+            <div class="col-12 col-md-12 col-lg-4">
+                <div class="card author-box">
+                    <div class="card-body">
+                        <div class="author-box-center">
+                            <img alt="image" src="@Url.Content(Session["UserImage"].ToString())" class="rounded-circle author-box-picture">
+                            <div class="clearfix"></div>
+                            <div class="author-box-name">
+                                <a href="#">Dr. @Model.Profile.D_FirstName @Model.Profile.D_LastName</a>
+                            </div>
+                            <div class="author-box-job">Dentist</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="author-box-description">
+                                <p>
+                                    @Model.Profile.D_AboutMe.Substring(0, Math.Min(Model.Profile.D_AboutMe.Length, 150)) .......
+                                </p>
+                            </div>
+                            <div class="mb-2 mt-3">
+                                <div class="text-small font-weight-bold">Follow Dr. @Model.Profile.D_LastName On</div>
+                            </div>
+                            <a href="#" class="btn btn-social-icon mr-1 btn-facebook">
+                                <i class="fab fa-facebook-f"></i>
+                            </a>
+                            <a href="#" class="btn btn-social-icon mr-1 btn-twitter">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                            <a href="#" class="btn btn-social-icon mr-1 btn-github">
+                                <i class="fab fa-github"></i>
+                            </a>
+                            <a href="#" class="btn btn-social-icon mr-1 btn-instagram">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                            <div class="w-100 d-sm-none"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h4>Personal Details</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="py-4">
+                            <p class="clearfix">
+                                <span class="float-left">
+                                    Gender
+                                </span>
+                                <span class="float-right text-muted">
+                                    @Model.Profile.D_Gender
+                                </span>
+                            </p>
+                            <p class="clearfix">
+                                <span class="float-left">
+                                    Phone
+                                </span>
+                                <span class="float-right text-muted">
+                                    <a href="tel:@Model.Profile.D_WorkPhoneNumber">
+                                        @Model.Profile.D_WorkPhoneNumber
+                                    </a>
+                                </span>
+                            </p>
+                            <p class="clearfix">
+                                <span class="float-left">
+                                    Mail
+                                </span>
+                                <span class="float-right text-muted">
+                                    <a href="mailto:@Model.Profile.D_Email">
+                                        @Model.Profile.D_Email
+                                    </a>
+                                </span>
+                            </p>
+                            <p class="clearfix">
+                                <span class="float-left">
+                                    Facebook
+                                </span>
+                                <span class="float-right text-muted">
+                                    <a href="#">@Model.Profile.D_LastName</a>
+                                </span>
+                            </p>
+                            <p class="clearfix">
+                                <span class="float-left">
+                                    Twitter
+                                </span>
+                                <span class="float-right text-muted">
+                                    <a href="#">@@@Model.Profile.D_LastName</a>
+                                </span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h4>Services</h4>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-unstyled user-progress list-unstyled-border list-unstyled-noborder">
+                            @foreach (var item in Model.Services)
+                            {
+                                <li class="media">
+                                    <div class="media-body">
+                                        <div class="media-title">@item</div>
+                                    </div>
+                                    <div class="media-progressbar p-t-10">
+                                        <div class="progress" data-height="6">
+                                            <div class="progress-bar bg-primary" data-width="100%"></div>
+                                        </div>
+                                    </div>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-12 col-lg-8">
+                <div class="card">
+                    <div class="padding-20">
+                        <ul class="nav nav-tabs" id="myTab2" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="home-tab2" data-toggle="tab" href="#about" role="tab"
+                                   aria-selected="true">About</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content tab-bordered" id="myTab3Content">
+                            <div class="tab-pane fade show active" id="about" role="tabpanel" aria-labelledby="home-tab2">
+                                <div class="row">
+                                    <div class="col-md-3 col-6 b-r">
+                                        <strong>Full Name</strong>
+                                        <br>
+                                        <p class="text-muted">@Model.Profile.D_FirstName @Model.Profile.D_LastName</p>
+                                    </div>
+                                    <div class="col-md-3 col-6 b-r">
+                                        <strong>Mobile</strong>
+                                        <br>
+                                        <p class="text-muted"><a href="tel:@Model.Profile.D_WorkPhoneNumber">@Model.Profile.D_WorkPhoneNumber</a></p>
+                                    </div>
+                                    <div class="col-md-3 col-6 b-r">
+                                        <strong>Email</strong>
+                                        <br>
+                                        <p class="text-muted"><a href="mailto:@Model.Profile.D_Email">@Model.Profile.D_Email</a></p>
+                                    </div>
+                                    <div class="col-md-3 col-6">
+                                        <strong>Location</strong>
+                                        <br>
+                                        <p class="text-muted">@Model.Profile.tblAddress.tblCity.CityName, @Model.Profile.tblAddress.tblState.StateName</p>
+                                    </div>
+                                </div>
+                                <p class="m-t-30">
+                                    @Model.Profile.D_AboutMe.Substring(0, Math.Min(Model.Profile.D_AboutMe.Length, 273))
+                                </p>
+                                <p>
+                                    @Model.Profile.D_AboutMe.Substring(273, Math.Min(Model.Profile.D_AboutMe.Length, 305))
+                                </p>
+                                <p>
+                                    Lorem Ipsum is simply dummy text of the printing and typesetting
+                                    industry. Lorem
+                                    Ipsum has been the industry's standard dummy text ever since the 1500s,
+                                    when
+                                    an unknown printer took a galley of type and scrambled it to make a
+                                    type
+                                    specimen book. It has survived not only five centuries, but also the
+                                    leap
+                                    into electronic typesetting, remaining essentially unchanged.
+                                </p>
+                                <div class="section-title" style="margin: 5px 0 !important;">Experience</div>
+                                @{
+                                    var i = 1;
+                                    foreach (var item in Model.Experience)
+                                    {
+                                        <div class="d-flex flex-row align-items-start mb-3">
+                                            <p class="font-weight-bold font-15 mr-2">
+                                                @i.
+                                            </p>
+                                            <div class="w-100">
+                                                <p class="d-none mb-0 ExpID">1</p>
+                                                <div class="d-flex flex-row align-items-baseline justify-content-between">
+                                                    <p class="ExpDesignation mb-2 font-17 font-weight-bold">@item.WEX_Designation</p>
+                                                </div>
+                                                <p class="ExpHospital mb-0 font-weight-600" style="line-height: 18px !important; text-align:justify !important;">@item.WEX_HospitalName</p>
+                                                @if (item.WEX_IsWorking.Value)
+                                                {
+                                                    <p class="ExpRange" style="color: #6f6f6f; line-height: 14px; margin-top: 5px;">@item.WEX_FromDate.Value.ToString("MMMM yyyy") to Present</p>
+                                                }
+                                                else
+                                                {
+                                                    <p class="ExpRange" style="color: #6f6f6f; line-height: 14px; margin-top: 5px;">@item.WEX_FromDate.Value.ToString("MMMM yyyy") to @item.WEX_ToDate.Value.ToString("MMMM yyyy")</p>
+                                                }
+                                            </div>
+                                        </div>
+                                        i++;
+                                    }
+                                }
+                                <div class="section-title" style="margin: 5px 0 !important;">Offline Consultation Details</div>
+                                @Html.Partial("_ShowOFCD", Model.OfflineConsultation)
+                                <div class="section-title" style="margin: 5px 0 !important;">Online Consultation Details</div>
+                                @Html.Partial("_ShowOCD", Model.OnlineConsultation)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.getElementById('appointmentS').classList.remove('active')
+        document.getElementById('dashboardS').classList.remove('active')
+        document.getElementById('paymentS').classList.remove('active')
+        document.getElementById('messageS').classList.remove('active')
+        document.getElementById('patientS').classList.remove('active')
+        document.getElementById('manageD').classList.add('active')
+        document.getElementById('manageDli').classList.remove('text-dark')
+        document.getElementById('manageDli').classList.remove('bg-white')
+        document.getElementById('viewDoctorS').classList.remove('active')
+        document.getElementById('detailDoctorS').classList.add('active')
+        document.getElementById('editDoctorS').classList.remove('active')
+        document.getElementById('addDoctorS').classList.remove('active')
+        document.getElementById('ASettingS').classList.remove('active')
+
+    </script>
+}
