@@ -4,67 +4,69 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="652d97e5af534345a22d3bf21449bda7" Name="Diagram1">
-        <EntityTypeShape EntityType="dentalDBModel.sysdiagram" Width="1.5" PointX="0.75" PointY="0.75" />
-        <EntityTypeShape EntityType="dentalDBModel.tblAddress" Width="1.5" PointX="0.75" PointY="24.25" />
-        <EntityTypeShape EntityType="dentalDBModel.tblAdmin" Width="1.5" PointX="3" PointY="23.75" />
-        <EntityTypeShape EntityType="dentalDBModel.tblAppointment" Width="1.5" PointX="14.25" PointY="30" />
-        <EntityTypeShape EntityType="dentalDBModel.tblAppointmentDetail" Width="1.5" PointX="16.5" PointY="35.875" />
-        <EntityTypeShape EntityType="dentalDBModel.tblCity" Width="1.5" PointX="1.5" PointY="35.625" />
-        <EntityTypeShape EntityType="dentalDBModel.tblCountry" Width="1.5" PointX="1.5" PointY="41.875" />
-        <EntityTypeShape EntityType="dentalDBModel.tblDiagnostic" Width="1.5" PointX="11.25" PointY="25.25" />
-        <EntityTypeShape EntityType="dentalDBModel.tblDoctor" Width="1.5" PointX="9" PointY="28.125" />
-        <EntityTypeShape EntityType="dentalDBModel.tblDoctorReview" Width="1.5" PointX="16.5" PointY="29.375" />
-        <EntityTypeShape EntityType="dentalDBModel.tblDoctorService" Width="1.5" PointX="11.25" PointY="30.625" />
-        <EntityTypeShape EntityType="dentalDBModel.tblDoctorWorkExperience" Width="1.5" PointX="11.25" PointY="57.75" />
-        <EntityTypeShape EntityType="dentalDBModel.tblMessage" Width="1.5" PointX="14.25" PointY="25.75" />
-        <EntityTypeShape EntityType="dentalDBModel.tblMessageDetail" Width="1.5" PointX="16.5" PointY="26" />
-        <EntityTypeShape EntityType="dentalDBModel.tblOfflineConsultaionDetail" Width="1.5" PointX="11.25" PointY="35" />
-        <EntityTypeShape EntityType="dentalDBModel.tblOnlineConsultaionDetail" Width="1.5" PointX="11.25" PointY="51.375" />
-        <EntityTypeShape EntityType="dentalDBModel.tblOTP" Width="1.5" PointX="2.75" PointY="0.75" />
-        <EntityTypeShape EntityType="dentalDBModel.tblPatient" Width="1.5" PointX="6" PointY="29.125" />
-        <EntityTypeShape EntityType="dentalDBModel.tblPatientTest" Width="1.5" PointX="8.25" PointY="37.75" />
-        <EntityTypeShape EntityType="dentalDBModel.tblRole" Width="1.5" PointX="0.75" PointY="30.5" />
-        <EntityTypeShape EntityType="dentalDBModel.tblService" Width="1.5" PointX="9" PointY="23.75" />
-        <EntityTypeShape EntityType="dentalDBModel.tblState" Width="1.5" PointX="1.5" PointY="38.625" />
-        <EntityTypeShape EntityType="dentalDBModel.tblSuperAdmin" Width="1.5" PointX="3" PointY="29.75" />
-        <EntityTypeShape EntityType="dentalDBModel.tblZone" Width="1.5" PointX="1.5" PointY="20.5" />
-        <AssociationConnector Association="dentalDBModel.FK_tblAddress_tblCity" />
-        <AssociationConnector Association="dentalDBModel.FK_tblAddress_tblCountry" />
-        <AssociationConnector Association="dentalDBModel.FK_tblAddress_tblState" />
-        <AssociationConnector Association="dentalDBModel.FK_tblAddress_tblZone" />
-        <AssociationConnector Association="dentalDBModel.FK_tblAdmin_tblAddress" />
-        <AssociationConnector Association="dentalDBModel.FK_tblDoctor_tblAddress" />
-        <AssociationConnector Association="dentalDBModel.FK_tblOfflineConsultaionDetails_tblAddress" />
-        <AssociationConnector Association="dentalDBModel.FK_tblPatient_tblAddress" />
-        <AssociationConnector Association="dentalDBModel.FK_tblSuperAdmin_tblAddress" />
-        <AssociationConnector Association="dentalDBModel.FK_tblAdmin_tblRoles" />
-        <AssociationConnector Association="dentalDBModel.FK_tblAppointment_tblDoctor" />
-        <AssociationConnector Association="dentalDBModel.FK_tblAppointment_tblPatient" />
-        <AssociationConnector Association="dentalDBModel.FK_tblAppointmentDetails_tblAppointment" />
-        <AssociationConnector Association="dentalDBModel.FK_tblDoctorReviews_tblAppointment" />
-        <AssociationConnector Association="dentalDBModel.FK_tblCity_tblState" />
-        <AssociationConnector Association="dentalDBModel.FK_tblZone_tblCity" />
-        <AssociationConnector Association="dentalDBModel.FK_tblState_tblCountry" />
-        <AssociationConnector Association="dentalDBModel.FK_tblDiagnostics_tblDoctor" />
-        <AssociationConnector Association="dentalDBModel.FK_tblDiagnostics_tblPatient" />
-        <AssociationConnector Association="dentalDBModel.FK_tblDoctorReviews_tblDiagnostics" />
-        <AssociationConnector Association="dentalDBModel.FK_tblDoctor_tblRoles" />
-        <AssociationConnector Association="dentalDBModel.FK_tblDoctorReviews_tblDoctor" />
-        <AssociationConnector Association="dentalDBModel.FK_tblDoctorServices_tblDoctor" />
-        <AssociationConnector Association="dentalDBModel.FK_tblDoctorWorkExperience_tblDoctor" />
-        <AssociationConnector Association="dentalDBModel.FK_tblMessage_tblDoctor" />
-        <AssociationConnector Association="dentalDBModel.FK_tblMessage_tblDoctor1" />
-        <AssociationConnector Association="dentalDBModel.FK_tblOfflineConsultaionDetails_tblDoctor" />
-        <AssociationConnector Association="dentalDBModel.FK_tblOnlineConsultaionDetails_tblDoctor" />
-        <AssociationConnector Association="dentalDBModel.FK_tblDoctorReviews_tblPatient" />
-        <AssociationConnector Association="dentalDBModel.FK_tblDoctorServices_tblServices" />
-        <AssociationConnector Association="dentalDBModel.FK_tblMessage_tblPatient" />
-        <AssociationConnector Association="dentalDBModel.FK_tblMessage_tblPatient1" />
-        <AssociationConnector Association="dentalDBModel.FK_tblMessageDetails_tblMessage" />
-        <AssociationConnector Association="dentalDBModel.FK_tblPatient_tblRoles" />
-        <AssociationConnector Association="dentalDBModel.FK_tblPatientTest_tblPatient" />
-        <AssociationConnector Association="dentalDBModel.FK_tblSuperAdmin_tblRoles" />
+      <Diagram DiagramId="4babc93fed364b4bb9e97f5dbf38fc97" Name="Diagram1" ZoomLevel="74">
+        <EntityTypeShape EntityType="dentalDBModel.sysdiagram" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="dentalDBModel.tblAddress" Width="1.5" PointX="0.75" PointY="26.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="dentalDBModel.tblAdmin" Width="1.5" PointX="3" PointY="31.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="dentalDBModel.tblAppointment" Width="1.5" PointX="14.25" PointY="32" IsExpanded="true" />
+        <EntityTypeShape EntityType="dentalDBModel.tblAppointmentDetail" Width="1.5" PointX="16.5" PointY="32.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="dentalDBModel.tblCity" Width="1.5" PointX="1.5" PointY="22.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="dentalDBModel.tblCountry" Width="1.5" PointX="1.5" PointY="16.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="dentalDBModel.tblDiagnostic" Width="1.5" PointX="11.25" PointY="27.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="dentalDBModel.tblDoctor" Width="1.5" PointX="6" PointY="30" IsExpanded="true" />
+        <EntityTypeShape EntityType="dentalDBModel.tblDoctorApproved" Width="1.5" PointX="8.25" PointY="38.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="dentalDBModel.tblDoctorReview" Width="1.5" PointX="19.5" PointY="30.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="dentalDBModel.tblDoctorService" Width="1.5" PointX="11.25" PointY="36.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="dentalDBModel.tblDoctorWorkExperience" Width="1.5" PointX="8.25" PointY="44.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="dentalDBModel.tblMessage" Width="1.5" PointX="14.25" PointY="27.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="dentalDBModel.tblMessageDetail" Width="1.5" PointX="16.5" PointY="28" IsExpanded="true" />
+        <EntityTypeShape EntityType="dentalDBModel.tblOfflineConsultaionDetail" Width="1.5" PointX="8.25" PointY="24" IsExpanded="true" />
+        <EntityTypeShape EntityType="dentalDBModel.tblOnlineConsultaionDetail" Width="1.5" PointX="8.25" PointY="59.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="dentalDBModel.tblOTP" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="dentalDBModel.tblPatient" Width="1.5" PointX="9" PointY="31.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="dentalDBModel.tblPatientTest" Width="1.5" PointX="11.25" PointY="32.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="dentalDBModel.tblRole" Width="1.5" PointX="0.75" PointY="32.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="dentalDBModel.tblService" Width="1.5" PointX="9" PointY="49.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="dentalDBModel.tblState" Width="1.5" PointX="1.5" PointY="19.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="dentalDBModel.tblSuperAdmin" Width="1.5" PointX="3" PointY="25.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="dentalDBModel.tblZone" Width="1.5" PointX="1.5" PointY="37.5" IsExpanded="true" />
+        <AssociationConnector Association="dentalDBModel.FK_tblAddress_tblCity" ManuallyRouted="false" />
+        <AssociationConnector Association="dentalDBModel.FK_tblAddress_tblCountry" ManuallyRouted="false" />
+        <AssociationConnector Association="dentalDBModel.FK_tblAddress_tblState" ManuallyRouted="false" />
+        <AssociationConnector Association="dentalDBModel.FK_tblAddress_tblZone" ManuallyRouted="false" />
+        <AssociationConnector Association="dentalDBModel.FK_tblAdmin_tblAddress" ManuallyRouted="false" />
+        <AssociationConnector Association="dentalDBModel.FK_tblDoctor_tblAddress" ManuallyRouted="false" />
+        <AssociationConnector Association="dentalDBModel.FK_tblOfflineConsultaionDetails_tblAddress" ManuallyRouted="false" />
+        <AssociationConnector Association="dentalDBModel.FK_tblPatient_tblAddress" ManuallyRouted="false" />
+        <AssociationConnector Association="dentalDBModel.FK_tblSuperAdmin_tblAddress" ManuallyRouted="false" />
+        <AssociationConnector Association="dentalDBModel.FK_tblAdmin_tblRoles" ManuallyRouted="false" />
+        <AssociationConnector Association="dentalDBModel.FK_tblAppointment_tblDoctor" ManuallyRouted="false" />
+        <AssociationConnector Association="dentalDBModel.FK_tblAppointment_tblPatient" ManuallyRouted="false" />
+        <AssociationConnector Association="dentalDBModel.FK_tblAppointmentDetails_tblAppointment" ManuallyRouted="false" />
+        <AssociationConnector Association="dentalDBModel.FK_tblDoctorReviews_tblAppointment" ManuallyRouted="false" />
+        <AssociationConnector Association="dentalDBModel.FK_tblCity_tblState" ManuallyRouted="false" />
+        <AssociationConnector Association="dentalDBModel.FK_tblZone_tblCity" ManuallyRouted="false" />
+        <AssociationConnector Association="dentalDBModel.FK_tblState_tblCountry" ManuallyRouted="false" />
+        <AssociationConnector Association="dentalDBModel.FK_tblDiagnostics_tblDoctor" ManuallyRouted="false" />
+        <AssociationConnector Association="dentalDBModel.FK_tblDiagnostics_tblPatient" ManuallyRouted="false" />
+        <AssociationConnector Association="dentalDBModel.FK_tblDoctorReviews_tblDiagnostics" ManuallyRouted="false" />
+        <AssociationConnector Association="dentalDBModel.FK_tblDoctor_tblRoles" ManuallyRouted="false" />
+        <AssociationConnector Association="dentalDBModel.FK_tblDoctorApproved_tblDoctor" ManuallyRouted="false" />
+        <AssociationConnector Association="dentalDBModel.FK_tblDoctorReviews_tblDoctor" ManuallyRouted="false" />
+        <AssociationConnector Association="dentalDBModel.FK_tblDoctorServices_tblDoctor" ManuallyRouted="false" />
+        <AssociationConnector Association="dentalDBModel.FK_tblDoctorWorkExperience_tblDoctor" ManuallyRouted="false" />
+        <AssociationConnector Association="dentalDBModel.FK_tblMessage_tblDoctor" ManuallyRouted="false" />
+        <AssociationConnector Association="dentalDBModel.FK_tblMessage_tblDoctor1" ManuallyRouted="false" />
+        <AssociationConnector Association="dentalDBModel.FK_tblOfflineConsultaionDetails_tblDoctor" ManuallyRouted="false" />
+        <AssociationConnector Association="dentalDBModel.FK_tblOnlineConsultaionDetails_tblDoctor" ManuallyRouted="false" />
+        <AssociationConnector Association="dentalDBModel.FK_tblDoctorReviews_tblPatient" ManuallyRouted="false" />
+        <AssociationConnector Association="dentalDBModel.FK_tblDoctorServices_tblServices" ManuallyRouted="false" />
+        <AssociationConnector Association="dentalDBModel.FK_tblMessage_tblPatient" ManuallyRouted="false" />
+        <AssociationConnector Association="dentalDBModel.FK_tblMessage_tblPatient1" ManuallyRouted="false" />
+        <AssociationConnector Association="dentalDBModel.FK_tblMessageDetails_tblMessage" ManuallyRouted="false" />
+        <AssociationConnector Association="dentalDBModel.FK_tblPatient_tblRoles" ManuallyRouted="false" />
+        <AssociationConnector Association="dentalDBModel.FK_tblPatientTest_tblPatient" ManuallyRouted="false" />
+        <AssociationConnector Association="dentalDBModel.FK_tblSuperAdmin_tblRoles" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
