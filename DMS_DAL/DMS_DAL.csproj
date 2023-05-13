@@ -63,6 +63,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DBLayer\AddressDb.cs" />
+    <Compile Include="DBLayer\DoctorApprovalDb.cs" />
     <Compile Include="DBLayer\DoctorOfflineConsultaionDetailsDb.cs" />
     <Compile Include="DBLayer\DoctorOnlineConsultaionDetailsDb.cs" />
     <Compile Include="DBLayer\DoctorServicesDb.cs" />

@@ -21,6 +21,18 @@
     <!-- Image Uploader -->
     <link type="text/css" rel="stylesheet" href="~/assets/dist/image-uploader.min.css">
     <script type="text/javascript" src="~/assets/dist/image-uploader.min.js"></script>
+    <style>
+
+        .notification-badge {
+            padding: 3px 5px;
+            position: absolute;
+            color: white;
+            top: 2px;
+            background: #6777ef;
+            left: 20px;
+        }
+
+    </style>
 </head>
 
 <body>
@@ -53,112 +65,115 @@
                     </ul>
                 </div>
                 <ul class="navbar-nav navbar-right">
+                    <!--       <li class="dropdown dropdown-list-toggle">
+               <a href="#" data-toggle="dropdown"
+                  class="nav-link nav-link-lg message-toggle">
+                   <i data-feather="mail"></i>
+                   <span class="badge headerBadge1">
+                       6
+                   </span>
+               </a>
+               <div class="dropdown-menu dropdown-list dropdown-menu-right pullDown">
+                   <div class="dropdown-header">
+                       Messages
+                       <div class="float-right">
+                           <a href="#">Mark All As Read</a>
+                       </div>
+                   </div>
+                   <div class="dropdown-list-content dropdown-list-message">
+                       <a href="#" class="dropdown-item">
+                           <span class="dropdown-item-avatar
+                                   text-white">
+                               <img alt="image" src="~/assets/img/users/user-1.png" class="rounded-circle">
+                           </span> <span class="dropdown-item-desc">
+                               <span class="message-user">
+                                   John
+                                   Deo
+                               </span>
+                               <span class="time messege-text">Please check your mail !!</span>
+                               <span class="time">2 Min Ago</span>
+                           </span>
+                       </a> <a href="#" class="dropdown-item">
+                           <span class="dropdown-item-avatar text-white">
+                               <img alt="image" src="~/assets/img/users/user-2.png" class="rounded-circle">
+                           </span> <span class="dropdown-item-desc">
+                               <span class="message-user">
+                                   Sarah
+                                   Smith
+                               </span> <span class="time messege-text">
+                                   Request for leave
+                                   application
+                               </span>
+                               <span class="time">5 Min Ago</span>
+                           </span>
+                       </a> <a href="#" class="dropdown-item">
+                           <span class="dropdown-item-avatar text-white">
+                               <img alt="image" src="~/assets/img/users/user-5.png" class="rounded-circle">
+                           </span> <span class="dropdown-item-desc">
+                               <span class="message-user">
+                                   Jacob
+                                   Ryan
+                               </span> <span class="time messege-text">
+                                   Your payment invoice is
+                                   generated.
+                               </span> <span class="time">12 Min Ago</span>
+                           </span>
+                       </a> <a href="#" class="dropdown-item">
+                           <span class="dropdown-item-avatar text-white">
+                               <img alt="image" src="~/assets/img/users/user-4.png" class="rounded-circle">
+                           </span> <span class="dropdown-item-desc">
+                               <span class="message-user">
+                                   Lina
+                                   Smith
+                               </span> <span class="time messege-text">
+                                   hii John, I have upload
+                                   doc
+                                   related to task.
+                               </span> <span class="time">
+                                   30
+                                   Min Ago
+                               </span>
+                           </span>
+                       </a> <a href="#" class="dropdown-item">
+                           <span class="dropdown-item-avatar text-white">
+                               <img alt="image" src="~/assets/img/users/user-3.png" class="rounded-circle">
+                           </span> <span class="dropdown-item-desc">
+                               <span class="message-user">
+                                   Jalpa
+                                   Joshi
+                               </span> <span class="time messege-text">
+                                   Please do as specify.
+                                   Let me
+                                   know if you have any query.
+                               </span> <span class="time">
+                                   1
+                                   Days Ago
+                               </span>
+                           </span>
+                       </a> <a href="#" class="dropdown-item">
+                           <span class="dropdown-item-avatar text-white">
+                               <img alt="image" src="~/assets/img/users/user-2.png" class="rounded-circle">
+                           </span> <span class="dropdown-item-desc">
+                               <span class="message-user">
+                                   Sarah
+                                   Smith
+                               </span> <span class="time messege-text">Client Requirements</span>
+                               <span class="time">2 Days Ago</span>
+                           </span>
+                       </a>
+                   </div>
+                   <div class="dropdown-footer text-center">
+                       <a href="#">View All <i class="fas fa-chevron-right"></i></a>
+                   </div>
+               </div>
+           </li>-->
                     <li class="dropdown dropdown-list-toggle">
                         <a href="#" data-toggle="dropdown"
-                           class="nav-link nav-link-lg message-toggle">
-                            <i data-feather="mail"></i>
-                            <span class="badge headerBadge1">
-                                6
-                            </span>
-                        </a>
-                        <div class="dropdown-menu dropdown-list dropdown-menu-right pullDown">
-                            <div class="dropdown-header">
-                                Messages
-                                <div class="float-right">
-                                    <a href="#">Mark All As Read</a>
-                                </div>
-                            </div>
-                            <div class="dropdown-list-content dropdown-list-message">
-                                <a href="#" class="dropdown-item">
-                                    <span class="dropdown-item-avatar
-											text-white">
-                                        <img alt="image" src="~/assets/img/users/user-1.png" class="rounded-circle">
-                                    </span> <span class="dropdown-item-desc">
-                                        <span class="message-user">
-                                            John
-                                            Deo
-                                        </span>
-                                        <span class="time messege-text">Please check your mail !!</span>
-                                        <span class="time">2 Min Ago</span>
-                                    </span>
-                                </a> <a href="#" class="dropdown-item">
-                                    <span class="dropdown-item-avatar text-white">
-                                        <img alt="image" src="~/assets/img/users/user-2.png" class="rounded-circle">
-                                    </span> <span class="dropdown-item-desc">
-                                        <span class="message-user">
-                                            Sarah
-                                            Smith
-                                        </span> <span class="time messege-text">
-                                            Request for leave
-                                            application
-                                        </span>
-                                        <span class="time">5 Min Ago</span>
-                                    </span>
-                                </a> <a href="#" class="dropdown-item">
-                                    <span class="dropdown-item-avatar text-white">
-                                        <img alt="image" src="~/assets/img/users/user-5.png" class="rounded-circle">
-                                    </span> <span class="dropdown-item-desc">
-                                        <span class="message-user">
-                                            Jacob
-                                            Ryan
-                                        </span> <span class="time messege-text">
-                                            Your payment invoice is
-                                            generated.
-                                        </span> <span class="time">12 Min Ago</span>
-                                    </span>
-                                </a> <a href="#" class="dropdown-item">
-                                    <span class="dropdown-item-avatar text-white">
-                                        <img alt="image" src="~/assets/img/users/user-4.png" class="rounded-circle">
-                                    </span> <span class="dropdown-item-desc">
-                                        <span class="message-user">
-                                            Lina
-                                            Smith
-                                        </span> <span class="time messege-text">
-                                            hii John, I have upload
-                                            doc
-                                            related to task.
-                                        </span> <span class="time">
-                                            30
-                                            Min Ago
-                                        </span>
-                                    </span>
-                                </a> <a href="#" class="dropdown-item">
-                                    <span class="dropdown-item-avatar text-white">
-                                        <img alt="image" src="~/assets/img/users/user-3.png" class="rounded-circle">
-                                    </span> <span class="dropdown-item-desc">
-                                        <span class="message-user">
-                                            Jalpa
-                                            Joshi
-                                        </span> <span class="time messege-text">
-                                            Please do as specify.
-                                            Let me
-                                            know if you have any query.
-                                        </span> <span class="time">
-                                            1
-                                            Days Ago
-                                        </span>
-                                    </span>
-                                </a> <a href="#" class="dropdown-item">
-                                    <span class="dropdown-item-avatar text-white">
-                                        <img alt="image" src="~/assets/img/users/user-2.png" class="rounded-circle">
-                                    </span> <span class="dropdown-item-desc">
-                                        <span class="message-user">
-                                            Sarah
-                                            Smith
-                                        </span> <span class="time messege-text">Client Requirements</span>
-                                        <span class="time">2 Days Ago</span>
-                                    </span>
-                                </a>
-                            </div>
-                            <div class="dropdown-footer text-center">
-                                <a href="#">View All <i class="fas fa-chevron-right"></i></a>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="dropdown dropdown-list-toggle">
-                        <a href="#" data-toggle="dropdown"
-                           class="nav-link notification-toggle nav-link-lg">
+                           class="nav-link notification-toggle nav-link-lg" id="notificationShow">
                             <i data-feather="bell" class="bell"></i>
+                            <span class="badge notification-badge notification-count">
+                                0
+                            </span>
                         </a>
                         <div class="dropdown-menu dropdown-list dropdown-menu-right pullDown">
                             <div class="dropdown-header">
@@ -167,57 +182,33 @@
                                     <a href="#">Mark All As Read</a>
                                 </div>
                             </div>
-                            <div class="dropdown-list-content dropdown-list-icons">
+                            <div class="dropdown-list-content dropdown-list-icons" id="notification-list">
                                 <a href="#" class="dropdown-item dropdown-item-unread">
                                     <span class="dropdown-item-icon bg-primary text-white">
-                                        <i class="fas
-												fa-code"></i>
-                                    </span> <span class="dropdown-item-desc">
+                                        <i class="fas fa-code"></i>
+                                    </span> 
+                                    <span class="dropdown-item-desc">
                                         Template update is
-                                        available now! <span class="time">
+                                        available now!
+                                        <span class="time">
                                             2 Min
                                             Ago
                                         </span>
                                     </span>
-                                </a> <a href="#" class="dropdown-item">
+                                </a> 
+                                <a href="#" class="dropdown-item">
                                     <span class="dropdown-item-icon bg-info text-white">
-                                        <i class="far
-												fa-user"></i>
-                                    </span> <span class="dropdown-item-desc">
+                                        <i class="far fa-user"></i>
+                                    </span>
+                                    <span class="dropdown-item-desc">
                                         <b>You</b> and <b>
                                             Dedik
                                             Sugiharto
-                                        </b> are now friends <span class="time">
+                                        </b> are now friends 
+                                        <span class="time">
                                             10 Hours
                                             Ago
                                         </span>
-                                    </span>
-                                </a> <a href="#" class="dropdown-item">
-                                    <span class="dropdown-item-icon bg-success text-white">
-                                        <i class="fas
-												fa-check"></i>
-                                    </span> <span class="dropdown-item-desc">
-                                        <b>Kusnaedi</b> has
-                                        moved task <b>Fix bug header</b> to <b>Done</b> <span class="time">
-                                            12
-                                            Hours
-                                            Ago
-                                        </span>
-                                    </span>
-                                </a> <a href="#" class="dropdown-item">
-                                    <span class="dropdown-item-icon bg-danger text-white">
-                                        <i class="fas fa-exclamation-triangle"></i>
-                                    </span> <span class="dropdown-item-desc">
-                                        Low disk space. Let's
-                                        clean it! <span class="time">17 Hours Ago</span>
-                                    </span>
-                                </a> <a href="#" class="dropdown-item">
-                                    <span class="dropdown-item-icon bg-info text-white">
-                                        <i class="fas
-												fa-bell"></i>
-                                    </span> <span class="dropdown-item-desc">
-                                        Welcome to Otika
-                                        template! <span class="time">Yesterday</span>
                                     </span>
                                 </a>
                             </div>
@@ -441,5 +432,115 @@
     <script src="~/assets/js/page/index.js"></script>
     <script src="~/assets/js/scripts.js"></script>
     <script src="~/assets/js/custom.js"></script>
-</body>
-</html>
+    <script src="~/scripts/jquery.signalR-2.4.3.min.js"></script>
+    <script src="~/signalr/Hubs/"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            // SignalR js code for start hub and send receive notification
+            var connection = $.hubConnection();
+            var notificationHubProxy = connection.createHubProxy('notificationHub');
+
+            ////SignalR method for push server message to client
+            notificationHubProxy.on('notify', function (message) {
+                if (message && message.toLowerCase() == "added") {
+                    console.log('Hey Notifications Recieved!!');
+                    updateDocNotificationCount();
+                }
+            });
+
+            connection.start().done(function () {
+                console.log('Notification hub started');
+            });
+
+            //For refresh notification count on page load
+            updateDocNotificationCount();
+            updateNotification();
+
+            $('#notificationShow').click(function (e) {
+                e.stopPropagation();
+                var count = 0;
+                count = parseInt($('span.notification-count').html()) || 0;
+                console.log('a.noti outer' + count);
+
+                //Only load notification if not already loaded
+                if (count > 0) {
+                    updateNotification();
+                    sessionStorage.setItem("count", 0);
+                    console.log('a.noti inner if' + count);
+                    updateNotificationRead();
+                }
+                //else if ($('.noti-content').css('display') == 'block') {
+                //    $('.noti-content').hide();
+                //}
+                //else if ($('.noti-content').css('display') == 'none') {
+                //    $('.noti-content').show();
+                //}
+                $('span.notification-count', this).html('');
+            })
+
+            //Doctor Notification Functions
+
+            // Update notifications and add to list
+            function updateNotification() {
+                $('#notification-list').empty();
+                $('#notification-list').append($('<li>Loading...</li>'));
+                $.ajax({
+                    type: 'GET',
+                    url: '/Admin/GetDoctorNotificationsList',
+                    success: function (response) {
+                        $('#notification-list').empty();
+                        console.log(response);
+                        if (response.length == 0) {
+                            $('#notification-list').append($('<a href="#" class="dropdown-item"> <span class="dropdown-item-icon bg-dark text-white"><i class="fas fa-bell-slash"></i></span><span class="dropdown-item-desc">No New Notification Available</span></a>'));
+                        }
+                        $.each(response, function (index, value) {
+                            $('#notification-list').append($('<a href="#" class="dropdown-item"><span class="dropdown-item-icon bg-info text-white"><i class="far fa-user"></i></span><span class="dropdown-item-desc">' + value.Description +'<span class="time"> '+ value.Time +' </span> </span> </a>'));
+                        });
+                    },
+                    error: function (error) {
+                        console.log(error);
+                    }
+                })
+            }
+
+            // Update notifications Change to Read When NotiFication Icon Press
+            function updateNotificationRead() {
+                $.ajax({
+                    type: 'GET',
+                    url: '/Admin/ChangeDoctorNotificationToRead',
+                    success: function (response) {
+                        console.log('GetNotificationsListRead:: ' + response);
+                        sessionStorage.setItem("count", 0);
+                    },
+                    error: function (error) {
+                        console.log(error);
+                    }
+                })
+            }
+
+            // Update notifications Count
+            function updateDocNotificationCount() {
+                var count = 0;
+                $.ajax({
+                    type: 'GET',
+                    url: '/Admin/GetDoctorNotificationCount',
+                    success: function (response) {
+                        console.log('Doctor Notification Count:: ' + response);
+                        count = response;
+                        if (count > 0) {
+                            $('span.notification-count').html(count);
+                        }
+                        else {
+                            $('span.notification-count').html('');
+                        }
+                        sessionStorage.setItem("count", count);
+                    },
+                    error: function (error) {
+                        console.log(error);
+                    }
+                })
+            }
+        });
+    </script>
+</body >
+</html >

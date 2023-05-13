@@ -1,4 +1,5 @@
 ﻿using DMS_BOL;
+using DMS_BOL.Validation_Classes;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -8,11 +9,11 @@ namespace DMS_DAL.DBLayer
 {
     public class DoctorOfflineConsultaionDetailsDb
     {
-        private dentalDBEntities _context;
+        private dmswebapp_dentalDBEntities _context;
 
         public DoctorOfflineConsultaionDetailsDb()
         {
-            _context = new dentalDBEntities();
+            _context = new dmswebapp_dentalDBEntities();
         }
 
         public bool InsertOfflineConsultaionDetails(tblOfflineConsultaionDetail model)

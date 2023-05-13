@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
@@ -23,6 +24,7 @@ namespace DMS_WebApplication.Controllers
         private DoctorOfflineConsultaionDetailsRepo OfcdRepoObj;
         private DoctorOnlineConsultaionDetailsRepo OcdRepoObj;
         private AdminsRepo adminRepoObj;
+        private NotificationComponent NotiRepoObj;
 
         public AdminController()
         {
@@ -35,6 +37,7 @@ namespace DMS_WebApplication.Controllers
             WexRepoObj = new DoctorWorkExperienceRepo();
             OfcdRepoObj = new DoctorOfflineConsultaionDetailsRepo();
             OcdRepoObj = new DoctorOnlineConsultaionDetailsRepo();
+            NotiRepoObj = new NotificationComponent();
         }
 
 
@@ -575,6 +578,111 @@ namespace DMS_WebApplication.Controllers
                 throw ex;
             }
             return RedirectToAction("Settings", new { UserID = admin.UserID });
+        }
+
+        #endregion
+
+        #region **Manage Notifications or Doctor Approvals**
+
+        [AcceptVerbs(HttpVerbs.Get)]
+        public ActionResult GetDoctorNotificationCount()
+        {
+            try
+            {
+                if (User.Identity.IsAuthenticated)
+                {
+                    int count = 0;
+                    var AdminID = int.Parse(Session["UserID"].ToString());
+                    var Role = Session["Role"].ToString();
+                    if (AdminID > 0)
+                    {
+                        if (Role.Equals("Admin"))
+                            count = NotiRepoObj.GetCountDoctorApprovalRequestForAD(AdminID);
+                        else if (Role.Equals("SuperAdmin"))
+                            count = NotiRepoObj.GetCountDoctorApprovalRequestForSAD(AdminID);
+                        else
+                            count = 0;
+                    }
+                    return Json(count, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    var err = (int)HttpStatusCode.BadRequest;
+                    return Json(new { error = err + " Bad Request Error " + "Invalid Request!!" });
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        [AcceptVerbs(HttpVerbs.Get)]
+        public JsonResult GetDoctorNotificationsList()
+        {
+            try
+            {
+                if (User.Identity.IsAuthenticated)
+                {
+                    IEnumerable<ValidateNotification> reas = null;
+                    var AdminID = int.Parse(Session["UserID"].ToString());
+                    var Role = Session["Role"].ToString();
+                    if (AdminID > 0)
+                    {
+                        if (Role.Equals("Admin"))
+                            reas = NotiRepoObj.GetAllDoctorApprovalRequestForAD(AdminID);
+                        else if (Role.Equals("SuperAdmin"))
+                            reas = NotiRepoObj.GetAllDoctorApprovalRequestForSAD(AdminID);
+                        else
+                            reas = null;
+                    }
+                    return Json(reas, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    var err = (int)HttpStatusCode.BadRequest;
+                    return Json(new { error = err + " Bad Request Error " + "Invalid Request!!" });
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMsg"] = "Error occured on loading Notification!" + ex.Message;
+                throw ex;
+            }
+        }
+
+        [AcceptVerbs(HttpVerbs.Get)]
+        public JsonResult ChangeDoctorNotificationToRead()
+        {
+            try
+            {
+                if (User.Identity.IsAuthenticated)
+                {
+                    bool reas = false;
+                    var AdminID = int.Parse(Session["UserID"].ToString());
+                    var Role = Session["Role"].ToString();
+                    if (AdminID > 0)
+                    {
+                        if (Role.Equals("Admin"))
+                            reas = NotiRepoObj.ChangeDANotificationToReadForAD(AdminID);
+                        else if (Role.Equals("SuperAdmin"))
+                            reas = NotiRepoObj.ChangeDANotificationToReadForSAD(AdminID);
+                        else
+                            reas = false;
+                    }
+                    return Json(reas, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    var err = (int)HttpStatusCode.BadRequest;
+                    return Json(new { error = err + " Bad Request Error " + "Invalid Request!!" });
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMsg"] = "Error occured on updating Notification As Read!" + ex.Message;
+                throw ex;
+            }
         }
 
         #endregion

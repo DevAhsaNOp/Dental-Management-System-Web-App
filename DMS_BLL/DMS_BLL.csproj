@@ -66,6 +66,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\AddressRepo.cs" />
     <Compile Include="Repositories\AdminsRepo.cs" />
+    <Compile Include="Repositories\DoctorApprovalRepo.cs" />
     <Compile Include="Repositories\DoctorOfflineConsultaionDetailsRepo.cs" />
     <Compile Include="Repositories\DoctorOnlineConsultaionDetailsRepo.cs" />
     <Compile Include="Repositories\DoctorServicesRepo.cs" />
