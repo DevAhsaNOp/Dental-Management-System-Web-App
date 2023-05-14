@@ -179,9 +179,10 @@
                             <div class="dropdown-header">
                                 Notifications
                                 <div class="float-right">
-                                    <a href="#">Mark All As Read</a>
+                                    <a href="javascript:void(0)" id="markDANoti">Mark All As Read</a>
                                 </div>
                             </div>
+                            <hr style="margin:0 !important;" />
                             <div class="dropdown-list-content dropdown-list-icons" id="notification-list">
                                 <a href="#" class="dropdown-item dropdown-item-unread">
                                     <span class="dropdown-item-icon bg-primary text-white">
@@ -456,26 +457,30 @@
             updateDocNotificationCount();
             updateNotification();
 
+            //For show notification on bell icon click
             $('#notificationShow').click(function (e) {
                 e.stopPropagation();
                 var count = 0;
                 count = parseInt($('span.notification-count').html()) || 0;
-                console.log('a.noti outer' + count);
 
                 //Only load notification if not already loaded
                 if (count > 0) {
                     updateNotification();
-                    sessionStorage.setItem("count", 0);
-                    console.log('a.noti inner if' + count);
+                    //updateNotificationRead();
+                }
+            })
+
+            //Marked Notification as Read
+            $('#markDANoti').click(function (e) {
+                e.stopPropagation();
+                var count = 0;
+                count = parseInt($('span.notification-count').html()) || 0;
+
+                //Only read notification if not already readed
+                if (count > 0) {
+                    $('span.notification-count', this).html('');
                     updateNotificationRead();
                 }
-                //else if ($('.noti-content').css('display') == 'block') {
-                //    $('.noti-content').hide();
-                //}
-                //else if ($('.noti-content').css('display') == 'none') {
-                //    $('.noti-content').show();
-                //}
-                $('span.notification-count', this).html('');
             })
 
             //Doctor Notification Functions
@@ -489,7 +494,6 @@
                     url: '/Admin/GetDoctorNotificationsList',
                     success: function (response) {
                         $('#notification-list').empty();
-                        console.log(response);
                         if (response.length == 0) {
                             $('#notification-list').append($('<a href="#" class="dropdown-item"> <span class="dropdown-item-icon bg-dark text-white"><i class="fas fa-bell-slash"></i></span><span class="dropdown-item-desc">No New Notification Available</span></a>'));
                         }
@@ -509,8 +513,7 @@
                     type: 'GET',
                     url: '/Admin/ChangeDoctorNotificationToRead',
                     success: function (response) {
-                        console.log('GetNotificationsListRead:: ' + response);
-                        sessionStorage.setItem("count", 0);
+                        $('span.notification-count', this).html('');
                     },
                     error: function (error) {
                         console.log(error);
@@ -525,7 +528,6 @@
                     type: 'GET',
                     url: '/Admin/GetDoctorNotificationCount',
                     success: function (response) {
-                        console.log('Doctor Notification Count:: ' + response);
                         count = response;
                         if (count > 0) {
                             $('span.notification-count').html(count);
@@ -533,7 +535,6 @@
                         else {
                             $('span.notification-count').html('');
                         }
-                        sessionStorage.setItem("count", count);
                     },
                     error: function (error) {
                         console.log(error);

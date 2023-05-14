@@ -163,6 +163,8 @@ namespace DMS_WebApplication.Controllers
                 ViewBag.Zone = AddressRepoObj.GetAllZoneByCityDropdown(doctor.CityID);
                 Session["AdminDoctorID"] = doctor.UserID;
                 Session["DoctorImage"] = reas.D_ProfileImage;
+                Session["UserEditPhoneNumber"] = reas.D_PhoneNumber;
+                Session["UserEditEmail"] = reas.D_Email;
                 return View(doctor);
             }
             catch (Exception ex)
@@ -189,10 +191,11 @@ namespace DMS_WebApplication.Controllers
                 }
                 doctor.UserID = int.Parse(Session["AdminDoctorID"].ToString());
                 var Docreas = DoctorsRepoObj.GetUserDetailById(doctor.UserID);
+                int AdminID = int.Parse(Session["UserID"].ToString());
                 doctor.UserOTP = null;
                 doctor.UserID = Docreas.UserID;
                 doctor.D_IsProfileCompleted = true;
-                doctor.UserUpdatedBy = Docreas.UserID;
+                doctor.UserUpdatedBy = AdminID;
                 doctor.tblAddress = Docreas.tblAddress;
                 doctor.UserEmail = doctor.UserUpdateEmail;
                 doctor.UserProfileImage = doctor.UserProfileImage;
@@ -201,9 +204,11 @@ namespace DMS_WebApplication.Controllers
                 if (doctor != null)
                 {
                     var reas = DoctorsRepoObj.UpdateDoctor(doctor);
+                    Session["UserEditPhoneNumber"] = null;
+                    Session["UserEditEmail"] = null;
                     if (reas == 1)
                     {
-                        TempData["SuccessMsg"] = "Your profile is completed successfully!";
+                        TempData["SuccessMsg"] = "Doctor profile is updated successfully!";
                     }
                     else if (reas == -1)
                     {
@@ -251,6 +256,7 @@ namespace DMS_WebApplication.Controllers
                 OnlineConsultation = ocdDetails,
                 OfflineConsultation = ofcdDetails,
             };
+            Session["DoctorImage"] = reas.D_ProfileImage;
             return View(doctorProfile);
         }
 
@@ -362,6 +368,8 @@ namespace DMS_WebApplication.Controllers
                 ViewBag.Zone = AddressRepoObj.GetAllZoneByCityDropdown(patient.CityID);
                 Session["AdminPatientID"] = patient.UserID;
                 Session["PatientImage"] = reas.P_ProfileImage;
+                Session["UserEditPhoneNumber"] = reas.P_PhoneNumber;
+                Session["UserEditEmail"] = reas.P_Email;
                 return View(patient);
             }
             catch (Exception ex)
@@ -388,10 +396,11 @@ namespace DMS_WebApplication.Controllers
                 }
                 patient.UserID = int.Parse(Session["AdminPatientID"].ToString());
                 var Docreas = UserRepoObj.GetUserDetailById(patient.UserID);
+                int AdminID = int.Parse(Session["UserID"].ToString());
                 patient.UserOTP = null;
                 patient.UserID = Docreas.UserID;
                 patient.IsProfileCompleted = true;
-                patient.UserUpdatedBy = Docreas.UserID;
+                patient.UserUpdatedBy = AdminID;
                 patient.tblAddress = Docreas.tblAddress;
                 patient.UserEmail = patient.UserUpdateEmail;
                 patient.UserProfileImage = patient.UserProfileImage;
@@ -400,9 +409,11 @@ namespace DMS_WebApplication.Controllers
                 if (patient != null)
                 {
                     var reas = UserRepoObj.UpdatePatient(patient);
+                    Session["UserEditPhoneNumber"] = null;
+                    Session["UserEditEmail"] = null;
                     if (reas == 1)
                     {
-                        TempData["SuccessMsg"] = "Your profile is completed successfully!";
+                        TempData["SuccessMsg"] = "Patient profile is updated successfully!";
                     }
                     else if (reas == -1)
                     {
