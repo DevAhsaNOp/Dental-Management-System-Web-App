@@ -214,7 +214,7 @@
                                 </a>
                             </div>
                             <div class="dropdown-footer text-center">
-                                <a href="#">View All <i class="fas fa-chevron-right"></i></a>
+                                <a href="@Url.Action("DoctorProfileApprovals","Admin")">View All <i class="fas fa-chevron-right"></i></a>
                             </div>
                         </div>
                     </li>
@@ -275,10 +275,13 @@
                             </li>
                         }
                         <li class="dropdown" id="patientTS">
-                            <a href="@Url.Action("PatientTest","Patient")" class="nav-link toggled"><img src="~/assets/img/sidebar/teeth-24.png" alt="patients" /><span class="ml-2">Patient Teeth Test</span></a>
+                            <a href="@Url.Action("PatientTest","Patient")" class="nav-link toggled"><img src="~/assets/img/sidebar/teeth-24.png" alt="patientsTest" /><span class="ml-2">Patient Teeth Test</span></a>
                         </li>
                         @if (User.IsInRole("Admin") || User.IsInRole("SuperAdmin"))
                         {
+                            <li class="dropdown" id="doctorA">
+                                <a href="@Url.Action("DoctorProfileApprovals","Admin")" class="nav-link toggled"><img src="~/assets/img/sidebar/user-24.png" alt="doctorApp" /><span class="ml-2">Doctor Profile Approvals</span></a>
+                            </li>
                             <li class="dropdown active" id="manageD">
                                 <a href="javascript:void(0)" class="nav-link text-dark bg-white" id="manageDli"><i data-feather="layout"></i><span>Manage Doctors</span></a>
                                 <ul class="dropdown-menu">

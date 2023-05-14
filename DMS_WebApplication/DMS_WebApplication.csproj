@@ -838,6 +838,7 @@
     <Content Include="assets\dist\js\pages\dashboard3.js" />
     <Content Include="assets\fonts\iu.svg" />
     <Content Include="assets\img\sidebar\teeth-24.png" />
+    <Content Include="assets\img\sidebar\user-24.png" />
     <Content Include="assets\js\image-uploader.min.js" />
     <Content Include="assets\css\MaterialIcons-Regular.html" />
     <Content Include="assets\css\style.css" />
@@ -1274,6 +1275,7 @@
     <Content Include="Views\Admin\Patients.cshtml" />
     <Content Include="Views\Admin\PatientDetails.cshtml" />
     <Content Include="Views\Admin\Settings.cshtml" />
+    <Content Include="Views\Admin\DoctorProfileApprovals.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

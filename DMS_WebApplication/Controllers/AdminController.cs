@@ -627,6 +627,40 @@ namespace DMS_WebApplication.Controllers
                 throw ex;
             }
         }
+        
+        [AcceptVerbs(HttpVerbs.Get)]
+        [CustomAuthorize(Roles = "Admin, SuperAdmin")]
+        public ActionResult DoctorProfileApprovals()
+        {
+            try
+            {
+                if (User.Identity.IsAuthenticated)
+                {
+                    IEnumerable<ValidateNotification> reas = null;
+                    var AdminID = int.Parse(Session["UserID"].ToString());
+                    var Role = Session["Role"].ToString();
+                    if (AdminID > 0)
+                    {
+                        if (Role.Equals("Admin"))
+                            reas = NotiRepoObj.GetAllDoctorApprovalRequestForAD(AdminID);
+                        else if (Role.Equals("SuperAdmin"))
+                            reas = NotiRepoObj.GetAllDoctorApprovalRequestForSAD(AdminID);
+                        else
+                            reas = null;
+                    }
+                    return View(reas);
+                }
+                else
+                {
+                    var err = (int)HttpStatusCode.BadRequest;
+                    return Json(new { error = err + " Bad Request Error " + "Invalid Request!!" });
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
         [AcceptVerbs(HttpVerbs.Get)]
         public JsonResult GetDoctorNotificationsList()
@@ -681,6 +715,33 @@ namespace DMS_WebApplication.Controllers
                         else
                             reas = false;
                     }
+                    return Json(reas, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    var err = (int)HttpStatusCode.BadRequest;
+                    return Json(new { error = err + " Bad Request Error " + "Invalid Request!!" });
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMsg"] = "Error occured on updating Notification As Read!" + ex.Message;
+                throw ex;
+            }
+        }
+        
+        [AcceptVerbs(HttpVerbs.Get)]
+        public JsonResult ApproveDoctorProfile(int DoctorID, int NotificationID)
+        {
+            try
+            {
+                if (User.Identity.IsAuthenticated)
+                {
+                    bool reas = false;
+                    if (DoctorID > 0)
+                        reas = NotiRepoObj.UpdateDoctorApproved(DoctorID, NotificationID);
+                    else
+                        reas = false;
                     return Json(reas, JsonRequestBehavior.AllowGet);
                 }
                 else

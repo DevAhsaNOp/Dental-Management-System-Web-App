@@ -25,5 +25,7 @@ namespace DMS_BOL.Validation_Classes
         public string Email { get; set; }
         public string Message { get; set; }
         public string IsUserAppnt { get; set; }
+        public tblDoctor DoctorInfo { get; set; }
+        public int NotificationID { get; set; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using DMS_BLL.Repositories;
+using DMS_BOL;
 using DMS_BOL.Validation_Classes;
 using System;
 using System.Collections.Generic;
@@ -89,6 +90,19 @@ namespace DMS_WebApplication
         public bool ChangeDANotificationToReadForSAD(int SuperAdminID)
         {
             var reas = repoObj.ChangeDANotificationToReadForSAD(SuperAdminID);
+            return reas;
+        }
+        
+        public bool UpdateDoctorApproved(int DoctorID, int NotificationID)
+        {
+            tblDoctorApproved obj = new tblDoctorApproved();
+            obj.N_DoctorID = DoctorID;
+            obj.N_IsApproved = true;
+            obj.N_IsArchive = false;
+            obj.N_IsRead = true;
+            obj.N_UpdatedBy = true;
+            obj.N_ID = NotificationID;
+            var reas = repoObj.UpdateDoctorApproved(obj);
             return reas;
         }
     }

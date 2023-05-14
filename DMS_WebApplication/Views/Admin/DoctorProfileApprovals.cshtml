@@ -1,0 +1,98 @@
+﻿@model IEnumerable<DMS_BOL.Validation_Classes.ValidateNotification>
+
+@{
+    ViewBag.Title = "DMS - Doctor Profile Approvals";
+}
+
+@if (User.Identity.IsAuthenticated)
+{
+    <style>
+        .activities .activity .activity-detail {
+            min-width: 60vw;
+        }
+
+        .main-footer {
+            position: fixed;
+            bottom: 0;
+        }
+    </style>
+    <script>
+        function approveProfile(DoctorID, NotificationID) {
+            $.ajax({
+                type: 'GET',
+                url: '/Admin/ApproveDoctorProfile?DoctorID=' + DoctorID + '&NotificationID=' + NotificationID,
+                success: function (response) {
+                    if (response == true) {
+                        window.location.reload();
+                    }
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            })
+        }
+    </script>
+    <div class="section-body">
+        <h2 class="section-title font-weight-bolder" style="font-size:24px !important;">Doctor Profile Approvals Request</h2>
+        <div class="row">
+            <div class="col-12">
+                <div class="activities">
+                    @if (Model != null && Model.Count() > 0)
+                    {
+                        foreach (var item in Model)
+                        {
+                            <div class="activity">
+                                <div class="activity-icon bg-primary text-white">
+                                    <i class="fas fa-bell"></i>
+                                </div>
+                                <div class="activity-detail">
+                                    <div class="mb-2">
+                                        <span class="text-job">@item.CreatedOn.ToString("dd MMM, yyyy hh:mm:ss tt")</span>
+                                        <span class="bullet"></span>
+                                        <a class="text-job" style="text-decoration: none; color: #6777ef !important; cursor:default;" href="javascript:void(0)">@item.DoctorInfo.D_FirstName @item.DoctorInfo.D_LastName</a>
+                                        <div class="float-right dropdown">
+                                            @if (item.IsApproved)
+                                            {
+                                                <a href="javascript:void(0)" class="text-success">Profile Approved!</a>
+                                            }
+                                            else
+                                            {
+                                                <a href="#" data-toggle="dropdown"><i class="fas fa-ellipsis-h"></i></a>
+                                            }   
+                                            <div class="dropdown-menu">
+                                                <div class="dropdown-title">Options</div>
+                                                <a href="@Url.Action("DoctorDetails","Admin", new { DoctorID = item.DoctorID})" target="_blank" class="dropdown-item has-icon"><i class="fas fa-eye"></i> View Profile</a>
+                                                <div class="dropdown-divider"></div>
+                                                <a href="javascript:void(0)" id="approveProfile" onclick="approveProfile(@item.DoctorID, @item.NotificationID)" class="dropdown-item has-icon text-success"><i class="fas fa-check-circle"></i> Approve Profile</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p>@Html.Raw(item.Description)</p>
+                                </div>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <p class="font-weight-bolder">No approval requests available!</p>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.getElementById('appointmentS').classList.remove('active')
+        document.getElementById('dashboardS').classList.remove('active')
+        document.getElementById('paymentS').classList.remove('active')
+        document.getElementById('messageS').classList.remove('active')
+        document.getElementById('manageD').classList.remove('active')
+        document.getElementById('manageDli').classList.remove('text-dark')
+        document.getElementById('manageDli').classList.remove('bg-white')
+        document.getElementById('viewDoctorS').classList.remove('active')
+        document.getElementById('detailDoctorS').classList.remove('active')
+        document.getElementById('editDoctorS').classList.remove('active')
+        document.getElementById('addDoctorS').classList.remove('active')
+        document.getElementById('ASettingS').classList.remove('active')
+        document.getElementById('doctorA').classList.add('active')
+    </script>
+}
