@@ -105,5 +105,11 @@ namespace DMS_WebApplication
             var reas = repoObj.UpdateDoctorApproved(obj);
             return reas;
         }
+        
+        public bool InsertDoctorForApproval(int DoctorID)
+        {
+            var reas = repoObj.InsertDoctorApproved(DoctorID);
+            return reas;
+        }
     }
 }

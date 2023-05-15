@@ -17,15 +17,46 @@ namespace DMS_DAL.DBLayer
             _context = new dmswebapp_dentalDBEntities();
         }
 
-        public bool InsertDoctorApproved(tblDoctorApproved model)
+        public bool InsertDoctorApproved(int DoctorID)
         {
             try
             {
-                if (model != null)
+                if (DoctorID > 0)
                 {
-                    model.N_CreateadOn = DateTime.Now;
-                    _context.tblDoctorApproveds.Add(model);
-                    Save();
+                    var allAdmins = _context.tblAdmins.Select(x => x.A_ID).ToList();
+                    if (allAdmins.Count > 0)
+                    {
+                        foreach (var item in allAdmins)
+                        {
+                            var model = new tblDoctorApproved();
+                            model.N_IsApproved = false;
+                            model.N_IsArchive = false;
+                            model.N_IsRead = false;
+                            model.N_AdminID = item;
+                            model.N_DoctorID = DoctorID;
+                            model.N_CreatedBy = true;
+                            model.N_CreateadOn = DateTime.Now;
+                            _context.tblDoctorApproveds.Add(model);
+                            Save();
+                        }
+                    }
+                    var allSuperAdmins = _context.tblSuperAdmins.Select(x => x.SA_ID).ToList();
+                    if (allSuperAdmins.Count > 0)
+                    {
+                        foreach (var item in allSuperAdmins)
+                        {
+                            var model = new tblDoctorApproved();
+                            model.N_IsApproved = false;
+                            model.N_IsArchive = false;
+                            model.N_IsRead = false;
+                            model.N_SuperAdminID = item;
+                            model.N_DoctorID = DoctorID;
+                            model.N_CreatedBy = true;
+                            model.N_CreateadOn = DateTime.Now;
+                            _context.tblDoctorApproveds.Add(model);
+                            Save();
+                        }
+                    }
                     return true;
                 }
                 else
@@ -71,6 +102,27 @@ namespace DMS_DAL.DBLayer
                 }
                 else
                     return null;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        
+        public bool CheckIsDoctorApprovedByID(int id)
+        {
+            try
+            {
+                if (id > 0)
+                {
+                    var reas = _context.tblDoctorApproveds.Any(x => x.N_DoctorID == id && x.N_IsApproved == true);
+                    if (reas)
+                        return true;
+                    else
+                        return false;
+                }
+                else
+                    return false;
             }
             catch (Exception ex)
             {

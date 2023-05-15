@@ -19,13 +19,13 @@ namespace DMS_BLL.Repositories
             dbObj = new DoctorApprovalDb();
         }
 
-        public bool InsertDoctorApproved(tblDoctorApproved model)
+        public bool InsertDoctorApproved(int DoctorID)
         {
             try
             {
-                if (model != null)
+                if (DoctorID > 0)
                 {
-                    var reas = dbObj.InsertDoctorApproved(model);
+                    var reas = dbObj.InsertDoctorApproved(DoctorID);
                     if (reas)
                         return reas;
                     else
@@ -222,6 +222,18 @@ namespace DMS_BLL.Repositories
             {
                 throw ex;
             }
+        }
+
+        public bool IsDoctorProfileApproved(int DoctorID)
+        {
+            if (DoctorID > 0)
+            {
+                var reas = dbObj.CheckIsDoctorApprovedByID(DoctorID);
+                if (reas)
+                    return true;
+                else return false;
+            }
+            else return false;
         }
     }
 }

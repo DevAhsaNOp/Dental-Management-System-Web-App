@@ -25,12 +25,14 @@ namespace DMS_WebApplication.Controllers
         private DoctorWorkExperienceRepo WexRepoObj;
         private DoctorOfflineConsultaionDetailsRepo OfcdRepoObj;
         private DoctorOnlineConsultaionDetailsRepo OcdRepoObj;
+        private NotificationComponent DARepoObj;
 
         public DoctorController()
         {
             _httpClient = new HttpClient();
             AddressRepoObj = new AddressRepo();
             DoctorsRepoObj = new DoctorsRepo();
+            DARepoObj = new NotificationComponent();
             servicesRepoObj = new DoctorServicesRepo();
             WexRepoObj = new DoctorWorkExperienceRepo();
             OfcdRepoObj = new DoctorOfflineConsultaionDetailsRepo();
@@ -54,7 +56,20 @@ namespace DMS_WebApplication.Controllers
         {
             var reas = TempData["MsgP"];
             if (reas != null)
+            {
+                if (reas.ToString() == "1")
+                {
+                    FormsAuthentication.SignOut();
+                    Session.Abandon();
+                    Session.Clear();
+                    Session.RemoveAll();
+                    Response.Cache.SetExpires(DateTime.UtcNow.AddMinutes(-1));
+                    Response.Cache.SetCacheability(HttpCacheability.NoCache);
+                    Response.Cache.SetNoStore();
+                    TempData["SuccessMsg"] = "Your profile is completed successfully and wait for profile approval!";
+                }
                 return Json(reas, JsonRequestBehavior.AllowGet);
+            }
             else
                 return Json(null, JsonRequestBehavior.AllowGet);
         }
@@ -197,8 +212,17 @@ namespace DMS_WebApplication.Controllers
                     var reas = DoctorsRepoObj.UpdateDoctor(validateDoctor);
                     if (reas == 1)
                     {
-                        TempData["SuccessMsg"] = "Your profile is completed successfully!";
-                        TempData["MsgP"] = "1";
+                        var setApproval = DARepoObj.InsertDoctorForApproval(doctor.UserID);
+                        if (setApproval)
+                        {
+                            TempData["SuccessMsg"] = "Your profile is completed successfully and wait for profile approval!";
+                            TempData["MsgP"] = "1";
+                        }
+                        else
+                        {
+                            TempData["ErrorMsg"] = "Error on completing profile. Please try again later!";
+                            TempData["MsgP"] = "3";
+                        }
                     }
                     else if (reas == -1)
                     {

@@ -310,10 +310,11 @@
                 success: function (response) {
                     $("#loader").hide();
                     var Eval = response;
+                    console.log(Eval);
                     alert('Your profile is completed successfully!');
                     if (Eval == 1) {
                         swal('Hurray', 'Your profile is completed successfully!', 'success');
-                        window.location.href = '/Account/Index';
+                        window.location.href = '/Account/SignIn';
                     }
                     else if (Eval == 5) {
                         swal('Error Occured', 'Email already exists. Please ensure to enter not used email account again!', 'error');
@@ -392,7 +393,7 @@
 
         function OCDCheck() {
             if (document.getElementsByClassName("OCD_NO").length <= 0) {
-                swal('Error Occured', 'Please add places for online consultation or unchecked \'It Apply On Me\' if you don\'t do online consultation!', 'error');
+                swal('Error Occured', 'Please add details for online consultation it is mandatory for our platform!', 'error');
                 return false;
             } else {
                 return true;

@@ -16,6 +16,7 @@ namespace DMS_WebApplication.Controllers
         private DoctorsRepo DoctorRepoObj;
         private UsersRepo UserRepoObj;
         private AddressRepo AddressRepoObj;
+        private DoctorApprovalRepo DARepoObj;
 
         public AccountController()
         {
@@ -23,6 +24,7 @@ namespace DMS_WebApplication.Controllers
             DoctorRepoObj = new DoctorsRepo();
             UserRepoObj = new UsersRepo();
             AddressRepoObj = new AddressRepo();
+            DARepoObj = new DoctorApprovalRepo();
         }
 
         [CustomAuthorize]
@@ -172,17 +174,51 @@ namespace DMS_WebApplication.Controllers
                     var reas = UserRepoObj.CheckLoginDetails(usersLogin.UserEmail, usersLogin.UserPassword);
                     if (reas != null)
                     {
-                        FormsAuthentication.SetAuthCookie(usersLogin.UserEmail, false);
                         Session["Role"] = reas.Role.ToString().Normalize().Trim();
                         Session["Email"] = reas.Email.ToString().Normalize().Trim();
                         Session["UserID"] = reas.ID.ToString().Normalize().Trim();
                         Session["Username"] = reas.Name.ToString().Normalize().Trim();
                         Session["UserImage"] = reas.Image.ToString().Normalize().Trim();
                         Session["PhoneNumber"] = reas.PhoneNumber.ToString().Normalize().Trim();
-                        if (reas.IsProfileCompleted == true)
-                            return RedirectToAction("Index");
+                        if (reas.Role == "Doctor")
+                        {
+                            if (reas.IsProfileCompleted)
+                            {
+                                if (DARepoObj.IsDoctorProfileApproved(reas.ID))
+                                {
+                                    FormsAuthentication.SetAuthCookie(usersLogin.UserEmail, false);
+                                    return RedirectToAction("Index");
+                                }
+                                else
+                                {
+                                    TempData["ErrorMsg"] = "Your profile is still in approval contact admin to make process faster!";
+                                    return RedirectToAction("SignIn");
+                                }
+                            }
+                            else
+                            {
+                                FormsAuthentication.SetAuthCookie(usersLogin.UserEmail, false);
+                                return RedirectToAction("ProfileComplete", "Doctor");
+                            }
+                        }
+                        else if (reas.Role == "Admin" && reas.Role == "SuperAdmin")
+                        {
+                            if (reas.IsProfileCompleted == true)
+                            {
+                                FormsAuthentication.SetAuthCookie(usersLogin.UserEmail, false);
+                                return RedirectToAction("Index");
+                            }
+                            else
+                            {
+                                TempData["ErrorMsg"] = "Invalid Email Address or Password!";
+                                return RedirectToAction("SignIn");
+                            }
+                        }
                         else
-                            return RedirectToAction("ProfileComplete","Doctor");
+                        {
+                            TempData["ErrorMsg"] = "Invalid Email Address or Password!";
+                            return RedirectToAction("SignIn");
+                        }
                     }
                     else
                     {

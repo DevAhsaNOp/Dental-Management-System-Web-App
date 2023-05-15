@@ -1192,6 +1192,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="uploads\AdminsProfileImage\nophoto.png" />
     <Content Include="uploads\DoctorsProfileImage\230639312doctor.jpg" />
     <Content Include="uploads\DoctorsProfileImage\230831223cavity5.jpg" />
     <Content Include="uploads\DoctorsProfileImage\231319943doctor.jpg" />
@@ -1227,6 +1228,7 @@
     <Content Include="uploads\PatientTeethDetection\1939Patient2\PatientUploaded\48822647-9be7-4c57-a758-ab152204e30e.jpg" />
     <Content Include="uploads\PatientTeethDetection\1939Patient2\PatientUploaded\bef87c65-8231-4bdb-a63a-1b2d0e860929.jpg" />
     <Content Include="uploads\PatientTeethDetection\1939Patient2\PatientUploaded\e4eced28-24e6-446f-99fa-a2b7269aa506.jpg" />
+    <Content Include="uploads\SuperAdminsProfileImage\nophoto.png" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -1279,7 +1281,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="uploads\AdminsProfileImage\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />
