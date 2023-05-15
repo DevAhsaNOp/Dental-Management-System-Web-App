@@ -201,7 +201,7 @@ namespace DMS_WebApplication.Controllers
                                 return RedirectToAction("ProfileComplete", "Doctor");
                             }
                         }
-                        else if (reas.Role == "Admin" && reas.Role == "SuperAdmin")
+                        else if (reas.Role == "Admin" || reas.Role == "SuperAdmin")
                         {
                             if (reas.IsProfileCompleted == true)
                             {
