@@ -221,13 +221,27 @@ namespace DMS_DAL.DBLayer
 
         public IEnumerable<ValidateNotification> GetAllDoctorApprovalRequestForAD(int AdminID)
         {
-            var reas = _context.tblDoctorApproveds.Where(a => a.N_AdminID == AdminID && a.N_IsApproved == false).OrderByDescending(a => a.N_CreateadOn).Select(x => new ValidateNotification() { Title = "Approval Request", Description = x.tblDoctor.D_FirstName + " " + x.tblDoctor.D_LastName + " is waiting for our <b>Doctor Profile</b> approval!", CreatedOn = x.N_CreateadOn, IsRead = x.N_IsRead, IsApproved = x.N_IsApproved.Value, DoctorInfo = x.tblDoctor, DoctorID = x.N_DoctorID.Value.ToString(), NotificationID = x.N_ID }).ToList();
+            var reas = _context.tblDoctorApproveds.Where(a => a.N_AdminID == AdminID).OrderByDescending(a => a.N_CreateadOn).Select(x => new ValidateNotification() { Title = "Approval Request", Description = x.tblDoctor.D_FirstName + " " + x.tblDoctor.D_LastName + " is waiting for our <b>Doctor Profile</b> approval!", CreatedOn = x.N_CreateadOn, IsRead = x.N_IsRead, IsApproved = x.N_IsApproved.Value, DoctorInfo = x.tblDoctor, DoctorID = x.N_DoctorID.Value.ToString(), NotificationID = x.N_ID }).ToList();
+            foreach (var item in reas)
+            {
+                var DoctorID = int.Parse(item.DoctorID);
+                var notiIsApproved = _context.tblDoctorApproveds.Where(x => x.N_DoctorID == DoctorID).Any(x => x.N_IsApproved == true);
+                if (notiIsApproved)
+                    item.IsApproved = true;
+            }
             return reas;
         }
         
         public IEnumerable<ValidateNotification> GetAllDoctorApprovalRequestForSAD(int SuperAdminID)
         {
-            var reas = _context.tblDoctorApproveds.Where(a => a.N_SuperAdminID == SuperAdminID && a.N_IsApproved == false).OrderByDescending(a => a.N_CreateadOn).Select(x => new ValidateNotification() { Title = "Approval Request", Description = x.tblDoctor.D_FirstName + " " + x.tblDoctor.D_LastName + " is waiting for our <b>Doctor Profile</b> approval!", CreatedOn = x.N_CreateadOn, IsRead = x.N_IsRead, IsApproved = x.N_IsApproved.Value, DoctorInfo = x.tblDoctor, DoctorID = x.N_DoctorID.Value.ToString(), NotificationID = x.N_ID }).ToList();
+            var reas = _context.tblDoctorApproveds.Where(a => a.N_SuperAdminID == SuperAdminID).OrderByDescending(a => a.N_CreateadOn).Select(x => new ValidateNotification() { Title = "Approval Request", Description = x.tblDoctor.D_FirstName + " " + x.tblDoctor.D_LastName + " is waiting for our <b>Doctor Profile</b> approval!", CreatedOn = x.N_CreateadOn, IsRead = x.N_IsRead, IsApproved = x.N_IsApproved.Value, DoctorInfo = x.tblDoctor, DoctorID = x.N_DoctorID.Value.ToString(), NotificationID = x.N_ID }).ToList();
+            foreach (var item in reas)
+            {
+                var DoctorID = int.Parse(item.DoctorID);
+                var notiIsApproved = _context.tblDoctorApproveds.Where(x => x.N_DoctorID == DoctorID).Any(x => x.N_IsApproved == true);
+                if (notiIsApproved)
+                    item.IsApproved = true;
+            }
             return reas;
         }
 
