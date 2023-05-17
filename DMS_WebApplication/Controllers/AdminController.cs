@@ -596,6 +596,7 @@ namespace DMS_WebApplication.Controllers
         #region **Manage Notifications or Doctor Approvals**
 
         [AcceptVerbs(HttpVerbs.Get)]
+        [CustomAuthorize(Roles = "Admin, SuperAdmin")]
         public ActionResult GetDoctorNotificationCount()
         {
             try
@@ -663,6 +664,7 @@ namespace DMS_WebApplication.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
+        [CustomAuthorize(Roles = "Admin, SuperAdmin")]
         public JsonResult GetDoctorNotificationsList()
         {
             try
@@ -697,6 +699,7 @@ namespace DMS_WebApplication.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
+        [CustomAuthorize(Roles = "Admin, SuperAdmin")]
         public JsonResult ChangeDoctorNotificationToRead()
         {
             try
@@ -731,6 +734,7 @@ namespace DMS_WebApplication.Controllers
         }
         
         [AcceptVerbs(HttpVerbs.Get)]
+        [CustomAuthorize(Roles = "Admin, SuperAdmin")]
         public JsonResult ApproveDoctorProfile(int DoctorID, int NotificationID)
         {
             try
