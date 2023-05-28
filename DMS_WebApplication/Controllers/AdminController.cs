@@ -184,6 +184,7 @@ namespace DMS_WebApplication.Controllers
                     string _filename = DateTime.Now.ToString("yymmssfff") + Path.GetFileName(file.FileName);
                     string path = Path.Combine(Server.MapPath("~/uploads/DoctorsProfileImage/"), _filename);
                     doctor.UserProfileImage = "~/uploads/DoctorsProfileImage/" + _filename;
+                    file.SaveAs(path);
                 }
                 else
                 {
@@ -295,6 +296,7 @@ namespace DMS_WebApplication.Controllers
                     string _filename = DateTime.Now.ToString("yymmssfff") + Path.GetFileName(file.FileName);
                     string path = Path.Combine(Server.MapPath("~/uploads/PatientsProfileImage/"), _filename);
                     users.UserProfileImage = "~/uploads/PatientsProfileImage/" + _filename;
+                    file.SaveAs(path);
                 }
                 else
                 {
@@ -389,6 +391,7 @@ namespace DMS_WebApplication.Controllers
                     string _filename = DateTime.Now.ToString("yymmssfff") + Path.GetFileName(file.FileName);
                     string path = Path.Combine(Server.MapPath("~/uploads/PatientsProfileImage/"), _filename);
                     patient.UserProfileImage = "~/uploads/PatientsProfileImage/" + _filename;
+                    file.SaveAs(path);
                 }
                 else
                 {
@@ -542,6 +545,7 @@ namespace DMS_WebApplication.Controllers
                     string _filename = DateTime.Now.ToString("yymmssfff") + Path.GetFileName(file.FileName);
                     string path = Path.Combine(Server.MapPath("~/uploads/AdminsProfileImage/"), _filename);
                     admin.UserProfileImage = "~/uploads/AdminsProfileImage/" + _filename;
+                    file.SaveAs(path);
                 }
                 else
                 {

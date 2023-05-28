@@ -17,7 +17,7 @@ namespace DMS_BOL.Validation_Classes
 
         [Required(ErrorMessage = "*")]
         [Display(Name = "Work Phone Number")]
-        [RegularExpression(@"03[0-9]{2}(?!1234567)(?!1111111)(?!7654321)[0-9]{7}", ErrorMessage = "Invalid Phone Number")]
+        [RegularExpression(@"03[0-9]{2}(?!1234567)(?!1111111)(?!7654321)[-]?[0-9]{7}", ErrorMessage = "Invalid Phone Number")]
         public string DoctorWorkPhoneNumber { get; set; }
 
         [Display(Name = "Awards And Achievements")]
@@ -42,6 +42,8 @@ namespace DMS_BOL.Validation_Classes
 
         [Required(ErrorMessage = "*")]
         [Display(Name = "Response Time")]
+        [Range(1, 100, ErrorMessage = "Invalid Number of Response Time")]
+        [RegularExpression("^\\d{0,3}$", ErrorMessage = "Invalid Number of Response Time")]
         public int? DoctorResponseTime { get; set; }
 
         [Required(ErrorMessage = "*")]

@@ -95,12 +95,12 @@
                         </div>
                         <div class="card-body">
                             <div class="form-group">
-                                <label>Work Phone Number</label>
+                                <label>Work Phone Number (Number Should Start with Zero)</label>
                                 @Html.ValidationMessageFor(model => model.DoctorWorkPhoneNumber, "", new { @class = "text-danger" })
                                 @Html.EditorFor(model => model.DoctorWorkPhoneNumber, new { htmlAttributes = new { placeholder = "Enter your work phone number", @class = "form-control", @tabindex = "0" } })
                             </div>
                             <div class="form-group">
-                                <label>Years Of Experience</label>
+                                <label>Years Of Experience (In Numbers)</label>
                                 @Html.ValidationMessageFor(model => model.DoctorYearsOfExperience, "", new { @class = "text-danger" })
                                 @Html.EditorFor(model => model.DoctorYearsOfExperience, new { htmlAttributes = new { placeholder = "Enter your years of experience", @class = "form-control", @tabindex = "1" } })
                             </div>

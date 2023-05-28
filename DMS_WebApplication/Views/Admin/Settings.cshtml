@@ -127,7 +127,7 @@
                         </div>
                         <div class="row">
                             <div class="form-group col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
-                                <label>Phone Number</label>
+                                <label>Phone Number (Number Should Start with Zero)</label>
                                 @Html.ValidationMessageFor(model => model.UserUpdatePhoneNumber, "", new { @class = "text-danger" })
                                 @Html.EditorFor(model => model.UserUpdatePhoneNumber, new { htmlAttributes = new { placeholder = "Enter your phone number", @class = "form-control" } })
                             </div>

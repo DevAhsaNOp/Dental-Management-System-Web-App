@@ -53,6 +53,7 @@ namespace DMS_WebApplication.Controllers
                 string _filename = DateTime.Now.ToString("yymmssfff") + Path.GetFileName(file.FileName);
                 string path = Path.Combine(Server.MapPath("~/uploads/PatientsProfileImage/"), _filename);
                 users.UserProfileImage = "~/uploads/PatientsProfileImage/" + _filename;
+                file.SaveAs(path);
                 if (users != null)
                 {
                     users.StateID = int.Parse(users.State);
