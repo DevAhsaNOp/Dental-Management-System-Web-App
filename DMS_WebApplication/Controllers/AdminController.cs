@@ -13,6 +13,7 @@ using System.Web.Security;
 
 namespace DMS_WebApplication.Controllers
 {
+    [SessionExpire]
     public class AdminController : Controller
     {
         private UsersRepo UserRepoObj;

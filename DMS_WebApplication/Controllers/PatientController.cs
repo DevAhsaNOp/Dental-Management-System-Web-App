@@ -13,6 +13,7 @@ using System.Web.Mvc;
 
 namespace DMS_WebApplication.Controllers
 {
+    [SessionExpire]
     public class PatientController : Controller
     {
         private UsersRepo UserRepoObj;

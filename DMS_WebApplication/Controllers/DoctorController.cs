@@ -15,6 +15,7 @@ using System.Web.Security;
 
 namespace DMS_WebApplication.Controllers
 {
+    [SessionExpire]
     public class DoctorController : Controller
     {
         private HttpClient _httpClient;

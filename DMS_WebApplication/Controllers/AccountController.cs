@@ -7,9 +7,11 @@ using System.Web.Security;
 using DMS_BLL.Repositories;
 using DMS_BOL.Validation_Classes;
 using System.Collections.Generic;
+using DMS_WebApplication.Models;
 
 namespace DMS_WebApplication.Controllers
 {
+    [SessionExpire]
     public class AccountController : Controller
     {
         private HttpClient _httpClient;
