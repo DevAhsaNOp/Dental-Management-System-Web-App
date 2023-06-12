@@ -59,7 +59,14 @@
                                                 <td>@item.P_PhoneNumber</td>
                                                 <td>@item.P_Gender</td>
                                                 <td>@item.P_Email</td>
-                                                <td>@item.tblAddress.tblZone.ZoneName, @item.tblAddress.tblCity.CityName</td>
+                                                @if (item.tblAddress.tblZone != null)
+                                                {
+                                                    <td>@item.tblAddress.tblZone.ZoneName, @item.tblAddress.tblCity.CityName</td>
+                                                }
+                                                else
+                                                {
+                                                    <td>@item.tblAddress.tblCity.CityName</td>
+                                                }
                                                 @if (item.P_IsActive.Value)
                                                 {
                                                     <td><span class="badge badge-success">Active</span></td>
