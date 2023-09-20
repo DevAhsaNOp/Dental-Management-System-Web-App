@@ -1237,6 +1237,7 @@ namespace DMS_WebApplication.Controllers
                     string _filename = DateTime.Now.ToString("yymmssfff") + Path.GetFileName(file.FileName);
                     string path = Path.Combine(Server.MapPath("~/uploads/DoctorsProfileImage/"), _filename);
                     doctor.UserProfileImage = "~/uploads/DoctorsProfileImage/" + _filename;
+                    Session["UserImage"] = doctor.UserProfileImage;
                     file.SaveAs(path);
                 }
                 else

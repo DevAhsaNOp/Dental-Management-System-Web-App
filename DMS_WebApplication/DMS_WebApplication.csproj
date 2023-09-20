@@ -62,6 +62,9 @@
     <Reference Include="Microsoft.AspNet.SignalR.SystemWeb, Version=2.4.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.SignalR.SystemWeb.2.4.3\lib\net45\Microsoft.AspNet.SignalR.SystemWeb.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=7.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.7.0.0\lib\net462\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=3.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.3.6.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
     </Reference>
@@ -81,14 +84,42 @@
     <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
     </Reference>
+    <Reference Include="RestSharp, Version=110.2.1.0, Culture=neutral, PublicKeyToken=598062e77f915f75, processorArchitecture=MSIL">
+      <HintPath>..\packages\RestSharp.110.2.1-alpha.0.13\lib\net471\RestSharp.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
+    </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Memory, Version=4.0.1.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.5.5\lib\net461\System.Memory.dll</HintPath>
+    </Reference>
     <Reference Include="System.Net.Http.Formatting, Version=5.2.9.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.9\lib\net45\System.Net.Http.Formatting.dll</HintPath>
     </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.6.0.0\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
     <Reference Include="System.Security" />
+    <Reference Include="System.Text.Encodings.Web, Version=7.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Text.Encodings.Web.7.0.0\lib\net462\System.Text.Encodings.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Text.Json, Version=7.0.0.3, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Text.Json.7.0.3\lib\net462\System.Text.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -1174,7 +1205,7 @@
     <Content Include="assets\fonts\iu.eot" />
     <Content Include="assets\fonts\iu.ttf" />
     <Content Include="assets\fonts\iu.woff" />
-    <None Include="Properties\PublishProfiles\DMSWebApp - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\dmswebappofficial - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-3.2.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.2.1.js" />
@@ -1210,6 +1241,7 @@
     <Content Include="uploads\DoctorsProfileImage\234808907doctor.jpg" />
     <Content Include="uploads\DoctorsProfileImage\234945933doctor.jpg" />
     <Content Include="uploads\DoctorsProfileImage\235122204doctor.jpg" />
+    <Content Include="uploads\DoctorsProfileImage\235442045profile.jpg" />
     <Content Include="uploads\DoctorsProfileImage\235740910doctor.jpg" />
     <Content Include="uploads\DoctorsProfileImage\nophoto.png" />
     <Content Include="uploads\PatientsProfileImage\nophoto.png" />
@@ -1229,6 +1261,16 @@
     <Content Include="uploads\PatientTeethDetection\1939Patient2\PatientUploaded\48822647-9be7-4c57-a758-ab152204e30e.jpg" />
     <Content Include="uploads\PatientTeethDetection\1939Patient2\PatientUploaded\bef87c65-8231-4bdb-a63a-1b2d0e860929.jpg" />
     <Content Include="uploads\PatientTeethDetection\1939Patient2\PatientUploaded\e4eced28-24e6-446f-99fa-a2b7269aa506.jpg" />
+    <Content Include="uploads\PatientTeethDetection\3349Patient3\PatientUploaded\3647fde9-f127-4832-9eab-0466eee91bad.jpg" />
+    <Content Include="uploads\PatientTeethDetection\3349Patient3\PatientUploaded\7a8940b2-75e9-4947-b03d-cb8897a1530c.jpg" />
+    <Content Include="uploads\PatientTeethDetection\3349Patient3\PatientUploaded\818151ed-26b8-4f7c-91c0-947c1cc7c00e.jpg" />
+    <Content Include="uploads\PatientTeethDetection\3349Patient3\PatientUploaded\a57e226d-80d1-47f9-93ab-e0e7b6f1efe9.jpg" />
+    <Content Include="uploads\PatientTeethDetection\3349Patient3\PatientUploaded\fc64265f-4d2f-4d46-84da-e54836ebf417.jpg" />
+    <Content Include="uploads\PatientTeethDetection\3715Patient4\PatientUploaded\2122632b-472c-4075-8ddc-016167231529.jpg" />
+    <Content Include="uploads\PatientTeethDetection\3715Patient4\PatientUploaded\322d9da9-da06-439c-b1f1-603ed58feadc.jpg" />
+    <Content Include="uploads\PatientTeethDetection\3715Patient4\PatientUploaded\5abc5a5c-4b0c-4e17-8dba-64702b9ea5ba.jpg" />
+    <Content Include="uploads\PatientTeethDetection\3715Patient4\PatientUploaded\61ed490c-c4df-405a-ab18-b751970f7f8b.jpg" />
+    <Content Include="uploads\PatientTeethDetection\3715Patient4\PatientUploaded\cc92d148-5035-45b1-a5c6-4c8227a97c0b.jpg" />
     <Content Include="uploads\SuperAdminsProfileImage\nophoto.png" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">

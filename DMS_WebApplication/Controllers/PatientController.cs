@@ -4,6 +4,8 @@ using DMS_BLL.Repositories;
 using DMS_BOL;
 using DMS_BOL.Validation_Classes;
 using DMS_WebApplication.Models;
+using Newtonsoft.Json.Linq;
+using RestSharp;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -198,7 +200,7 @@ namespace DMS_WebApplication.Controllers
                                 file.SaveAs(Path.Combine(Server.MapPath(_foldername), Guid.NewGuid() + Path.GetExtension(file.FileName)));
                             }
                         }
-                        patientTest.PT_Images = _foldername.Replace("~/uploads/","");
+                        patientTest.PT_Images = _foldername.Replace("~/uploads/", "");
                         var reas = patientTestRepoObj.InsertPatientTest(patientTest);
                         if (reas > 0)
                         {
@@ -218,6 +220,41 @@ namespace DMS_WebApplication.Controllers
 
                                 var uploadResult = cloudinary.Upload(uploadParams);
                             }
+
+                            //Patient Teeth Test Api Call Request
+
+                            var options = new RestClientOptions("http://127.0.0.1:5000")
+                            {
+                                MaxTimeout = -1,
+                            };
+                            var client = new RestClient(options);
+                            var request = new RestRequest("/api/patientTeethTest/" + patientTest.PT_PatientID, Method.Get);
+                            RestResponse response = client.ExecuteGet(request);
+                            var result = response.Content;
+                            JObject jsonResponse = JObject.Parse(result);
+                            if (result != null && response.StatusCode == System.Net.HttpStatusCode.OK)
+                            {
+                                if (jsonResponse["StatusCode"].ToString() == "200")
+                                    TempData["SuccessMsg"] = "Patient teeth testing is in process. You will recieve a report on your email when it's done!";
+                                else if (jsonResponse["StatusCode"].ToString() == "204")
+                                    TempData["SuccessMsg"] = "Patient Record exists. No images found!";
+                                else if (jsonResponse["StatusCode"].ToString() == "404")
+                                    TempData["SuccessMsg"] = "Patient Record does not exist!";
+                                else if (jsonResponse["StatusCode"].ToString() == "500")
+                                    TempData["SuccessMsg"] = "Error in retrieving Patient data!";
+                                else if (jsonResponse["StatusCode"].ToString() == "504")
+                                    TempData["SuccessMsg"] = "Please provide patient id!";
+                                else
+                                    TempData["ErrorMsg"] = "An error occured while testing please try again later!";
+                            }
+                            else if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
+                                TempData["ErrorMsg"] = "Patient found but no images found!";
+                            else if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
+                                TempData["ErrorMsg"] = "Patient not found!";
+                            else if (response.StatusCode == System.Net.HttpStatusCode.InternalServerError)
+                                TempData["ErrorMsg"] = "An error occured while testing please try again later!";
+                            else
+                                TempData["ErrorMsg"] = "An error occured while testing please try again later!";
                         }
                         else
                             TempData["ErrorMsg"] = "An error occured while testing please try again later!";

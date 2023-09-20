@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="619639a244a146bb9a80297503a02e7d" Name="Diagram1">
+      <Diagram DiagramId="baf7a11cdd6c4529b85bb825d2c1da61" Name="Diagram1">
         <EntityTypeShape EntityType="dmswebapp_dentalDBModel.sysdiagram" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="dmswebapp_dentalDBModel.tblAddress" Width="1.5" PointX="0.75" PointY="24.375" IsExpanded="true" />
         <EntityTypeShape EntityType="dmswebapp_dentalDBModel.tblAdmin" Width="1.5" PointX="3" PointY="29.875" IsExpanded="true" />
