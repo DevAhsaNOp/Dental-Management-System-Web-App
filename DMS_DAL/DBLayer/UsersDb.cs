@@ -91,7 +91,7 @@ namespace DMS_DAL.DBLayer
         {
             try
             {
-                var model = _context.tblOTPs.Where(x => x.OT_UsersEmail == Email).FirstOrDefault();
+                var model = _context.tblOTPs.Where(x => x.OT_UsersEmail == Email && x.OT_IsActive == true).FirstOrDefault();
                 model.OT_IsActive = false;
                 model.OT_IsArchive = true;
                 model.OT_UpdatedOn= DateTime.Now;
@@ -642,7 +642,7 @@ namespace DMS_DAL.DBLayer
                 return null;
         }
 
-        public ValidateUsersProfiles GetUserDetailById(int Id, string Role)
+        public ValidateUsersProfiles GetUserDetailByIdAndRole(int Id, string Role)
         {
             var patients = _context.tblPatients.Where(x => x.P_ID == Id && x.tblRole.RoleName.ToLower().Contains(Role.ToLower())).Select(s => new ValidateUsersProfiles()
             {

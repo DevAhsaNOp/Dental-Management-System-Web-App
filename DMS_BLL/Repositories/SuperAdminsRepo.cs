@@ -168,10 +168,18 @@ namespace DMS_BLL.Repositories
                 return null;
         }
 
+        public ValidateUsersProfiles GetUserDetailByIdAndRole(int Id, string Role)
+        {
+            if (Id > 0 && Role.Length > 4)
+                return dbObj.GetUserDetailByIdAndRole(Id, Role);
+            else
+                return null;
+        }
+
         public ValidateUsersProfiles GetUserDetailById(int Id)
         {
             if (Id > 0)
-                return dbObj.GetUserDetailById(Id);
+                return GetUserDetailByIdAndRole(Id, "SuperAdmin");
             else
                 return null;
         }

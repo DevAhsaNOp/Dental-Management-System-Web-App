@@ -175,10 +175,10 @@ namespace DMS_BLL.Repositories
            return dbObj.GetAllPatient();
         }
 
-        public ValidateUsersProfiles GetUserDetailById(int Id, string Role)
+        public ValidateUsersProfiles GetUserDetailByIdAndRole(int Id, string Role)
         {
             if (Id > 0 && Role.Length > 4)
-                return dbObj.GetUserDetailById(Id, Role);
+                return dbObj.GetUserDetailByIdAndRole(Id, Role);
             else
                 return null;
         }
@@ -187,7 +187,7 @@ namespace DMS_BLL.Repositories
         {
             if (Id > 0)
             {
-                var reas = dbObj.GetUserDetailById(Id);
+                var reas = GetUserDetailByIdAndRole(Id, "Patient");
                 reas.UserPassword = EncDec.Decrypt(reas.UserPassword);
                 return reas;
             }
@@ -308,6 +308,57 @@ namespace DMS_BLL.Repositories
                 if (reas)
                     return true;
                 return false;
+            }
+            else
+                return false;
+        }
+
+        public bool UpdateUserPasswword(ValidateUsersLogin model, string Role)
+        {
+            if (model != null && model.UserPasswordForReset.Length > 7 && !string.IsNullOrEmpty(Role) && model.UserID > 0)
+            {
+                if (Role.Equals("Admin", StringComparison.OrdinalIgnoreCase))
+                {
+                    var AdminObj = dbObj.GetAdminByID(model.UserID);
+                    AdminObj.A_Password = EncDec.Encrypt(model.UserPasswordForReset);
+                    AdminObj.A_UpdatedBy = model.UserUpdatedBy;
+                    var reas = dbObj.UpdateAdmin(AdminObj);
+                    if (reas)
+                        return true;
+                    return false;
+                }
+                else if (Role.Equals("SuperAdmin", StringComparison.OrdinalIgnoreCase))
+                {
+                    var SAdminObj = dbObj.GetSuperAdminByID(model.UserID);
+                    SAdminObj.SA_Password = EncDec.Encrypt(model.UserPasswordForReset);
+                    SAdminObj.SA_UpdatedBy = model.UserUpdatedBy;
+                    var reas = dbObj.UpdateSuperAdmin(SAdminObj);
+                    if (reas)
+                        return true;
+                    return false;
+                }
+                else if (Role.Equals("Doctor", StringComparison.OrdinalIgnoreCase))
+                {
+                    var DoctorObj = dbObj.GetDoctorByID(model.UserID);
+                    DoctorObj.D_Password = EncDec.Encrypt(model.UserPasswordForReset);
+                    DoctorObj.D_UpdatedBy = model.UserUpdatedBy;
+                    var reas = dbObj.UpdateDoctor(DoctorObj);
+                    if (reas)
+                        return true;
+                    return false;
+                }
+                else if (Role.Equals("Patient", StringComparison.OrdinalIgnoreCase))
+                {
+                    var PatientObj = dbObj.GetPatientByID(model.UserID);
+                    PatientObj.P_Password = EncDec.Encrypt(model.UserPasswordForReset);
+                    PatientObj.P_UpdatedBy = model.UserUpdatedBy;
+                    var reas = dbObj.UpdatePatient(PatientObj);
+                    if (reas)
+                        return true;
+                    return false;
+                }
+                else
+                    return false;
             }
             else
                 return false;

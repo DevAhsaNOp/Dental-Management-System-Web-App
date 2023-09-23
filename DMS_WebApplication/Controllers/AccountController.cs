@@ -64,9 +64,16 @@ namespace DMS_WebApplication.Controllers
             Response.Cache.SetNoStore();
             return RedirectToAction("SignIn");
         }
+
         public JsonResult IsEmailExist(string UserEmail)
         {
             return Json(CheckEmailExist(UserEmail), JsonRequestBehavior.AllowGet);
+        }
+        
+        
+        public JsonResult IsEmailExistForResetPass(string UserEmailForResetPass)
+        {
+            return Json(!CheckEmailExist(UserEmailForResetPass), JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult IsPhoneNumberExist(string UserPhoneNumber)
@@ -237,6 +244,105 @@ namespace DMS_WebApplication.Controllers
             catch (Exception ex)
             {
                 throw ex;
+            }
+        }
+
+        [AcceptVerbs(HttpVerbs.Get)]
+        public ActionResult ForgotPassword()
+        {
+            ValidateUsersLogin usersLogin = new ValidateUsersLogin();
+            return View(usersLogin);
+        }
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult ForgotPassword(ValidateUsersLogin user)
+        {
+            try
+            {
+                if (!CheckEmailExist(user.UserEmailForResetPass))
+                {
+                    var IsSuccess = UserRepoObj.GenerateUserOTP(user.UserEmailForResetPass);
+                    if (IsSuccess)
+                    {
+                        TempData["SuccessMsg"] = "Please check your <b>email</b> for a message with your code. Your code is 6 numbers long!";
+                        Session["Email"] = user.UserEmailForResetPass;
+                        ValidateUsersLogin usersLogin = new ValidateUsersLogin();
+                        return View("_PasswordRecover", usersLogin);
+                    }
+                    else
+                    {
+                        TempData["ErrorMsg"] = "An error occured please try again later!";
+                        return View();
+                    }
+                }
+                else
+                {
+                    TempData["ErrorMsg"] = "No Account associated with this Email Address!";
+                    return View();
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMsg"] = "Error occured on Account!" + ex.Message;
+                return RedirectToAction("ForgotPassword");
+            }
+        }
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult CheckOTP(ValidateUsersLogin user)
+        {
+            try
+            {
+                var Email = @Session["Email"].ToString();
+                TempData["Email"] = Email;
+                var IsSuccess = UserRepoObj.CheckOTP(Email, user.OTP);
+                if (IsSuccess)
+                {
+                    TempData["SuccessMsg"] = "OTP Confirmed!";
+                    Session["Email"] = user.UserEmailForResetPass;
+                    ValidateUsersLogin usersLogin = new ValidateUsersLogin();
+                    return View("_ResetPassword", usersLogin);
+                }
+                else
+                {
+                    TempData["ErrorMsg"] = "Incorrect OTP please recheck your email!";
+                    return View("_PasswordRecover");
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMsg"] = "Error occured on Account!" + ex.Message;
+                return RedirectToAction("SignIn");
+            }
+        }
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        public JsonResult ResetPass(ValidateUsersLogin user)
+        {
+            try
+            {
+                var Email = @TempData["Email"].ToString();
+                var userDetailObj = UserRepoObj.GetUserDetailByEmail(Email);
+                user.UserEmail = Email;
+                user.UserID = userDetailObj.ID;
+                user.UserUpdatedBy = userDetailObj.ID;
+                var Role = userDetailObj.Role;
+                var IsSuccess = UserRepoObj.UpdateUserPasswword(user, Role);
+                if (IsSuccess)
+                {
+                    TempData["SuccessMsg"] = "<b>Hurry!</b> your Password is Reset...";
+                    return Json(new { message = "yes" }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    TempData["ErrorMsg"] = "No Account found with this Email Address!";
+                    return Json(new { message = "no" }, JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMsg"] = "Error occured on Account!" + ex.Message;
+                return Json(new { message = "error" }, JsonRequestBehavior.AllowGet);
             }
         }
 

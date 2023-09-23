@@ -191,11 +191,19 @@ namespace DMS_BLL.Repositories
                 return null;
         }
 
+        public ValidateUsersProfiles GetUserDetailByIdAndRole(int Id, string Role)
+        {
+            if (Id > 0 && Role.Length > 4)
+                return dbObj.GetUserDetailByIdAndRole(Id, Role);
+            else
+                return null;
+        }
+
         public ValidateUsersProfiles GetUserDetailById(int Id)
         {
             if (Id > 0)
             {
-                var reas = dbObj.GetUserDetailById(Id);
+                var reas = GetUserDetailByIdAndRole(Id, "Doctor");
                 reas.UserPassword = EncDec.Decrypt(reas.UserPassword);
                 return reas;
             }

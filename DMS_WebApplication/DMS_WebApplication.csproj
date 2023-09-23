@@ -1321,6 +1321,9 @@
     <Content Include="Views\Admin\PatientDetails.cshtml" />
     <Content Include="Views\Admin\Settings.cshtml" />
     <Content Include="Views\Admin\DoctorProfileApprovals.cshtml" />
+    <Content Include="Views\Account\ForgotPassword.cshtml" />
+    <Content Include="Views\Shared\_PasswordRecover.cshtml" />
+    <Content Include="Views\Shared\_ResetPassword.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
