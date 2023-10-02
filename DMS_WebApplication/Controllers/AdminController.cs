@@ -555,12 +555,12 @@ namespace DMS_WebApplication.Controllers
                     admin.UserProfileImage = Session["AdminImage"].ToString();
                 }
                 admin.UserID = int.Parse(Session["AdminUserID"].ToString());
-                var Docreas = DoctorsRepoObj.GetUserDetailById(admin.UserID);
+                var Adminreas = adminRepoObj.GetUserDetailById(admin.UserID);
                 admin.UserOTP = null;
-                admin.UserID = Docreas.UserID;
+                admin.UserID = Adminreas.UserID;
                 admin.IsProfileCompleted = true;
-                admin.UserUpdatedBy = Docreas.UserID;
-                admin.tblAddress = Docreas.tblAddress;
+                admin.UserUpdatedBy = Adminreas.UserID;
+                admin.tblAddress = Adminreas.tblAddress;
                 admin.UserEmail = admin.UserUpdateEmail;
                 admin.UserProfileImage = admin.UserProfileImage;
                 admin.UserPhoneNumber = admin.UserUpdatePhoneNumber;
