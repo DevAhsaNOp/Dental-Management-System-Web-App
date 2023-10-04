@@ -6,7 +6,7 @@ day = today.getDate();
 var calendar = $('#myEvent').fullCalendar({
     height: 'auto',
     defaultView: 'month',
-    editable: true,
+    editable: false,
     selectable: true,
     header: {
         left: 'prev,next today',

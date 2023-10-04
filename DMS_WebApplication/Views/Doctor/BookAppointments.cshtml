@@ -1,0 +1,181 @@
+﻿@{
+    ViewBag.Title = "DMS - Book Appointments";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .nav {
+        -ms-flex-wrap: nowrap;
+        -webkit-flex-wrap: nowrap;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+    }
+
+    .nav-item {
+        flex: 1;
+        color: #4B566B !important;
+        font-size: 15px;
+        border: 1px solid #e1e1e1;
+        border-radius: 8px;
+        margin: 0 5px 0 0;
+        min-width: fit-content !important;
+    }
+
+        .nav-item .nav-link {
+            color: #4B566B !important;
+        }
+
+        .nav-item .active {
+            color: #6777ef !important;
+            border-radius: 8px;
+            font-weight: 700 !important;
+            background-color: rgb(244 246 255) !important;
+            box-shadow: 0 0px 3px #acb5f6d6 !important;
+        }
+
+    #date-navbar {
+        flex-wrap: nowrap !important;
+        overflow-x: auto !important;
+    }
+
+    .date-nav-item {
+        min-width: 180px !important;
+        border: 1px solid #6777ef;
+        border-radius: 50px;
+        margin: 0 5px 0 0;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.06);
+    }
+
+        .date-nav-item .nav-link {
+            border-radius: 50px;
+            text-align: center;
+        }
+
+        .date-nav-item .active {
+            font-weight: 600 !important;
+            border: 1px solid #e1e1e1;
+        }
+</style>
+<div class="section-body">
+    <div class="row mb-2">
+        <div class="col-12">
+            <h3>All Appointments</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header bg-primary">
+                </div>
+                <div class="card-body">
+                    <h6 style="color: black !important; font-weight:600 !important;">
+                        Select Clinic/Hospital
+                    </h6>
+                    <ul class="nav nav-pills mb-4" role="tablist" aria-name="ConsultCriteria">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="home-tab3" data-toggle="tab" href="#home3" role="tab" aria-controls="home" aria-selected="true">HomeHomeHomeHomeHomeHome</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="profile-tab3" data-toggle="tab" href="#profile3" role="tab" aria-controls="profile" aria-selected="false">Profile</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="profile-tab4" data-toggle="tab" href="#profile4" role="tab" aria-controls="profile" aria-selected="false">Profile</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content" id="myTabContent2" aria-name="ConsultDetails">
+                        <div class="tab-pane fade show active" id="home3" role="tabpanel" aria-labelledby="home-tab3">
+                            <h6 style="color: black !important; font-weight:600 !important;">Date</h6>
+                            <ul class="nav nav-pills mb-5" id="date-navbar" role="tablist" aria-name="ConsultDate">
+                                <li class="date-nav-item">
+                                    <a class="nav-link active" id="home-tab4" data-toggle="tab" href="#home4" role="tab" aria-controls="home" aria-selected="true">Home</a>
+                                </li>
+                                <li class="date-nav-item">
+                                    <a class="nav-link" id="profile-tab5" data-toggle="tab" href="#profile5" role="tab" aria-controls="profile" aria-selected="false">Profile</a>
+                                </li>
+                                <li class="date-nav-item">
+                                    <a class="nav-link" id="profile-tab6" data-toggle="tab" href="#profile6" role="tab" aria-controls="profile" aria-selected="false">Profile</a>
+                                </li>
+                            </ul>
+                            <h6 style="color: black !important; font-weight:600 !important;">Timings</h6>
+                            <div class="tab-content" aria-name="ConsultTimings">
+                                <div class="tab-pane fade show active" id="home4" role="tabpanel" aria-labelledby="home-tab4">
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-xxl-2 col-xl-2 col-lg-2 col-md-3 col-sm-4">
+                                                <div class="selectgroup w-100">
+                                                    <label class="selectgroup-item">
+                                                        <input type="radio" name="radio1" value="1" class="selectgroup-input-radio" checked="">
+                                                        <span class="selectgroup-button">S</span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-xxl-2 col-xl-2 col-lg-2 col-md-3 col-sm-4">
+                                                <div class="selectgroup w-100">
+                                                    <label class="selectgroup-item">
+                                                        <input type="radio" name="radio1" value="2" class="selectgroup-input-radio">
+                                                        <span class="selectgroup-button">M</span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-xxl-2 col-xl-2 col-lg-2 col-md-3 col-sm-4">
+                                                <div class="selectgroup w-100">
+                                                    <label class="selectgroup-item">
+                                                        <input type="radio" name="radio1" value="3" class="selectgroup-input-radio">
+                                                        <span class="selectgroup-button">L</span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-xxl-2 col-xl-2 col-lg-2 col-md-3 col-sm-4">
+                                                <div class="selectgroup w-100">
+                                                    <label class="selectgroup-item">
+                                                        <input type="radio" name="radio1" value="4" class="selectgroup-input-radio">
+                                                        <span class="selectgroup-button">XL</span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-xxl-2 col-xl-2 col-lg-2 col-md-3 col-sm-4">
+                                                <div class="selectgroup w-100">
+                                                    <label class="selectgroup-item">
+                                                        <input type="radio" name="radio1" value="6" class="selectgroup-input-radio">
+                                                        <span class="selectgroup-button">XXL</span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-xxl-2 col-xl-2 col-lg-2 col-md-3 col-sm-4">
+                                                <div class="selectgroup w-100">
+                                                    <label class="selectgroup-item">
+                                                        <input type="radio" name="radio1" value="6" class="selectgroup-input-radio">
+                                                        <span class="selectgroup-button">XXXL</span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="profile5" role="tabpanel" aria-labelledby="profile-tab5">
+                                    Sed sed metus vel lacus hendrerit tempus. Sed efficitur velit tortor, ac efficitur est lobortis
+                                    quis. Nullam lacinia metus erat, sed fermentum justo rutrum ultrices. Proin quis iaculis tellus.
+                                    Etiam ac vehicula eros, pharetra consectetur dui.
+                                </div>
+                                <div class="tab-pane fade" id="profile6" role="tabpanel" aria-labelledby="profile-tab6">
+                                    Sed sed metus vel lacus hendrerit tempus. Sed efficitur velit tortor, ac efficitur est lobortis
+                                    quis. Nullam lacinia metus erat, sed fermentum justo rutrum ultrices. Proin quis iaculis tellus.
+                                    Etiam ac vehicula eros, pharetra consectetur dui.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="profile3" role="tabpanel" aria-labelledby="profile-tab3">
+                            Sed sed metus vel lacus hendrerit tempus. Sed efficitur velit tortor, ac efficitur est lobortis
+                            quis. Nullam lacinia metus erat, sed fermentum justo rutrum ultrices. Proin quis iaculis tellus.
+                            Etiam ac vehicula eros, pharetra consectetur dui.
+                        </div>
+                        <div class="tab-pane fade" id="profile4" role="tabpanel" aria-labelledby="profile-tab4">
+                            Sed sed metus vel lacus hendrerit tempus. Sed efficitur velit tortor, ac efficitur est lobortis
+                            quis. Nullam lacinia metus erat, sed fermentum justo rutrum ultrices. Proin quis iaculis tellus.
+                            Etiam ac vehicula eros, pharetra consectetur dui.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

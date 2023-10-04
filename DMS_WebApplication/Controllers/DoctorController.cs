@@ -265,6 +265,13 @@ namespace DMS_WebApplication.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
+        //[CustomAuthorize(Roles = "Admin, SuperAdmin, Doctor")]
+        public ActionResult BookAppointments()
+        {
+            return View();
+        }
+
+        [AcceptVerbs(HttpVerbs.Get)]
         [CustomAuthorize(Roles = "Admin, SuperAdmin, Doctor")]
         public ActionResult Messages()
         {
