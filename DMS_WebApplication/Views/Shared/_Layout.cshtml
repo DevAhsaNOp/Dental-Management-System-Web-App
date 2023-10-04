@@ -33,420 +33,309 @@
         }
     </style>
 </head>
-
 <body>
-    <div class="loader"></div>
-    <div id="app">
-        <div class="main-wrapper main-wrapper-1">
-            <div class="navbar-bg"></div>
-            <nav class="navbar navbar-expand-lg main-navbar sticky">
-                <div class="form-inline mr-auto">
-                    <ul class="navbar-nav mr-3">
-                        <li>
-                            <a href="#" data-toggle="sidebar" class="nav-link nav-link-lg
+    @if (User.Identity.IsAuthenticated)
+    {
+        <div class="loader"></div>
+        <div id="app">
+            <div class="main-wrapper main-wrapper-1">
+                <div class="navbar-bg"></div>
+                <nav class="navbar navbar-expand-lg main-navbar sticky">
+                    <div class="form-inline mr-auto">
+                        <ul class="navbar-nav mr-3">
+                            <li>
+                                <a href="#" data-toggle="sidebar" class="nav-link nav-link-lg
 									collapse-btn"> <i data-feather="align-justify"></i></a>
-                        </li>
-                        <li>
-                            <a href="#" class="nav-link nav-link-lg fullscreen-btn">
-                                <i data-feather="maximize"></i>
+                            </li>
+                            <li>
+                                <a href="#" class="nav-link nav-link-lg fullscreen-btn">
+                                    <i data-feather="maximize"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <ul class="navbar-nav navbar-right">
+                        <li class="dropdown dropdown-list-toggle">
+                            <a href="#" data-toggle="dropdown"
+                               class="nav-link notification-toggle nav-link-lg" id="notificationShow">
+                                <i data-feather="bell" class="bell"></i>
+                                <span class="badge notification-badge notification-count">
+                                    0
+                                </span>
                             </a>
-                        </li>
-                        @*<li>
-                                <form class="form-inline mr-auto">
-                                    <div class="search-element">
-                                        <input class="form-control" type="search" placeholder="Search" aria-label="Search" data-width="200">
-                                        <button class="btn" type="submit">
-                                            <i class="fas fa-search"></i>
-                                        </button>
+                            <div class="dropdown-menu dropdown-list dropdown-menu-right pullDown">
+                                <div class="dropdown-header">
+                                    Notifications
+                                    <div class="float-right">
+                                        <a href="javascript:void(0)" id="markDANoti">Mark All As Read</a>
                                     </div>
-                                </form>
-                            </li>*@
-                    </ul>
-                </div>
-                <ul class="navbar-nav navbar-right">
-                    <!--       <li class="dropdown dropdown-list-toggle">
-                        <a href="#" data-toggle="dropdown"
-                           class="nav-link nav-link-lg message-toggle">
-                            <i data-feather="mail"></i>
-                            <span class="badge headerBadge1">
-                                6
-                            </span>
-                        </a>
-                        <div class="dropdown-menu dropdown-list dropdown-menu-right pullDown">
-                            <div class="dropdown-header">
-                                Messages
-                                <div class="float-right">
-                                    <a href="#">Mark All As Read</a>
+                                </div>
+                                <hr style="margin:0 !important;" />
+                                <div class="dropdown-list-content dropdown-list-icons" id="notification-list">
+                                    <a href="#" class="dropdown-item dropdown-item-unread">
+                                        <span class="dropdown-item-icon bg-primary text-white">
+                                            <i class="fas fa-code"></i>
+                                        </span>
+                                        <span class="dropdown-item-desc">
+                                            Template update is
+                                            available now!
+                                            <span class="time">
+                                                2 Min
+                                                Ago
+                                            </span>
+                                        </span>
+                                    </a>
+                                    <a href="#" class="dropdown-item">
+                                        <span class="dropdown-item-icon bg-info text-white">
+                                            <i class="far fa-user"></i>
+                                        </span>
+                                        <span class="dropdown-item-desc">
+                                            <b>You</b> and <b>
+                                                Dedik
+                                                Sugiharto
+                                            </b> are now friends
+                                            <span class="time">
+                                                10 Hours
+                                                Ago
+                                            </span>
+                                        </span>
+                                    </a>
+                                </div>
+                                <div class="dropdown-footer text-center">
+                                    @if (User.IsInRole("Admin") || User.IsInRole("SuperAdmin"))
+                                    {
+                                        <a href="@Url.Action("DoctorProfileApprovals","Admin")">View All <i class="fas fa-chevron-right"></i></a>
+                                    }
+                                    else
+                                    {
+                                        <a href="javascript:void(0)">View All <i class="fas fa-chevron-right"></i></a>
+                                    }
                                 </div>
                             </div>
-                            <div class="dropdown-list-content dropdown-list-message">
-                                <a href="#" class="dropdown-item">
-                                    <span class="dropdown-item-avatar
-                                            text-white">
-                                        <img alt="image" src="~/assets/img/users/user-1.png" class="rounded-circle">
-                                    </span> <span class="dropdown-item-desc">
-                                        <span class="message-user">
-                                            John
-                                            Deo
-                                        </span>
-                                        <span class="time messege-text">Please check your mail !!</span>
-                                        <span class="time">2 Min Ago</span>
-                                    </span>
-                                </a> <a href="#" class="dropdown-item">
-                                    <span class="dropdown-item-avatar text-white">
-                                        <img alt="image" src="~/assets/img/users/user-2.png" class="rounded-circle">
-                                    </span> <span class="dropdown-item-desc">
-                                        <span class="message-user">
-                                            Sarah
-                                            Smith
-                                        </span> <span class="time messege-text">
-                                            Request for leave
-                                            application
-                                        </span>
-                                        <span class="time">5 Min Ago</span>
-                                    </span>
-                                </a> <a href="#" class="dropdown-item">
-                                    <span class="dropdown-item-avatar text-white">
-                                        <img alt="image" src="~/assets/img/users/user-5.png" class="rounded-circle">
-                                    </span> <span class="dropdown-item-desc">
-                                        <span class="message-user">
-                                            Jacob
-                                            Ryan
-                                        </span> <span class="time messege-text">
-                                            Your payment invoice is
-                                            generated.
-                                        </span> <span class="time">12 Min Ago</span>
-                                    </span>
-                                </a> <a href="#" class="dropdown-item">
-                                    <span class="dropdown-item-avatar text-white">
-                                        <img alt="image" src="~/assets/img/users/user-4.png" class="rounded-circle">
-                                    </span> <span class="dropdown-item-desc">
-                                        <span class="message-user">
-                                            Lina
-                                            Smith
-                                        </span> <span class="time messege-text">
-                                            hii John, I have upload
-                                            doc
-                                            related to task.
-                                        </span> <span class="time">
-                                            30
-                                            Min Ago
-                                        </span>
-                                    </span>
-                                </a> <a href="#" class="dropdown-item">
-                                    <span class="dropdown-item-avatar text-white">
-                                        <img alt="image" src="~/assets/img/users/user-3.png" class="rounded-circle">
-                                    </span> <span class="dropdown-item-desc">
-                                        <span class="message-user">
-                                            Jalpa
-                                            Joshi
-                                        </span> <span class="time messege-text">
-                                            Please do as specify.
-                                            Let me
-                                            know if you have any query.
-                                        </span> <span class="time">
-                                            1
-                                            Days Ago
-                                        </span>
-                                    </span>
-                                </a> <a href="#" class="dropdown-item">
-                                    <span class="dropdown-item-avatar text-white">
-                                        <img alt="image" src="~/assets/img/users/user-2.png" class="rounded-circle">
-                                    </span> <span class="dropdown-item-desc">
-                                        <span class="message-user">
-                                            Sarah
-                                            Smith
-                                        </span> <span class="time messege-text">Client Requirements</span>
-                                        <span class="time">2 Days Ago</span>
-                                    </span>
-                                </a>
-                            </div>
-                            <div class="dropdown-footer text-center">
-                                <a href="#">View All <i class="fas fa-chevron-right"></i></a>
-                            </div>
-                        </div>
-                    </li>-->
-                    <li class="dropdown dropdown-list-toggle">
-                        <a href="#" data-toggle="dropdown"
-                           class="nav-link notification-toggle nav-link-lg" id="notificationShow">
-                            <i data-feather="bell" class="bell"></i>
-                            <span class="badge notification-badge notification-count">
-                                0
-                            </span>
-                        </a>
-                        <div class="dropdown-menu dropdown-list dropdown-menu-right pullDown">
-                            <div class="dropdown-header">
-                                Notifications
-                                <div class="float-right">
-                                    <a href="javascript:void(0)" id="markDANoti">Mark All As Read</a>
-                                </div>
-                            </div>
-                            <hr style="margin:0 !important;" />
-                            <div class="dropdown-list-content dropdown-list-icons" id="notification-list">
-                                <a href="#" class="dropdown-item dropdown-item-unread">
-                                    <span class="dropdown-item-icon bg-primary text-white">
-                                        <i class="fas fa-code"></i>
-                                    </span>
-                                    <span class="dropdown-item-desc">
-                                        Template update is
-                                        available now!
-                                        <span class="time">
-                                            2 Min
-                                            Ago
-                                        </span>
-                                    </span>
-                                </a>
-                                <a href="#" class="dropdown-item">
-                                    <span class="dropdown-item-icon bg-info text-white">
-                                        <i class="far fa-user"></i>
-                                    </span>
-                                    <span class="dropdown-item-desc">
-                                        <b>You</b> and <b>
-                                            Dedik
-                                            Sugiharto
-                                        </b> are now friends
-                                        <span class="time">
-                                            10 Hours
-                                            Ago
-                                        </span>
-                                    </span>
-                                </a>
-                            </div>
-                            <div class="dropdown-footer text-center">
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" data-toggle="dropdown"
+                               class="nav-link dropdown-toggle nav-link-lg nav-link-user">
+                                <img alt="image" src="@Url.Content(Session["UserImage"].ToString())"
+                                     class="user-img-radious-style"> <span class="d-sm-none d-lg-inline-block"></span>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right pullDown">
                                 @if (User.IsInRole("Admin") || User.IsInRole("SuperAdmin"))
                                 {
-                                    <a href="@Url.Action("DoctorProfileApprovals","Admin")">View All <i class="fas fa-chevron-right"></i></a>
+                                    <div class="dropdown-title">@Session["Username"]</div>
+                                    <a href="@Url.Action("Settings","Admin", new { UserID = int.Parse(Session["UserID"].ToString()) } )" class="dropdown-item has-icon">
+                                        <i class="fas fa-cog"></i>
+                                        Settings
+                                    </a>
                                 }
-                                else
+                                else if (User.IsInRole("Doctor"))
                                 {
-                                    <a href="javascript:void(0)">View All <i class="fas fa-chevron-right"></i></a>
+                                    <div class="dropdown-title">Dr. @Session["Username"]</div>
+                                    <a href="@Url.Action("DoctorProfile","Doctor",new { DoctorID = int.Parse(Session["UserID"].ToString()) })" class="dropdown-item has-icon">
+                                        <i class="far fa-user"></i> Profile
+                                    </a>
+                                    <a href="@Url.Action("Settings","Doctor", new { DoctorID = int.Parse(Session["UserID"].ToString()) } )" class="dropdown-item has-icon">
+                                        <i class="fas fa-cog"></i>
+                                        Settings
+                                    </a>
                                 }
+                                <div class="dropdown-divider"></div>
+                                <a href="@Url.Action("Logout","Account")" class="dropdown-item has-icon text-danger">
+                                    <i class="fas fa-sign-out-alt"></i>
+                                    Logout
+                                </a>
                             </div>
+                        </li>
+                    </ul>
+                </nav>
+                <div class="main-sidebar sidebar-style-2" tabindex="1" style="overflow: hidden; outline: none;">
+                    <aside id="sidebar-wrapper">
+                        <div class="sidebar-brand" style="text-align:left;padding:0 15px">
+                            <a href="@Url.Action("Index","Account")">
+                                <img alt="image" src="~/assets/img/logo.png" class="header-logo"> <span class="logo-name" style="font-size:18px !important">Denticon DMS</span>
+                            </a>
                         </div>
-                    </li>
-                    <li class="dropdown">
-                        <a href="#" data-toggle="dropdown"
-                           class="nav-link dropdown-toggle nav-link-lg nav-link-user">
-                            <img alt="image" src="@Url.Content(Session["UserImage"].ToString())"
-                                 class="user-img-radious-style"> <span class="d-sm-none d-lg-inline-block"></span>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-right pullDown">
+                        <ul class="sidebar-menu">
+                            <li class="menu-header">Main</li>
+                            <li class="dropdown active" id="dashboardS">
+                                <a href="@Url.Action("Index","Account")" class="nav-link toggled"><img src="~/assets/img/sidebar/dashboard-24.png" alt="dashoboard" /><span class="ml-2">Dashboard</span></a>
+                            </li>
+                            <li class="dropdown" id="appointmentS">
+                                <a href="@Url.Action("Appointments","Doctor")" class="nav-link toggled"><img src="~/assets/img/sidebar/calendar-24.png" alt="calendar" /><span class="ml-2">Appointments</span></a>
+                            </li>
+                            @if (User.IsInRole("Doctor"))
+                            {
+                                <li class="dropdown" id="patientS">
+                                    <a href="@Url.Action("Patients","Patient")" class="nav-link toggled"><img src="~/assets/img/sidebar/customer-24.png" alt="patients" /><span class="ml-2">Patients</span></a>
+                                </li>
+                            }
+                            <li class="dropdown" id="patientTS">
+                                <a href="@Url.Action("PatientTest","Patient")" class="nav-link toggled"><img src="~/assets/img/sidebar/teeth-24.png" alt="patientsTest" /><span class="ml-2">Patient Teeth Test</span></a>
+                            </li>
                             @if (User.IsInRole("Admin") || User.IsInRole("SuperAdmin"))
                             {
-                                <div class="dropdown-title">@Session["Username"]</div>
-                                <a href="@Url.Action("Settings","Admin", new { UserID = int.Parse(Session["UserID"].ToString()) } )" class="dropdown-item has-icon">
-                                    <i class="fas fa-cog"></i>
-                                    Settings
-                                </a>
+                                <li class="dropdown" id="doctorA">
+                                    <a href="@Url.Action("DoctorProfileApprovals","Admin")" class="nav-link toggled"><img src="~/assets/img/sidebar/user-24.png" alt="doctorApp" /><span class="ml-2">Doctor Profile Approvals</span></a>
+                                </li>
+                                <li class="dropdown active" id="manageD">
+                                    <a href="javascript:void(0)" class="nav-link text-dark bg-white" id="manageDli"><i data-feather="layout"></i><span>Manage Doctors</span></a>
+                                    <ul class="dropdown-menu">
+                                        <li id="viewDoctorS"><a class="nav-link" href="@Url.Action("Doctors","Admin")">View All Doctors</a></li>
+                                        <li id="addDoctorS"><a class="nav-link" href="@Url.Action("AddDoctor","Admin")">Add Doctor</a></li>
+                                        <li id="editDoctorS"><a class="nav-link" href="#">Edit Doctor</a></li>
+                                        <li id="detailDoctorS"><a class="nav-link" href="#">Doctor Details</a></li>
+                                    </ul>
+                                </li>
+                                <li class="dropdown active" id="manageP">
+                                    <a href="javascript:void(0)" class="nav-link text-dark bg-white" id="managePli"><i data-feather="layout"></i><span>Manage Patients</span></a>
+                                    <ul class="dropdown-menu">
+                                        <li id="viewPatientS"><a class="nav-link" href="@Url.Action("Patients","Admin")">View All Patients</a></li>
+                                        <li id="addPatientS"><a class="nav-link" href="@Url.Action("AddPatient","Admin")">Add Patient</a></li>
+                                        <li id="editPatientS"><a class="nav-link" href="#">Edit Patient</a></li>
+                                        <li id="detailPatientS"><a class="nav-link" href="#">Patient Details</a></li>
+                                    </ul>
+                                </li>
+                            }
+                            <li class="dropdown" id="messageS">
+                                <a href="@Url.Action("Messages","Doctor")" class="nav-link toggled"><img src="~/assets/img/sidebar/chat-24.png" alt="messages" /><span class="ml-2">Messages</span></a>
+                            </li>
+                            <li class="dropdown" id="paymentS">
+                                <a href="index.html" class="nav-link toggled"><img src="~/assets/img/sidebar/payment-24.png" alt="payments" /><span class="ml-2">Payments</span></a>
+                            </li>
+                            @if (User.IsInRole("Admin") || User.IsInRole("SuperAdmin"))
+                            {
+                                <li class="dropdown" id="ASettingS">
+                                    <a href="@Url.Action("Settings","Admin", new { UserID = int.Parse(Session["UserID"].ToString()) } )" class="nav-link toggled"><img src="~/assets/img/sidebar/slider-24.png" alt="settings" /><span class="ml-2">Settings</span></a>
+                                </li>
                             }
                             else if (User.IsInRole("Doctor"))
                             {
-                                <div class="dropdown-title">Dr. @Session["Username"]</div>
-                                <a href="@Url.Action("DoctorProfile","Doctor",new { DoctorID = int.Parse(Session["UserID"].ToString()) })" class="dropdown-item has-icon">
-                                    <i class="far fa-user"></i> Profile
-                                </a>
-                                <a href="@Url.Action("Settings","Doctor", new { DoctorID = int.Parse(Session["UserID"].ToString()) } )" class="dropdown-item has-icon">
-                                    <i class="fas fa-cog"></i>
-                                    Settings
-                                </a>
+                                <li class="dropdown" id="SettingS">
+                                    <a href="@Url.Action("Settings","Doctor", new { DoctorID = int.Parse(Session["UserID"].ToString()) } )" class="nav-link toggled"><img src="~/assets/img/sidebar/slider-24.png" alt="settings" /><span class="ml-2">Settings</span></a>
+                                </li>
                             }
-                            <div class="dropdown-divider"></div>
-                            <a href="@Url.Action("Logout","Account")" class="dropdown-item has-icon text-danger">
-                                <i class="fas fa-sign-out-alt"></i>
-                                Logout
-                            </a>
-                        </div>
-                    </li>
-                </ul>
-            </nav>
-            <div class="main-sidebar sidebar-style-2" tabindex="1" style="overflow: hidden; outline: none;">
-                <aside id="sidebar-wrapper">
-                    <div class="sidebar-brand" style="text-align:left;padding:0 15px">
-                        <a href="@Url.Action("Index","Account")">
-                            <img alt="image" src="~/assets/img/logo.png" class="header-logo"> <span class="logo-name" style="font-size:18px !important">Denticon DMS</span>
+                        </ul>
+                    </aside>
+                </div>
+                <!-- Main Content -->
+                <div class="main-content">
+                    <section class="section">
+                        @RenderBody()
+                    </section>
+                    <div class="settingSidebar">
+                        <a href="javascript:void(0)" class="settingPanelToggle">
+                            <i class="fa fa-spin fa-cog"></i>
                         </a>
-                    </div>
-                    <ul class="sidebar-menu">
-                        <li class="menu-header">Main</li>
-                        <li class="dropdown active" id="dashboardS">
-                            <a href="@Url.Action("Index","Account")" class="nav-link toggled"><img src="~/assets/img/sidebar/dashboard-24.png" alt="dashoboard" /><span class="ml-2">Dashboard</span></a>
-                        </li>
-                        <li class="dropdown" id="appointmentS">
-                            <a href="@Url.Action("Appointments","Doctor")" class="nav-link toggled"><img src="~/assets/img/sidebar/calendar-24.png" alt="calendar" /><span class="ml-2">Appointments</span></a>
-                        </li>
-                        @if (User.IsInRole("Doctor"))
-                        {
-                            <li class="dropdown" id="patientS">
-                                <a href="@Url.Action("Patients","Patient")" class="nav-link toggled"><img src="~/assets/img/sidebar/customer-24.png" alt="patients" /><span class="ml-2">Patients</span></a>
-                            </li>
-                        }
-                        <li class="dropdown" id="patientTS">
-                            <a href="@Url.Action("PatientTest","Patient")" class="nav-link toggled"><img src="~/assets/img/sidebar/teeth-24.png" alt="patientsTest" /><span class="ml-2">Patient Teeth Test</span></a>
-                        </li>
-                        @if (User.IsInRole("Admin") || User.IsInRole("SuperAdmin"))
-                        {
-                            <li class="dropdown" id="doctorA">
-                                <a href="@Url.Action("DoctorProfileApprovals","Admin")" class="nav-link toggled"><img src="~/assets/img/sidebar/user-24.png" alt="doctorApp" /><span class="ml-2">Doctor Profile Approvals</span></a>
-                            </li>
-                            <li class="dropdown active" id="manageD">
-                                <a href="javascript:void(0)" class="nav-link text-dark bg-white" id="manageDli"><i data-feather="layout"></i><span>Manage Doctors</span></a>
-                                <ul class="dropdown-menu">
-                                    <li id="viewDoctorS"><a class="nav-link" href="@Url.Action("Doctors","Admin")">View All Doctors</a></li>
-                                    <li id="addDoctorS"><a class="nav-link" href="@Url.Action("AddDoctor","Admin")">Add Doctor</a></li>
-                                    <li id="editDoctorS"><a class="nav-link" href="#">Edit Doctor</a></li>
-                                    <li id="detailDoctorS"><a class="nav-link" href="#">Doctor Details</a></li>
-                                </ul>
-                            </li>
-                            <li class="dropdown active" id="manageP">
-                                <a href="javascript:void(0)" class="nav-link text-dark bg-white" id="managePli"><i data-feather="layout"></i><span>Manage Patients</span></a>
-                                <ul class="dropdown-menu">
-                                    <li id="viewPatientS"><a class="nav-link" href="@Url.Action("Patients","Admin")">View All Patients</a></li>
-                                    <li id="addPatientS"><a class="nav-link" href="@Url.Action("AddPatient","Admin")">Add Patient</a></li>
-                                    <li id="editPatientS"><a class="nav-link" href="#">Edit Patient</a></li>
-                                    <li id="detailPatientS"><a class="nav-link" href="#">Patient Details</a></li>
-                                </ul>
-                            </li>
-                        }
-                        <li class="dropdown" id="messageS">
-                            <a href="@Url.Action("Messages","Doctor")" class="nav-link toggled"><img src="~/assets/img/sidebar/chat-24.png" alt="messages" /><span class="ml-2">Messages</span></a>
-                        </li>
-                        <li class="dropdown" id="paymentS">
-                            <a href="index.html" class="nav-link toggled"><img src="~/assets/img/sidebar/payment-24.png" alt="payments" /><span class="ml-2">Payments</span></a>
-                        </li>
-                        @if (User.IsInRole("Admin") || User.IsInRole("SuperAdmin"))
-                        {
-                            <li class="dropdown" id="ASettingS">
-                                <a href="@Url.Action("Settings","Admin", new { UserID = int.Parse(Session["UserID"].ToString()) } )" class="nav-link toggled"><img src="~/assets/img/sidebar/slider-24.png" alt="settings" /><span class="ml-2">Settings</span></a>
-                            </li>
-                        }
-                        else if (User.IsInRole("Doctor"))
-                        {
-                            <li class="dropdown" id="SettingS">
-                                <a href="@Url.Action("Settings","Doctor", new { DoctorID = int.Parse(Session["UserID"].ToString()) } )" class="nav-link toggled"><img src="~/assets/img/sidebar/slider-24.png" alt="settings" /><span class="ml-2">Settings</span></a>
-                            </li>
-                        }
-                    </ul>
-                </aside>
-            </div>
-            <!-- Main Content -->
-            <div class="main-content">
-                <section class="section">
-                    @RenderBody()
-                </section>
-                <div class="settingSidebar">
-                    <a href="javascript:void(0)" class="settingPanelToggle">
-                        <i class="fa fa-spin fa-cog"></i>
-                    </a>
-                    <div class="settingSidebar-body ps-container ps-theme-default">
-                        <div class=" fade show active">
-                            <div class="setting-panel-header">
-                                Setting Panel
-                            </div>
-                            <div class="p-15 border-bottom">
-                                <h6 class="font-medium m-b-10">Select Layout</h6>
-                                <div class="selectgroup layout-color w-50">
-                                    <label class="selectgroup-item">
-                                        <input type="radio" name="value" value="1" class="selectgroup-input-radio select-layout" checked>
-                                        <span class="selectgroup-button">Light</span>
-                                    </label>
-                                    <label class="selectgroup-item">
-                                        <input type="radio" name="value" value="2" class="selectgroup-input-radio select-layout">
-                                        <span class="selectgroup-button">Dark</span>
-                                    </label>
+                        <div class="settingSidebar-body ps-container ps-theme-default">
+                            <div class=" fade show active">
+                                <div class="setting-panel-header">
+                                    Setting Panel
                                 </div>
-                            </div>
-                            <div class="p-15 border-bottom">
-                                <h6 class="font-medium m-b-10">Sidebar Color</h6>
-                                <div class="selectgroup selectgroup-pills sidebar-color">
-                                    <label class="selectgroup-item">
-                                        <input type="radio" name="icon-input" value="1" class="selectgroup-input select-sidebar">
-                                        <span class="selectgroup-button selectgroup-button-icon" data-toggle="tooltip"
-                                              data-original-title="Light Sidebar"><i class="fas fa-sun"></i></span>
-                                    </label>
-                                    <label class="selectgroup-item">
-                                        <input type="radio" name="icon-input" value="2" class="selectgroup-input select-sidebar" checked>
-                                        <span class="selectgroup-button selectgroup-button-icon" data-toggle="tooltip"
-                                              data-original-title="Dark Sidebar"><i class="fas fa-moon"></i></span>
-                                    </label>
+                                <div class="p-15 border-bottom">
+                                    <h6 class="font-medium m-b-10">Select Layout</h6>
+                                    <div class="selectgroup layout-color w-50">
+                                        <label class="selectgroup-item">
+                                            <input type="radio" name="value" value="1" class="selectgroup-input-radio select-layout" checked>
+                                            <span class="selectgroup-button">Light</span>
+                                        </label>
+                                        <label class="selectgroup-item">
+                                            <input type="radio" name="value" value="2" class="selectgroup-input-radio select-layout">
+                                            <span class="selectgroup-button">Dark</span>
+                                        </label>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="p-15 border-bottom">
-                                <h6 class="font-medium m-b-10">Color Theme</h6>
-                                <div class="theme-setting-options">
-                                    <ul class="choose-theme list-unstyled mb-0">
-                                        <li title="white" class="active">
-                                            <div class="white"></div>
-                                        </li>
-                                        <li title="cyan">
-                                            <div class="cyan"></div>
-                                        </li>
-                                        <li title="black">
-                                            <div class="black"></div>
-                                        </li>
-                                        <li title="purple">
-                                            <div class="purple"></div>
-                                        </li>
-                                        <li title="orange">
-                                            <div class="orange"></div>
-                                        </li>
-                                        <li title="green">
-                                            <div class="green"></div>
-                                        </li>
-                                        <li title="red">
-                                            <div class="red"></div>
-                                        </li>
-                                    </ul>
+                                <div class="p-15 border-bottom">
+                                    <h6 class="font-medium m-b-10">Sidebar Color</h6>
+                                    <div class="selectgroup selectgroup-pills sidebar-color">
+                                        <label class="selectgroup-item">
+                                            <input type="radio" name="icon-input" value="1" class="selectgroup-input select-sidebar">
+                                            <span class="selectgroup-button selectgroup-button-icon" data-toggle="tooltip"
+                                                  data-original-title="Light Sidebar"><i class="fas fa-sun"></i></span>
+                                        </label>
+                                        <label class="selectgroup-item">
+                                            <input type="radio" name="icon-input" value="2" class="selectgroup-input select-sidebar" checked>
+                                            <span class="selectgroup-button selectgroup-button-icon" data-toggle="tooltip"
+                                                  data-original-title="Dark Sidebar"><i class="fas fa-moon"></i></span>
+                                        </label>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="p-15 border-bottom">
-                                <div class="theme-setting-options">
-                                    <label class="m-b-0">
-                                        <input type="checkbox" name="custom-switch-checkbox" class="custom-switch-input"
-                                               id="mini_sidebar_setting">
-                                        <span class="custom-switch-indicator"></span>
-                                        <span class="control-label p-l-10">Mini Sidebar</span>
-                                    </label>
+                                <div class="p-15 border-bottom">
+                                    <h6 class="font-medium m-b-10">Color Theme</h6>
+                                    <div class="theme-setting-options">
+                                        <ul class="choose-theme list-unstyled mb-0">
+                                            <li title="white" class="active">
+                                                <div class="white"></div>
+                                            </li>
+                                            <li title="cyan">
+                                                <div class="cyan"></div>
+                                            </li>
+                                            <li title="black">
+                                                <div class="black"></div>
+                                            </li>
+                                            <li title="purple">
+                                                <div class="purple"></div>
+                                            </li>
+                                            <li title="orange">
+                                                <div class="orange"></div>
+                                            </li>
+                                            <li title="green">
+                                                <div class="green"></div>
+                                            </li>
+                                            <li title="red">
+                                                <div class="red"></div>
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="p-15 border-bottom">
-                                <div class="theme-setting-options">
-                                    <label class="m-b-0">
-                                        <input type="checkbox" name="custom-switch-checkbox" class="custom-switch-input"
-                                               id="sticky_header_setting">
-                                        <span class="custom-switch-indicator"></span>
-                                        <span class="control-label p-l-10">Sticky Header</span>
-                                    </label>
+                                <div class="p-15 border-bottom">
+                                    <div class="theme-setting-options">
+                                        <label class="m-b-0">
+                                            <input type="checkbox" name="custom-switch-checkbox" class="custom-switch-input"
+                                                   id="mini_sidebar_setting">
+                                            <span class="custom-switch-indicator"></span>
+                                            <span class="control-label p-l-10">Mini Sidebar</span>
+                                        </label>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="mt-4 mb-4 p-3 align-center rt-sidebar-last-ele">
-                                <a href="#" class="btn btn-icon icon-left btn-primary btn-restore-theme">
-                                    <i class="fas fa-undo"></i> Restore Default
-                                </a>
+                                <div class="p-15 border-bottom">
+                                    <div class="theme-setting-options">
+                                        <label class="m-b-0">
+                                            <input type="checkbox" name="custom-switch-checkbox" class="custom-switch-input"
+                                                   id="sticky_header_setting">
+                                            <span class="custom-switch-indicator"></span>
+                                            <span class="control-label p-l-10">Sticky Header</span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="mt-4 mb-4 p-3 align-center rt-sidebar-last-ele">
+                                    <a href="#" class="btn btn-icon icon-left btn-primary btn-restore-theme">
+                                        <i class="fas fa-undo"></i> Restore Default
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                <!-- Main Content -->
+                <footer class="main-footer">
+                    <div class="footer-left">
+                        <a href="#">DMS Portal</a>
+                    </div>
+                    <div class="footer-right">
+                    </div>
+                </footer>
             </div>
-            <!-- Main Content -->
-            <footer class="main-footer">
-                <div class="footer-left">
-                    <a href="#">DMS Portal</a>
-                </div>
-                <div class="footer-right">
-                </div>
-            </footer>
         </div>
-    </div>
-    <script src="~/assets/js/app.min.js"></script>
-    <script src="~/assets/bundles/fullcalendar/fullcalendar.min.js"></script>
-    <script src="~/assets/js/page/calendar.js"></script>
-    <script src="~/assets/bundles/apexcharts/apexcharts.min.js"></script>
-    <script src="~/assets/js/page/index.js"></script>
-    <script src="~/assets/js/scripts.js"></script>
-    <script src="~/assets/js/custom.js"></script>
-    <script src="~/scripts/jquery.signalR-2.4.3.min.js"></script>
-    <script src="~/signalr/Hubs/"></script>
-    <script type="text/javascript">
+        <script src="~/assets/js/app.min.js"></script>
+        <script src="~/assets/bundles/fullcalendar/fullcalendar.min.js"></script>
+        <script src="~/assets/js/page/calendar.js"></script>
+        <script src="~/assets/bundles/apexcharts/apexcharts.min.js"></script>
+        <script src="~/assets/js/page/index.js"></script>
+        <script src="~/assets/js/scripts.js"></script>
+        <script src="~/assets/js/custom.js"></script>
+        <script src="~/scripts/jquery.signalR-2.4.3.min.js"></script>
+        <script src="~/signalr/Hubs/"></script>
+        <script type="text/javascript">
         $(document).ready(function () {
             // SignalR js code for start hub and send receive notification
             var connection = $.hubConnection();
@@ -581,6 +470,7 @@
             }
         });
 
-    </script>
+        </script>
+    }
 </body>
 </html>
