@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="dmswebapp_dentalDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="dmswebapp_dentalDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="sysdiagrams">
           <Key>
             <PropertyRef Name="diagram_id" />
@@ -56,6 +56,10 @@
           <Property Name="AP_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="AP_PatientID" Type="int" />
           <Property Name="AP_DoctorID" Type="int" />
+          <Property Name="AP_OfflineConsultID" Type="int" />
+          <Property Name="AP_OnlineConsultID" Type="int" />
+          <Property Name="AP_Type" Type="nvarchar" MaxLength="50" />
+          <Property Name="AP_Location" Type="nvarchar" MaxLength="250" />
           <Property Name="AP_ConfirmDatetime" Type="datetime" />
           <Property Name="AP_IsApproved" Type="bit" />
           <Property Name="AP_IsUserRead" Type="bit" />
@@ -492,6 +496,30 @@
             </Principal>
             <Dependent Role="tblAppointment">
               <PropertyRef Name="AP_DoctorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblAppointment_tblOfflineConsultaionDetails">
+          <End Role="tblOfflineConsultaionDetails" Type="Self.tblOfflineConsultaionDetails" Multiplicity="0..1" />
+          <End Role="tblAppointment" Type="Self.tblAppointment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblOfflineConsultaionDetails">
+              <PropertyRef Name="OFCD_ID" />
+            </Principal>
+            <Dependent Role="tblAppointment">
+              <PropertyRef Name="AP_OfflineConsultID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblAppointment_tblOnlineConsultaionDetails">
+          <End Role="tblOnlineConsultaionDetails" Type="Self.tblOnlineConsultaionDetails" Multiplicity="0..1" />
+          <End Role="tblAppointment" Type="Self.tblAppointment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblOnlineConsultaionDetails">
+              <PropertyRef Name="OCD_ID" />
+            </Principal>
+            <Dependent Role="tblAppointment">
+              <PropertyRef Name="AP_OnlineConsultID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -933,6 +961,14 @@
             <End Role="tblDoctor" EntitySet="tblDoctor" />
             <End Role="tblAppointment" EntitySet="tblAppointment" />
           </AssociationSet>
+          <AssociationSet Name="FK_tblAppointment_tblOfflineConsultaionDetails" Association="Self.FK_tblAppointment_tblOfflineConsultaionDetails">
+            <End Role="tblOfflineConsultaionDetails" EntitySet="tblOfflineConsultaionDetails" />
+            <End Role="tblAppointment" EntitySet="tblAppointment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblAppointment_tblOnlineConsultaionDetails" Association="Self.FK_tblAppointment_tblOnlineConsultaionDetails">
+            <End Role="tblOnlineConsultaionDetails" EntitySet="tblOnlineConsultaionDetails" />
+            <End Role="tblAppointment" EntitySet="tblAppointment" />
+          </AssociationSet>
           <AssociationSet Name="FK_tblAppointment_tblPatient" Association="Self.FK_tblAppointment_tblPatient">
             <End Role="tblPatient" EntitySet="tblPatient" />
             <End Role="tblAppointment" EntitySet="tblAppointment" />
@@ -1062,8 +1098,7 @@
             <End Role="tblZone" EntitySet="tblZone" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="dmswebapp_dentalDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -1144,6 +1179,12 @@
           <NavigationProperty Name="tblPatient" Relationship="Self.FK_tblAppointment_tblPatient" FromRole="tblAppointment" ToRole="tblPatient" />
           <NavigationProperty Name="tblAppointmentDetails" Relationship="Self.FK_tblAppointmentDetails_tblAppointment" FromRole="tblAppointment" ToRole="tblAppointmentDetails" />
           <NavigationProperty Name="tblDoctorReviews" Relationship="Self.FK_tblDoctorReviews_tblAppointment" FromRole="tblAppointment" ToRole="tblDoctorReviews" />
+          <Property Name="AP_OfflineConsultID" Type="Int32" />
+          <Property Name="AP_OnlineConsultID" Type="Int32" />
+          <Property Name="AP_Type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="AP_Location" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="tblOfflineConsultaionDetail" Relationship="dmswebapp_dentalDBModel.FK_tblAppointment_tblOfflineConsultaionDetails" FromRole="tblAppointment" ToRole="tblOfflineConsultaionDetail" />
+          <NavigationProperty Name="tblOnlineConsultaionDetail" Relationship="dmswebapp_dentalDBModel.FK_tblAppointment_tblOnlineConsultaionDetails" FromRole="tblAppointment" ToRole="tblOnlineConsultaionDetail" />
         </EntityType>
         <EntityType Name="tblAppointmentDetail">
           <Key>
@@ -1382,6 +1423,7 @@
           <Property Name="OFCD_UpdatedOn" Type="DateTime" Precision="3" />
           <NavigationProperty Name="tblAddress" Relationship="Self.FK_tblOfflineConsultaionDetails_tblAddress" FromRole="tblOfflineConsultaionDetails" ToRole="tblAddress" />
           <NavigationProperty Name="tblDoctor" Relationship="Self.FK_tblOfflineConsultaionDetails_tblDoctor" FromRole="tblOfflineConsultaionDetails" ToRole="tblDoctor" />
+          <NavigationProperty Name="tblAppointments" Relationship="dmswebapp_dentalDBModel.FK_tblAppointment_tblOfflineConsultaionDetails" FromRole="tblOfflineConsultaionDetail" ToRole="tblAppointment" />
         </EntityType>
         <EntityType Name="tblOnlineConsultaionDetail">
           <Key>
@@ -1411,6 +1453,7 @@
           <Property Name="OCD_UpdatedBy" Type="Int32" />
           <Property Name="OCD_UpdatedOn" Type="DateTime" Precision="3" />
           <NavigationProperty Name="tblDoctor" Relationship="Self.FK_tblOnlineConsultaionDetails_tblDoctor" FromRole="tblOnlineConsultaionDetails" ToRole="tblDoctor" />
+          <NavigationProperty Name="tblAppointments" Relationship="dmswebapp_dentalDBModel.FK_tblAppointment_tblOnlineConsultaionDetails" FromRole="tblOnlineConsultaionDetail" ToRole="tblAppointment" />
         </EntityType>
         <EntityType Name="tblOTP">
           <Key>
@@ -2201,7 +2244,39 @@
             <End Role="tblRoles" EntitySet="tblRoles" />
             <End Role="tblSuperAdmin" EntitySet="tblSuperAdmins" />
           </AssociationSet>
+          <AssociationSet Name="FK_tblAppointment_tblOfflineConsultaionDetails" Association="dmswebapp_dentalDBModel.FK_tblAppointment_tblOfflineConsultaionDetails">
+            <End Role="tblOfflineConsultaionDetail" EntitySet="tblOfflineConsultaionDetails" />
+            <End Role="tblAppointment" EntitySet="tblAppointments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblAppointment_tblOnlineConsultaionDetails" Association="dmswebapp_dentalDBModel.FK_tblAppointment_tblOnlineConsultaionDetails">
+            <End Role="tblOnlineConsultaionDetail" EntitySet="tblOnlineConsultaionDetails" />
+            <End Role="tblAppointment" EntitySet="tblAppointments" />
+          </AssociationSet>
         </EntityContainer>
+        <Association Name="FK_tblAppointment_tblOfflineConsultaionDetails">
+          <End Type="dmswebapp_dentalDBModel.tblOfflineConsultaionDetail" Role="tblOfflineConsultaionDetail" Multiplicity="0..1" />
+          <End Type="dmswebapp_dentalDBModel.tblAppointment" Role="tblAppointment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblOfflineConsultaionDetail">
+              <PropertyRef Name="OFCD_ID" />
+            </Principal>
+            <Dependent Role="tblAppointment">
+              <PropertyRef Name="AP_OfflineConsultID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblAppointment_tblOnlineConsultaionDetails">
+          <End Type="dmswebapp_dentalDBModel.tblOnlineConsultaionDetail" Role="tblOnlineConsultaionDetail" Multiplicity="0..1" />
+          <End Type="dmswebapp_dentalDBModel.tblAppointment" Role="tblAppointment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblOnlineConsultaionDetail">
+              <PropertyRef Name="OCD_ID" />
+            </Principal>
+            <Dependent Role="tblAppointment">
+              <PropertyRef Name="AP_OnlineConsultID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2258,6 +2333,10 @@
           <EntitySetMapping Name="tblAppointments">
             <EntityTypeMapping TypeName="dmswebapp_dentalDBModel.tblAppointment">
               <MappingFragment StoreEntitySet="tblAppointment">
+                <ScalarProperty Name="AP_Location" ColumnName="AP_Location" />
+                <ScalarProperty Name="AP_Type" ColumnName="AP_Type" />
+                <ScalarProperty Name="AP_OnlineConsultID" ColumnName="AP_OnlineConsultID" />
+                <ScalarProperty Name="AP_OfflineConsultID" ColumnName="AP_OfflineConsultID" />
                 <ScalarProperty Name="AP_ID" ColumnName="AP_ID" />
                 <ScalarProperty Name="AP_PatientID" ColumnName="AP_PatientID" />
                 <ScalarProperty Name="AP_DoctorID" ColumnName="AP_DoctorID" />

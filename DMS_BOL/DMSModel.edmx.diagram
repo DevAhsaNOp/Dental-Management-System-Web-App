@@ -69,6 +69,8 @@
         <AssociationConnector Association="dmswebapp_dentalDBModel.FK_tblPatient_tblRoles" ManuallyRouted="false" />
         <AssociationConnector Association="dmswebapp_dentalDBModel.FK_tblPatientTest_tblPatient" ManuallyRouted="false" />
         <AssociationConnector Association="dmswebapp_dentalDBModel.FK_tblSuperAdmin_tblRoles" ManuallyRouted="false" />
+        <AssociationConnector Association="dmswebapp_dentalDBModel.FK_tblAppointment_tblOfflineConsultaionDetails" />
+        <AssociationConnector Association="dmswebapp_dentalDBModel.FK_tblAppointment_tblOnlineConsultaionDetails" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

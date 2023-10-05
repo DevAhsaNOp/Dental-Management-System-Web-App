@@ -199,10 +199,13 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\AppointmentBookingDTO.cs" />
+    <Compile Include="Models\DayWithTimingGenerator.cs" />
     <Compile Include="Models\DoctorProfileView.cs" />
     <Compile Include="Models\LoginResponseValidation.cs" />
     <Compile Include="Models\SessionExpireAttribute.cs" />
     <Compile Include="Models\SupportingFunctions.cs" />
+    <Compile Include="Models\Details.cs" />
     <Compile Include="NotificationHub.cs" />
     <Compile Include="NotificationComponent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

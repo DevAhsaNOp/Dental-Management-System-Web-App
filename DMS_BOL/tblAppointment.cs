@@ -34,6 +34,10 @@ namespace DMS_BOL
         public Nullable<System.DateTime> AP_CreatedOn { get; set; }
         public Nullable<int> AP_UpdatedBy { get; set; }
         public Nullable<System.DateTime> AP_UpdatedOn { get; set; }
+        public Nullable<int> AP_OfflineConsultID { get; set; }
+        public Nullable<int> AP_OnlineConsultID { get; set; }
+        public string AP_Type { get; set; }
+        public string AP_Location { get; set; }
     
         public virtual tblDoctor tblDoctor { get; set; }
         public virtual tblPatient tblPatient { get; set; }
@@ -41,5 +45,7 @@ namespace DMS_BOL
         public virtual ICollection<tblAppointmentDetail> tblAppointmentDetails { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tblDoctorReview> tblDoctorReviews { get; set; }
+        public virtual tblOfflineConsultaionDetail tblOfflineConsultaionDetail { get; set; }
+        public virtual tblOnlineConsultaionDetail tblOnlineConsultaionDetail { get; set; }
     }
 }

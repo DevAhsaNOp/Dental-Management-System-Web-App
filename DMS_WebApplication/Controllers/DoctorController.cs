@@ -265,11 +265,88 @@ namespace DMS_WebApplication.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
-        //[CustomAuthorize(Roles = "Admin, SuperAdmin, Doctor")]
+        [CustomAuthorize(Roles = "Admin, SuperAdmin, Doctor")]
         public ActionResult BookAppointments()
         {
-            return View();
+            var onlineConsultDetails = OcdRepoObj.GetDoctorAllOnlineConsultaionDetailsByID(5);
+            var doctorDetails = DoctorsRepoObj.GetDoctorByID(5);
+            var weekdaysFields = onlineConsultDetails
+                .SelectMany(detail => GetWeekdayProperties(detail))
+                .ToList();
+
+            List<string> AvailableDays;
+            var next14DaysWithTimings = DayWithTimingGenerator.GetNext14DaysWithTimings(weekdaysFields, out AvailableDays);
+
+            var appointmentDetails = new AppointmentBookingDTO()
+            {
+                AppointmentCharges = onlineConsultDetails.FirstOrDefault().OCD_Charges,
+                AppointmentType = "Video Consultation",
+                DoctorAvailableDaysWithTimings = next14DaysWithTimings,
+                DoctorId = doctorDetails.D_ID,
+                DoctorName = doctorDetails.D_FirstName + " " + doctorDetails.D_LastName,
+                DoctorProfileImage = doctorDetails.D_ProfileImage,
+                DoctorSpeciality = doctorDetails.D_Specialization,
+                IsProfileVerified = doctorDetails.D_Verified.Value,
+                AppointmentLocation = "Online",
+                DoctorAvailableDays = AvailableDays,
+            };
+
+            //Useful to get selected values using JQuery
+            //$('.date-nav-item').find('.nav-link.active')[0].innerHTML;
+            //$("input[name='radio1']:checked").val();
+
+
+            var offlineConsultDetails = OfcdRepoObj.GetDoctorAllOfflineConsultaionDetailsByID(5);
+
+            return View(appointmentDetails);
         }
+
+        private IEnumerable<Details> GetWeekdayProperties(tblOnlineConsultaionDetail detail)
+        {
+            return detail.GetType()
+                .GetProperties()
+                .Where(prop => prop.GetValue(detail) != null)
+                .Select(prop => new Details()
+                {
+                    FieldName = prop.Name.Replace("OCD_", ""),
+                    Value = prop.GetValue(detail).ToString()
+                })
+                .Where(item => IsWeekdayFieldName(item.FieldName));
+        }
+
+        private bool IsWeekdayFieldName(string fieldName)
+        {
+            List<string> weekdayFieldNames = new List<string> { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" };
+            return weekdayFieldNames.Any(fieldName.Contains);
+        }
+
+        //private List<string> WeekdayFieldNames(IEnumerable<Details> details)
+        //{
+        //    List<string> weekdayFieldNames = new List<string> { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" };
+        //    return details
+        //        .Where(x => weekdayFieldNames.Any(x.FieldName.Replace("StartTime", "").Replace("EndTime", "").Contains))
+        //        .Select(x => x.FieldName.Replace("StartTime", "").Replace("EndTime", ""))
+        //        .Distinct()
+        //        .ToList();
+        //}
+
+        //private List<string> GenerateDatesForSpecifiedDays(List<Details> weekdaysFields, int numDays)
+        //{
+        //    var specifiedDays = WeekdayFieldNames(weekdaysFields);
+        //    var resultDates = new List<string>();
+        //    DateTime currentDate = DateTime.Today;
+
+        //    while (resultDates.Count < numDays)
+        //    {
+        //        string dayName = currentDate.ToString("dddd"); 
+        //        if (specifiedDays.Contains(dayName))
+        //            resultDates.Add(currentDate.ToString("dddd, dd MMM"));
+
+        //        currentDate = currentDate.AddDays(1);
+        //    }
+
+        //    return resultDates;
+        //}
 
         [AcceptVerbs(HttpVerbs.Get)]
         [CustomAuthorize(Roles = "Admin, SuperAdmin, Doctor")]
@@ -354,7 +431,7 @@ namespace DMS_WebApplication.Controllers
                         item.WEX_HospitalName = doctor.WEX_HospitalName;
                         item.WEX_IsWorking = doctor.WEX_IsWorking;
                         if (doctor.WEX_ToDateU == null || doctor.WEX_IsWorking == true)
-                            item.WEX_ToDate =  null;
+                            item.WEX_ToDate = null;
                         else
                             item.WEX_ToDate = DateTime.Parse(doctor.WEX_ToDateU);
                         item.IsActive = true;
@@ -412,7 +489,7 @@ namespace DMS_WebApplication.Controllers
                         WEX_Designation = ExpInfo.WEX_Designation,
                         WEX_HospitalName = ExpInfo.WEX_HospitalName,
                         WEX_IsWorking = ExpInfo.WEX_IsWorking,
-                        IsActive = ExpInfo.IsActive,                        
+                        IsActive = ExpInfo.IsActive,
                     };
                     if (ExpInfo.WEX_ToDate.HasValue)
                         data.WEX_ToDateU = ExpInfo.WEX_ToDate.Value.ToString("yyyy-MM");
@@ -450,7 +527,7 @@ namespace DMS_WebApplication.Controllers
             }
             Session["ExperienceList"] = ExperienceList;
         }
-              
+
         public List<ValidateDoctorHospitalInfo> GetHospitalExperienceInfo(int DoctorID)
         {
             var ExperienceList = new List<ValidateDoctorHospitalInfo>();
@@ -730,7 +807,7 @@ namespace DMS_WebApplication.Controllers
                         City = AddressRepoObj.GetCityById(OfcdInfo.CityID).CityName,
                         Area = AddressRepoObj.GetZoneById(OfcdInfo.AreaID).ZoneName,
                         CompleteAddress = OfcdInfo.CompleteAddress,
-                        OFCD_IsActive = true,                        
+                        OFCD_IsActive = true,
                     };
                     ViewBag.StateU = AddressRepoObj.GetAllStateDropdown();
                     ViewBag.CityU = AddressRepoObj.GetAllCityByStateDropdown(data.StateID);
@@ -787,7 +864,7 @@ namespace DMS_WebApplication.Controllers
             }
             Session["OFCDList"] = OFCDList;
         }
-        
+
         public List<ValidateDoctorOfflineConsultaionDetails> GetHospitalOfflineConsultation(int DoctorID)
         {
             var OFCDInfo = OfcdRepoObj.GetDoctorAllOfflineConsultaionDetailsByID(DoctorID);
@@ -871,23 +948,23 @@ namespace DMS_WebApplication.Controllers
             {
                 OCDList.Add(new ValidateDoctorOnlineConsultaionDetails()
                 {
-                   OCD_ID = Ocd.OCD_ID <= 0 ? 1 : Ocd.OCD_ID,
-                   OCD_MondayEndTime = Ocd.OCD_MondayEndTime == null ? null : Ocd.OCD_MondayEndTime,
-                   OCD_MondayStartTime = Ocd.OCD_MondayStartTime == null ? null : Ocd.OCD_MondayStartTime,
-                   OCD_TuesdayEndTime = Ocd.OCD_TuesdayEndTime == null ? null : Ocd.OCD_TuesdayEndTime,
-                   OCD_TuesdayStartTime = Ocd.OCD_TuesdayStartTime == null ? null : Ocd.OCD_TuesdayStartTime,
-                   OCD_WednesdayEndTime = Ocd.OCD_WednesdayEndTime == null ? null : Ocd.OCD_WednesdayEndTime,
-                   OCD_WednesdayStartTime = Ocd.OCD_WednesdayStartTime == null ? null : Ocd.OCD_WednesdayStartTime,
-                   OCD_ThursdayEndTime = Ocd.OCD_ThursdayEndTime == null ? null : Ocd.OCD_ThursdayEndTime,
-                   OCD_ThursdayStartTime = Ocd.OCD_ThursdayStartTime == null ? null : Ocd.OCD_ThursdayStartTime,
-                   OCD_FridayEndTime = Ocd.OCD_FridayEndTime == null ? null : Ocd.OCD_FridayEndTime,
-                   OCD_FridayStartTime = Ocd.OCD_FridayStartTime == null ? null : Ocd.OCD_FridayStartTime,
-                   OCD_SaturdayEndTime = Ocd.OCD_SaturdayEndTime == null ? null : Ocd.OCD_SaturdayEndTime,
-                   OCD_SaturdayStartTime = Ocd.OCD_SaturdayStartTime == null ? null : Ocd.OCD_SaturdayStartTime,
-                   OCD_SundayEndTime = Ocd.OCD_SundayEndTime == null ? null : Ocd.OCD_SundayEndTime,
-                   OCD_SundayStartTime = Ocd.OCD_SundayStartTime == null ? null : Ocd.OCD_SundayStartTime,
-                   OCD_Charges = Ocd.OCD_Charges,
-                   OCD_IsActive = true,
+                    OCD_ID = Ocd.OCD_ID <= 0 ? 1 : Ocd.OCD_ID,
+                    OCD_MondayEndTime = Ocd.OCD_MondayEndTime == null ? null : Ocd.OCD_MondayEndTime,
+                    OCD_MondayStartTime = Ocd.OCD_MondayStartTime == null ? null : Ocd.OCD_MondayStartTime,
+                    OCD_TuesdayEndTime = Ocd.OCD_TuesdayEndTime == null ? null : Ocd.OCD_TuesdayEndTime,
+                    OCD_TuesdayStartTime = Ocd.OCD_TuesdayStartTime == null ? null : Ocd.OCD_TuesdayStartTime,
+                    OCD_WednesdayEndTime = Ocd.OCD_WednesdayEndTime == null ? null : Ocd.OCD_WednesdayEndTime,
+                    OCD_WednesdayStartTime = Ocd.OCD_WednesdayStartTime == null ? null : Ocd.OCD_WednesdayStartTime,
+                    OCD_ThursdayEndTime = Ocd.OCD_ThursdayEndTime == null ? null : Ocd.OCD_ThursdayEndTime,
+                    OCD_ThursdayStartTime = Ocd.OCD_ThursdayStartTime == null ? null : Ocd.OCD_ThursdayStartTime,
+                    OCD_FridayEndTime = Ocd.OCD_FridayEndTime == null ? null : Ocd.OCD_FridayEndTime,
+                    OCD_FridayStartTime = Ocd.OCD_FridayStartTime == null ? null : Ocd.OCD_FridayStartTime,
+                    OCD_SaturdayEndTime = Ocd.OCD_SaturdayEndTime == null ? null : Ocd.OCD_SaturdayEndTime,
+                    OCD_SaturdayStartTime = Ocd.OCD_SaturdayStartTime == null ? null : Ocd.OCD_SaturdayStartTime,
+                    OCD_SundayEndTime = Ocd.OCD_SundayEndTime == null ? null : Ocd.OCD_SundayEndTime,
+                    OCD_SundayStartTime = Ocd.OCD_SundayStartTime == null ? null : Ocd.OCD_SundayStartTime,
+                    OCD_Charges = Ocd.OCD_Charges,
+                    OCD_IsActive = true,
                 });
             }
             else
@@ -897,23 +974,23 @@ namespace DMS_WebApplication.Controllers
                 {
                     OCDList.Add(new ValidateDoctorOnlineConsultaionDetails()
                     {
-                       OCD_ID = Ocd.OCD_ID <= 0 ? 1 : Ocd.OCD_ID,
-                       OCD_MondayEndTime = Ocd.OCD_MondayEndTime == null ? null : Ocd.OCD_MondayEndTime,
-                       OCD_MondayStartTime = Ocd.OCD_MondayStartTime == null ? null : Ocd.OCD_MondayStartTime,
-                       OCD_TuesdayEndTime = Ocd.OCD_TuesdayEndTime == null ? null : Ocd.OCD_TuesdayEndTime,
-                       OCD_TuesdayStartTime = Ocd.OCD_TuesdayStartTime == null ? null : Ocd.OCD_TuesdayStartTime,
-                       OCD_WednesdayEndTime = Ocd.OCD_WednesdayEndTime == null ? null : Ocd.OCD_WednesdayEndTime,
-                       OCD_WednesdayStartTime = Ocd.OCD_WednesdayStartTime == null ? null : Ocd.OCD_WednesdayStartTime,
-                       OCD_ThursdayEndTime = Ocd.OCD_ThursdayEndTime == null ? null : Ocd.OCD_ThursdayEndTime,
-                       OCD_ThursdayStartTime = Ocd.OCD_ThursdayStartTime == null ? null : Ocd.OCD_ThursdayStartTime,
-                       OCD_FridayEndTime = Ocd.OCD_FridayEndTime == null ? null : Ocd.OCD_FridayEndTime,
-                       OCD_FridayStartTime = Ocd.OCD_FridayStartTime == null ? null : Ocd.OCD_FridayStartTime,
-                       OCD_SaturdayEndTime = Ocd.OCD_SaturdayEndTime == null ? null : Ocd.OCD_SaturdayEndTime,
-                       OCD_SaturdayStartTime = Ocd.OCD_SaturdayStartTime == null ? null : Ocd.OCD_SaturdayStartTime,
-                       OCD_SundayEndTime = Ocd.OCD_SundayEndTime == null ? null : Ocd.OCD_SundayEndTime,
-                       OCD_SundayStartTime = Ocd.OCD_SundayStartTime == null ? null : Ocd.OCD_SundayStartTime,
-                       OCD_Charges = Ocd.OCD_Charges,
-                       OCD_IsActive = true,
+                        OCD_ID = Ocd.OCD_ID <= 0 ? 1 : Ocd.OCD_ID,
+                        OCD_MondayEndTime = Ocd.OCD_MondayEndTime == null ? null : Ocd.OCD_MondayEndTime,
+                        OCD_MondayStartTime = Ocd.OCD_MondayStartTime == null ? null : Ocd.OCD_MondayStartTime,
+                        OCD_TuesdayEndTime = Ocd.OCD_TuesdayEndTime == null ? null : Ocd.OCD_TuesdayEndTime,
+                        OCD_TuesdayStartTime = Ocd.OCD_TuesdayStartTime == null ? null : Ocd.OCD_TuesdayStartTime,
+                        OCD_WednesdayEndTime = Ocd.OCD_WednesdayEndTime == null ? null : Ocd.OCD_WednesdayEndTime,
+                        OCD_WednesdayStartTime = Ocd.OCD_WednesdayStartTime == null ? null : Ocd.OCD_WednesdayStartTime,
+                        OCD_ThursdayEndTime = Ocd.OCD_ThursdayEndTime == null ? null : Ocd.OCD_ThursdayEndTime,
+                        OCD_ThursdayStartTime = Ocd.OCD_ThursdayStartTime == null ? null : Ocd.OCD_ThursdayStartTime,
+                        OCD_FridayEndTime = Ocd.OCD_FridayEndTime == null ? null : Ocd.OCD_FridayEndTime,
+                        OCD_FridayStartTime = Ocd.OCD_FridayStartTime == null ? null : Ocd.OCD_FridayStartTime,
+                        OCD_SaturdayEndTime = Ocd.OCD_SaturdayEndTime == null ? null : Ocd.OCD_SaturdayEndTime,
+                        OCD_SaturdayStartTime = Ocd.OCD_SaturdayStartTime == null ? null : Ocd.OCD_SaturdayStartTime,
+                        OCD_SundayEndTime = Ocd.OCD_SundayEndTime == null ? null : Ocd.OCD_SundayEndTime,
+                        OCD_SundayStartTime = Ocd.OCD_SundayStartTime == null ? null : Ocd.OCD_SundayStartTime,
+                        OCD_Charges = Ocd.OCD_Charges,
+                        OCD_IsActive = true,
                     });
                 }
                 else
@@ -922,23 +999,23 @@ namespace DMS_WebApplication.Controllers
                     OCDList = data;
                     OCDList.Add(new ValidateDoctorOnlineConsultaionDetails()
                     {
-                       OCD_ID = ID,
-                       OCD_MondayEndTime = Ocd.OCD_MondayEndTime == null ? null : Ocd.OCD_MondayEndTime,
-                       OCD_MondayStartTime = Ocd.OCD_MondayStartTime == null ? null : Ocd.OCD_MondayStartTime,
-                       OCD_TuesdayEndTime = Ocd.OCD_TuesdayEndTime == null ? null : Ocd.OCD_TuesdayEndTime,
-                       OCD_TuesdayStartTime = Ocd.OCD_TuesdayStartTime == null ? null : Ocd.OCD_TuesdayStartTime,
-                       OCD_WednesdayEndTime = Ocd.OCD_WednesdayEndTime == null ? null : Ocd.OCD_WednesdayEndTime,
-                       OCD_WednesdayStartTime = Ocd.OCD_WednesdayStartTime == null ? null : Ocd.OCD_WednesdayStartTime,
-                       OCD_ThursdayEndTime = Ocd.OCD_ThursdayEndTime == null ? null : Ocd.OCD_ThursdayEndTime,
-                       OCD_ThursdayStartTime = Ocd.OCD_ThursdayStartTime == null ? null : Ocd.OCD_ThursdayStartTime,
-                       OCD_FridayEndTime = Ocd.OCD_FridayEndTime == null ? null : Ocd.OCD_FridayEndTime,
-                       OCD_FridayStartTime = Ocd.OCD_FridayStartTime == null ? null : Ocd.OCD_FridayStartTime,
-                       OCD_SaturdayEndTime = Ocd.OCD_SaturdayEndTime == null ? null : Ocd.OCD_SaturdayEndTime,
-                       OCD_SaturdayStartTime = Ocd.OCD_SaturdayStartTime == null ? null : Ocd.OCD_SaturdayStartTime,
-                       OCD_SundayEndTime = Ocd.OCD_SundayEndTime == null ? null : Ocd.OCD_SundayEndTime,
-                       OCD_SundayStartTime = Ocd.OCD_SundayStartTime == null ? null : Ocd.OCD_SundayStartTime,
-                       OCD_Charges = Ocd.OCD_Charges,
-                       OCD_IsActive = true,
+                        OCD_ID = ID,
+                        OCD_MondayEndTime = Ocd.OCD_MondayEndTime == null ? null : Ocd.OCD_MondayEndTime,
+                        OCD_MondayStartTime = Ocd.OCD_MondayStartTime == null ? null : Ocd.OCD_MondayStartTime,
+                        OCD_TuesdayEndTime = Ocd.OCD_TuesdayEndTime == null ? null : Ocd.OCD_TuesdayEndTime,
+                        OCD_TuesdayStartTime = Ocd.OCD_TuesdayStartTime == null ? null : Ocd.OCD_TuesdayStartTime,
+                        OCD_WednesdayEndTime = Ocd.OCD_WednesdayEndTime == null ? null : Ocd.OCD_WednesdayEndTime,
+                        OCD_WednesdayStartTime = Ocd.OCD_WednesdayStartTime == null ? null : Ocd.OCD_WednesdayStartTime,
+                        OCD_ThursdayEndTime = Ocd.OCD_ThursdayEndTime == null ? null : Ocd.OCD_ThursdayEndTime,
+                        OCD_ThursdayStartTime = Ocd.OCD_ThursdayStartTime == null ? null : Ocd.OCD_ThursdayStartTime,
+                        OCD_FridayEndTime = Ocd.OCD_FridayEndTime == null ? null : Ocd.OCD_FridayEndTime,
+                        OCD_FridayStartTime = Ocd.OCD_FridayStartTime == null ? null : Ocd.OCD_FridayStartTime,
+                        OCD_SaturdayEndTime = Ocd.OCD_SaturdayEndTime == null ? null : Ocd.OCD_SaturdayEndTime,
+                        OCD_SaturdayStartTime = Ocd.OCD_SaturdayStartTime == null ? null : Ocd.OCD_SaturdayStartTime,
+                        OCD_SundayEndTime = Ocd.OCD_SundayEndTime == null ? null : Ocd.OCD_SundayEndTime,
+                        OCD_SundayStartTime = Ocd.OCD_SundayStartTime == null ? null : Ocd.OCD_SundayStartTime,
+                        OCD_Charges = Ocd.OCD_Charges,
+                        OCD_IsActive = true,
                     });
                 }
             }
@@ -1062,23 +1139,23 @@ namespace DMS_WebApplication.Controllers
                 {
                     OCDList.Add(new ValidateDoctorOnlineConsultaionDetails()
                     {
-                       OCD_ID = item.OCD_ID,
-                       OCD_MondayEndTime = item.OCD_MondayEndTime == null ? null : item.OCD_MondayEndTime,
-                       OCD_MondayStartTime = item.OCD_MondayStartTime == null ? null : item.OCD_MondayStartTime,
-                       OCD_TuesdayEndTime = item.OCD_TuesdayEndTime == null ? null : item.OCD_TuesdayEndTime,
-                       OCD_TuesdayStartTime = item.OCD_TuesdayStartTime == null ? null : item.OCD_TuesdayStartTime,
-                       OCD_WednesdayEndTime = item.OCD_WednesdayEndTime == null ? null : item.OCD_WednesdayEndTime,
-                       OCD_WednesdayStartTime = item.OCD_WednesdayStartTime == null ? null : item.OCD_WednesdayStartTime,
-                       OCD_ThursdayEndTime = item.OCD_ThursdayEndTime == null ? null : item.OCD_ThursdayEndTime,
-                       OCD_ThursdayStartTime = item.OCD_ThursdayStartTime == null ? null : item.OCD_ThursdayStartTime,
-                       OCD_FridayEndTime = item.OCD_FridayEndTime == null ? null : item.OCD_FridayEndTime,
-                       OCD_FridayStartTime = item.OCD_FridayStartTime == null ? null : item.OCD_FridayStartTime,
-                       OCD_SaturdayEndTime = item.OCD_SaturdayEndTime == null ? null : item.OCD_SaturdayEndTime,
-                       OCD_SaturdayStartTime = item.OCD_SaturdayStartTime == null ? null : item.OCD_SaturdayStartTime,
-                       OCD_SundayEndTime = item.OCD_SundayEndTime == null ? null : item.OCD_SundayEndTime,
-                       OCD_SundayStartTime = item.OCD_SundayStartTime == null ? null : item.OCD_SundayStartTime,
-                       OCD_Charges = item.OCD_Charges,
-                       OCD_IsActive = item.OCD_IsActive,
+                        OCD_ID = item.OCD_ID,
+                        OCD_MondayEndTime = item.OCD_MondayEndTime == null ? null : item.OCD_MondayEndTime,
+                        OCD_MondayStartTime = item.OCD_MondayStartTime == null ? null : item.OCD_MondayStartTime,
+                        OCD_TuesdayEndTime = item.OCD_TuesdayEndTime == null ? null : item.OCD_TuesdayEndTime,
+                        OCD_TuesdayStartTime = item.OCD_TuesdayStartTime == null ? null : item.OCD_TuesdayStartTime,
+                        OCD_WednesdayEndTime = item.OCD_WednesdayEndTime == null ? null : item.OCD_WednesdayEndTime,
+                        OCD_WednesdayStartTime = item.OCD_WednesdayStartTime == null ? null : item.OCD_WednesdayStartTime,
+                        OCD_ThursdayEndTime = item.OCD_ThursdayEndTime == null ? null : item.OCD_ThursdayEndTime,
+                        OCD_ThursdayStartTime = item.OCD_ThursdayStartTime == null ? null : item.OCD_ThursdayStartTime,
+                        OCD_FridayEndTime = item.OCD_FridayEndTime == null ? null : item.OCD_FridayEndTime,
+                        OCD_FridayStartTime = item.OCD_FridayStartTime == null ? null : item.OCD_FridayStartTime,
+                        OCD_SaturdayEndTime = item.OCD_SaturdayEndTime == null ? null : item.OCD_SaturdayEndTime,
+                        OCD_SaturdayStartTime = item.OCD_SaturdayStartTime == null ? null : item.OCD_SaturdayStartTime,
+                        OCD_SundayEndTime = item.OCD_SundayEndTime == null ? null : item.OCD_SundayEndTime,
+                        OCD_SundayStartTime = item.OCD_SundayStartTime == null ? null : item.OCD_SundayStartTime,
+                        OCD_Charges = item.OCD_Charges,
+                        OCD_IsActive = item.OCD_IsActive,
                     });
                 }
             }
@@ -1360,7 +1437,7 @@ namespace DMS_WebApplication.Controllers
                         {
                             item.OFCD_CreatedBy = doctor.UserID;
                             item.OFCD_DoctorID = doctor.UserID;
-                            OfcdRepoObj.InsertOfflineConsultaionDetail(item);    
+                            OfcdRepoObj.InsertOfflineConsultaionDetail(item);
                         }
                     }
                     if (dataForUpdate.Count > 0 && dataForUpdate != null)

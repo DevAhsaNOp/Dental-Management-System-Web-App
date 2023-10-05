@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'D:\PROJECTS AND TEMPLATES\ASP .Net MVC Practice\DMS WebApp\DMS_BOL\DMSModel.edmx'. 
+﻿// T4 code generation is enabled for model 'C:\Users\Avaib-Muhammad-Ahsan\source\repos\Dental-Management-System-Web-App\DMS_BOL\DMSModel.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.

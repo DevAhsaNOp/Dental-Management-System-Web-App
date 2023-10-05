@@ -91,17 +91,17 @@ namespace DMS_BLL.Repositories
             }
         }
 
-        public tblOnlineConsultaionDetail GetOnlineConsultaionDetailByID(int modelId)
+        public tblOnlineConsultaionDetail GetOnlineConsultaionDetailByID(int OcdId)
         {
-            if (modelId > 0)
-                return ocdRepo.GetOnlineConsultaionDetailsByID(modelId);
+            if (OcdId > 0)
+                return ocdRepo.GetOnlineConsultaionDetailsByID(OcdId);
             return null;
         }
 
-        public IEnumerable<tblOnlineConsultaionDetail> GetDoctorAllOnlineConsultaionDetailsByID(int modelId)
+        public IEnumerable<tblOnlineConsultaionDetail> GetDoctorAllOnlineConsultaionDetailsByID(int doctorId)
         {
-            if (modelId > 0)
-                return ocdRepo.GetDoctorAllOnlineConsultaionDetailsByID(modelId);
+            if (doctorId > 0)
+                return ocdRepo.GetDoctorAllOnlineConsultaionDetailsByID(doctorId);
             return null;
         }
 

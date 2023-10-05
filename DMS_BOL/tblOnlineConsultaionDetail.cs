@@ -14,6 +14,12 @@ namespace DMS_BOL
     
     public partial class tblOnlineConsultaionDetail
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public tblOnlineConsultaionDetail()
+        {
+            this.tblAppointments = new HashSet<tblAppointment>();
+        }
+    
         public int OCD_ID { get; set; }
         public Nullable<int> OCD_DoctorID { get; set; }
         public Nullable<System.TimeSpan> OCD_MondayStartTime { get; set; }
@@ -39,5 +45,7 @@ namespace DMS_BOL
         public Nullable<System.DateTime> OCD_UpdatedOn { get; set; }
     
         public virtual tblDoctor tblDoctor { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tblAppointment> tblAppointments { get; set; }
     }
 }

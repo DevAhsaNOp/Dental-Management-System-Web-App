@@ -1,4 +1,5 @@
-﻿@{
+﻿@model DMS_WebApplication.Models.AppointmentBookingDTO
+@{
     ViewBag.Title = "DMS - Book Appointments";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -89,7 +90,7 @@
                         </h6>
                         <ul class="nav nav-pills mb-4" role="tablist" aria-name="ConsultCriteria">
                             <li class="nav-item">
-                                <a class="nav-link active" id="home-tab3" data-toggle="tab" href="#home3" role="tab" aria-controls="home" aria-selected="true">HomeHomeHomeHomeHomeHome</a>
+                                <a class="nav-link active" id="home-tab3" data-toggle="tab" href="#home3" role="tab" aria-controls="home" aria-selected="true">@Model.AppointmentType</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" id="profile-tab3" data-toggle="tab" href="#profile3" role="tab" aria-controls="profile" aria-selected="false">Profile</a>
@@ -102,82 +103,95 @@
                             <div class="tab-pane fade show active" id="home3" role="tabpanel" aria-labelledby="home-tab3">
                                 <h6 class="mb-3" style="color: black !important; font-weight:600 !important;">Date</h6>
                                 <ul class="nav nav-pills mb-5" id="date-navbar" role="tablist" aria-name="ConsultDate">
-                                    <li class="date-nav-item">
-                                        <a class="nav-link active" id="home-tab4" data-toggle="tab" href="#home4" role="tab" aria-controls="home" aria-selected="true">Home</a>
-                                    </li>
-                                    <li class="date-nav-item">
-                                        <a class="nav-link" id="profile-tab5" data-toggle="tab" href="#profile5" role="tab" aria-controls="profile" aria-selected="false">Profile</a>
-                                    </li>
-                                    <li class="date-nav-item">
-                                        <a class="nav-link" id="profile-tab6" data-toggle="tab" href="#profile6" role="tab" aria-controls="profile" aria-selected="false">Profile</a>
-                                    </li>
+                                    @{
+                                        int count = 0;
+                                    }
+                                    @foreach (var item in Model.DoctorAvailableDays)
+                                    {
+                                        if (count == 0)
+                                        {
+                                            <li class="date-nav-item">
+                                                <a class="nav-link active" id="DaysTab_@item.Trim().Replace(",","").Replace(" ","")" data-toggle="tab" href="#tab_@item.Trim().Replace(",","").Replace(" ","")" role="tab" aria-controls="home_@item.Trim().Replace(",","").Replace(" ","")" aria-selected="true">@item</a>
+                                            </li>
+                                        }
+                                        else
+                                        {
+                                            <li class="date-nav-item">
+                                                <a class="nav-link" id="DaysTab_@item.Trim().Replace(",","").Replace(" ","")" data-toggle="tab" href="#tab_@item.Trim().Replace(",","").Replace(" ","")" role="tab" aria-controls="home_@item.Trim().Replace(",","").Replace(" ","")" aria-selected="false">@item</a>
+                                            </li>
+                                        }
+                                        count++;
+                                    }
                                 </ul>
                                 <h6 class="mb-3" style="color: black !important; font-weight:600 !important;">Time</h6>
                                 <div class="tab-content" aria-name="ConsultTimings">
-                                    <div class="tab-pane fade show active p-0" id="home4" role="tabpanel" aria-labelledby="home-tab4">
-                                        <div class="form-group">
-                                            <div class="row">
-                                                <div class="col-xxl-2 col-xl-2 col-lg-2 col-md-3 col-sm-4">
-                                                    <div class="selectgroup w-100">
-                                                        <label class="selectgroup-item">
-                                                            <input type="radio" name="radio1" value="1" class="selectgroup-input-radio" checked="">
-                                                            <span class="selectgroup-button border-radius">S</span>
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                                <div class="col-xxl-2 col-xl-2 col-lg-2 col-md-3 col-sm-4">
-                                                    <div class="selectgroup w-100">
-                                                        <label class="selectgroup-item">
-                                                            <input type="radio" name="radio1" value="2" class="selectgroup-input-radio">
-                                                            <span class="selectgroup-button border-radius">M</span>
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                                <div class="col-xxl-2 col-xl-2 col-lg-2 col-md-3 col-sm-4">
-                                                    <div class="selectgroup w-100">
-                                                        <label class="selectgroup-item">
-                                                            <input type="radio" name="radio1" value="3" class="selectgroup-input-radio">
-                                                            <span class="selectgroup-button border-radius">L</span>
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                                <div class="col-xxl-2 col-xl-2 col-lg-2 col-md-3 col-sm-4">
-                                                    <div class="selectgroup w-100">
-                                                        <label class="selectgroup-item">
-                                                            <input type="radio" name="radio1" value="4" class="selectgroup-input-radio">
-                                                            <span class="selectgroup-button border-radius">XL</span>
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                                <div class="col-xxl-2 col-xl-2 col-lg-2 col-md-3 col-sm-4">
-                                                    <div class="selectgroup w-100">
-                                                        <label class="selectgroup-item">
-                                                            <input type="radio" name="radio1" value="6" class="selectgroup-input-radio">
-                                                            <span class="selectgroup-button border-radius">XXL</span>
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                                <div class="col-xxl-2 col-xl-2 col-lg-2 col-md-3 col-sm-4">
-                                                    <div class="selectgroup w-100">
-                                                        <label class="selectgroup-item">
-                                                            <input type="radio" name="radio1" value="6" class="selectgroup-input-radio">
-                                                            <span class="selectgroup-button border-radius">XXXL</span>
-                                                        </label>
+                                    @{
+                                        int count1 = 0;
+                                        int count2 = 0;
+                                    }
+                                    @foreach (var item in Model.DoctorAvailableDaysWithTimings)
+                                    {
+                                        if (count1 == 0)
+                                        {
+                                            <div class="tab-pane fade show active p-0" id="tab_@item.Key.Trim().Replace(",","").Replace(" ","")" role="tabpanel" aria-labelledby="DaysTab_@item.Key.Trim().Replace(",","").Replace(" ","")">
+                                                <div class="form-group">
+                                                    <div class="row">
+                                                        @foreach (var time in item)
+                                                        {
+                                                            <div class="col-xxl-2 col-xl-2 col-lg-2 col-md-3 col-sm-4">
+                                                                <div class="selectgroup w-100">
+                                                                    <label class="selectgroup-item">
+                                                                        @if (count2 == 0)
+                                                                        {
+                                                                            <input type="radio" name="radio1" value="@time.Timings" class="selectgroup-input-radio" checked="checked">
+                                                                            <span class="selectgroup-button border-radius">@time.Timings</span>
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            <input type="radio" name="radio1" value="@time.Timings" class="selectgroup-input-radio">
+                                                                            <span class="selectgroup-button border-radius">@time.Timings</span>
+                                                                        }
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                            count2++;
+                                                        }
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                    <div class="tab-pane fade p-0" id="profile5" role="tabpanel" aria-labelledby="profile-tab5">
-                                        Sed sed metus vel lacus hendrerit tempus. Sed efficitur velit tortor, ac efficitur est lobortis
-                                        quis. Nullam lacinia metus erat, sed fermentum justo rutrum ultrices. Proin quis iaculis tellus.
-                                        Etiam ac vehicula eros, pharetra consectetur dui.
-                                    </div>
-                                    <div class="tab-pane fade p-0" id="profile6" role="tabpanel" aria-labelledby="profile-tab6">
-                                        Sed sed metus vel lacus hendrerit tempus. Sed efficitur velit tortor, ac efficitur est lobortis
-                                        quis. Nullam lacinia metus erat, sed fermentum justo rutrum ultrices. Proin quis iaculis tellus.
-                                        Etiam ac vehicula eros, pharetra consectetur dui.
-                                    </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="tab-pane fade p-0" id="tab_@item.Key.Trim().Replace(",","").Replace(" ","")" role="tabpanel" aria-labelledby="DaysTab_@item.Key.Trim().Replace(",","").Replace(" ","")">
+                                                <div class="form-group">
+                                                    <div class="row">
+                                                        @foreach (var time in item)
+                                                        {
+                                                            <div class="col-xxl-2 col-xl-2 col-lg-2 col-md-3 col-sm-4">
+                                                                <div class="selectgroup w-100">
+                                                                    <label class="selectgroup-item">
+                                                                        @if (count2 == 0)
+                                                                        {
+                                                                            <input type="radio" name="radio1" value="@time.Timings" class="selectgroup-input-radio" checked="checked">
+                                                                            <span class="selectgroup-button border-radius">@time.Timings</span>
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            <input type="radio" name="radio1" value="@time.Timings" class="selectgroup-input-radio">
+                                                                            <span class="selectgroup-button border-radius">@time.Timings</span>
+                                                                        }
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                            count2++;
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        }
+                                        count1++;
+                                    }
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="profile3" role="tabpanel" aria-labelledby="profile-tab3">

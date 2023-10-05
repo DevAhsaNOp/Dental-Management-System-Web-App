@@ -125,17 +125,17 @@ namespace DMS_BLL.Repositories
             }
         }
 
-        public tblOfflineConsultaionDetail GetOfflineConsultaionDetailByID(int modelId)
+        public tblOfflineConsultaionDetail GetOfflineConsultaionDetailByID(int OfcdId)
         {
-            if (modelId > 0)
-                return ofcdRepo.GetOfflineConsultaionDetailsByID(modelId);
+            if (OfcdId > 0)
+                return ofcdRepo.GetOfflineConsultaionDetailsByID(OfcdId);
             return null;
         }
 
-        public IEnumerable<tblOfflineConsultaionDetail> GetDoctorAllOfflineConsultaionDetailsByID(int modelId)
+        public IEnumerable<tblOfflineConsultaionDetail> GetDoctorAllOfflineConsultaionDetailsByID(int doctorId)
         {
-            if (modelId > 0)
-                return ofcdRepo.GetDoctorAllOfflineConsultaionDetailsByID(modelId);
+            if (doctorId > 0)
+                return ofcdRepo.GetDoctorAllOfflineConsultaionDetailsByID(doctorId);
             return null;
         }
 
